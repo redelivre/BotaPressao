@@ -53,7 +53,7 @@ function the_content_max_charlength($charlength, $content) {
    //echo $deputado->post_content;
    echo the_content_max_charlength( 300, $deputado->post_content);
    echo '<br>';
-   $metas = array( 'email', 'phone' , 'address' ) ; 
+   $metas = array( 'deputado_email', 'deputado_phone' ,  ) ; 
    foreach( $metas as $meta )
    {
      $value = get_post_meta($deputado->ID, $meta, true);

@@ -289,17 +289,17 @@ function action_custom_columns_content($column_id, $post_id)
 
 // pages and search system
 function userpage_rewrite_add_var( $vars ) {
-	$vars[] = 'deputados';
+	$vars[] = 'busca';
 	return $vars;
 }
 add_filter( 'query_vars', 'userpage_rewrite_add_var' );
 
 // Create the rewrites
 function userpage_rewrite_rule() {
-	add_rewrite_tag( '%deputados%', '([^&]+)' );
+	add_rewrite_tag( '%busca%', '([^&]+)' );
 	add_rewrite_rule(
-			'^deputados',
-			'index.php?deputados',
+			'^busca',
+			'index.php?busca',
 			'top'
 			);
 }
@@ -308,7 +308,7 @@ add_action('init','userpage_rewrite_rule');
 // Catch the URL and redirect it to a template file
 function userpage_rewrite_catch() {
 	global $wp_query;
-	if ( array_key_exists( 'deputados', $wp_query->query_vars ) ) {
+	if ( array_key_exists( 'busca', $wp_query->query_vars ) ) {
 		include ( ABSPATH . 'wp-content/plugins/deputados/deputados_list.php');
 		exit;
 	}
