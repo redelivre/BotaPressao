@@ -50,6 +50,15 @@ function get_metas()
 	return array(
 			array ( 'label' => 'Partido', 'slug'=>'deputado_partido' ,'info' => 'Nenhum Partido Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
 			array ( 'label' => 'Email', 'slug'=>'deputado_email' ,'info' => 'Nenhum Email Informado ' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+			array ( 'label' => 'Está na Comissão?', 'slug'=>'deputado_comissao' ,'info' =>  'Nenhuma Comissao Informado', 'html' => array ('tag'=> 'select', 'options' => array(
+						array ( 'value' => '' , 'content' => 'Selecione' ),
+						array ( 'value' => 'Sim' , 'content' => 'Sim' ),
+						array ( 'value' => 'Não' , 'content' => 'Não' )))),
+			array ( 'label' => 'Voto no Impeachment?', 'slug'=>'deputado_impeachment' ,'info' =>  'Nenhuma Posição de Impeachemnt Informado', 'html' => array ('tag'=> 'select', 'options' => array(
+						array ( 'value' => '' , 'content' => 'Selecione' ),
+						array ( 'value' => 'A Favor' , 'content' => 'A Favor' ),
+						array ( 'value' => 'Contra' , 'content' => 'Contra' ),
+						array ( 'value' => 'Indeciso' , 'content' => 'Indeciso' )))),
 			array ( 'label' => 'Facebook', 'slug'=>'deputado_facebook' ,'info' => 'Nenhum Facebook Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
 			array ( 'label' => 'Twitter', 'slug'=>'deputado_twitter' ,'info' => 'Nenhum Twitter Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
 			array ( 'label' => 'Instagram', 'slug'=>'deputado_instagram' ,'info' => 'Nenhum Instagram Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
