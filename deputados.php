@@ -52,6 +52,7 @@ return array(
   array ( 'label' => 'Email', 'slug'=>'deputado_email' ,'info' => 'Nenhum Email Informado ' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
   array ( 'label' => 'Facebook', 'slug'=>'deputado_facebook' ,'info' => 'Nenhum Facebook Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
   array ( 'label' => 'Twitter', 'slug'=>'deputado_twitter' ,'info' => 'Nenhum Twitter Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+  array ( 'label' => 'Instagram', 'slug'=>'deputado_instagram' ,'info' => 'Nenhum Instagram Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
   array ( 'label' => 'Telefone Gabinete', 'slug'=>'deputado_phone' ,'info' =>  'Nenhum Telefone Informado', 'html' => array ('tag'=> 'input', 'type' => 'text' ) ),
   //array ( 'label' => '', 'slug'=>'' ,'info' => '', 'html' => array ('tag'=> 'textarea', 'rows' => 4 , 'cols' => 50 ) ),
 ); 
