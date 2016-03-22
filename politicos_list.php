@@ -20,40 +20,33 @@ function the_content_max_charlength($charlength, $content) {
 
   get_header();
   //get_the_content();
-  $email = isset( $_POST['email'] ) ? $_POST['email'] : '';
-  $phone = isset( $_POST['phone'] ) ? $_POST['phone'] : '';
+  $search = isset( $_POST['search'] ) ? $_POST['search'] : '';
   
-  $email_array = $email != '' ? array( 'key' => 'email','value' => $email,'compare' => 'LIKE'): array();
-  $phone_array = $phone != '' ? array( 'key' => 'phone', 'value' => $phone, 'compare' => 'LIKE') : array() ;
   $args = array(
-	'post_type' => 'deputados',
+	'post_type'   => 'politicos',
 	'post_status' => 'publish',
-        'meta_query' => array ( $email_array , $phone_array)
+        's'           =>  $search
   );
 
   $query = new WP_Query( $args );
-  $deputados = $query->posts;
+  $politicos = $query->posts;
   ?>
  
-  <form method="post" action="<?php site_url('?deputados') ?>"  name="form">
-    <input type="text" name="email" placeholder="Busca por email" value="<?php echo $email; ?>"/>
-    <br>
-    <br>
-    <input type="text" name="phone" placeholder="Busca por Telefone" value="<?php echo $phone; ?>"/>
-    <br>
+  <form method="post" action="<?php site_url('?busca') ?>"  name="form">
+    <input type="text" name="search" placeholder="Insira o nome do politico" value="<?php echo $search; ?>"/>
     <br>
     <br>
     <input type="submit" name="submit" id="submit" class="button button-primary" value="Search"  />
   </form>
   <br>
   <?php
-  foreach( $deputados as $deputado )
+  foreach( $politicos as $deputado )
   { 
    echo '<h2><a href="' . $deputado->guid . '">' . $deputado->post_title . '</a><br></h2>';
    //echo $deputado->post_content;
    echo the_content_max_charlength( 300, $deputado->post_content);
    echo '<br>';
-   $metas = array( 'deputado_email', 'deputado_phone' ,  ) ; 
+   $metas = array( 'politico_email', 'politico_phone' ,  ) ; 
    foreach( $metas as $meta )
    {
      $value = get_post_meta($deputado->ID, $meta, true);

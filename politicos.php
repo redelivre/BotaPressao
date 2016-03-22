@@ -1,43 +1,43 @@
 <?php
 /**
- * @package Deputados
+ * @package Politicos
  * @version 0.0
  */
 /*
-   Plugin Name: Deputados
+   Plugin Name: Politicos
    Plugin URI: http://redelivre.org.br
-   Description: Plugin for manager a Deputados Content
+   Description: Plugin for manager a Politicos Content
    Author: Maurilio Atila
    Version: 0.0
    Author URI: https://twitter.com/cabelotaina
  */
 
 defined('ABSPATH') or die('No script kiddies please!');
+define( 'POLITICOS_PATH', plugin_dir_path( __FILE__ ) );
 
 
-
-add_action('init', 'create_deputados');
-function create_deputados()
+add_action('init', 'create_politicos');
+function create_politicos()
 {
-	register_post_type('deputados',
+	register_post_type('politicos',
 			array(
 				'labels' => array(
-					'name' => __('Deputados', 'deputados'),
-					'singular_name' => __('Deputado', 'deputados'),
-					'add_new_item' => __('Adicionar Novo Deputado', 'deputados'),
-					'edit_item' => __('Editar Deputado', 'deputados'),
-					'all_items' => __('Todos os Deputados', 'deputados'),
-					'update_item' => __('Atualizar Deputado', 'deputados'),
-					'search_items' => __('Buscar Deputados', 'deputados'),
-					'menu_name' => __('Deputados', 'deputados'),
-					'not_found' => __('Não Encontrado', 'deputados'),
-					'not_found_in_trash' => __('Não Encontrado na lixeira', 'deputados'),
-					'description' => __('Conjunto de Deputados', 'deputados')
+					'name' => __('Politicos', 'politicos'),
+					'singular_name' => __('Deputado', 'politicos'),
+					'add_new_item' => __('Adicionar Novo Deputado', 'politicos'),
+					'edit_item' => __('Editar Deputado', 'politicos'),
+					'all_items' => __('Todos os Politicos', 'politicos'),
+					'update_item' => __('Atualizar Deputado', 'politicos'),
+					'search_items' => __('Buscar Politicos', 'politicos'),
+					'menu_name' => __('Politicos', 'politicos'),
+					'not_found' => __('Não Encontrado', 'politicos'),
+					'not_found_in_trash' => __('Não Encontrado na lixeira', 'politicos'),
+					'description' => __('Conjunto de Politicos', 'politicos')
 					),
 				'public' => true,
 				'rewrite' => array(
 					'with_front' => false,
-					'slug' => 'deputados'
+					'slug' => 'politicos'
 					),
 				'menu_icon' => 'dashicons-admin-users',
 			     )
@@ -48,22 +48,22 @@ function create_deputados()
 function get_metas()
 {
 	return array(
-			array ( 'label' => 'Email', 'slug'=>'deputado_email' ,'info' => 'Nenhum Email Informado ' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-			array ( 'label' => 'Está na Comissão?', 'slug'=>'deputado_comissao' ,'info' =>  'Nenhuma Comissao Informado', 'html' => array ('tag'=> 'select', 'options' => array(
+			array ( 'label' => 'Email', 'slug'=>'politico_email' ,'info' => 'Nenhum Email Informado ' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+			array ( 'label' => 'Está na Comissão?', 'slug'=>'politico_comissao' ,'info' =>  'Nenhuma Comissao Informado', 'html' => array ('tag'=> 'select', 'options' => array(
 						array ( 'value' => '' , 'content' => 'Selecione' ),
 						array ( 'value' => 'Sim' , 'content' => 'Sim' ),
 						array ( 'value' => 'Não' , 'content' => 'Não' )))),
-			array ( 'label' => 'Voto no Impeachment?', 'slug'=>'deputado_impeachment' ,'info' =>  'Nenhuma Posição de Impeachemnt Informado', 'html' => array ('tag'=> 'select', 'options' => array(
+			array ( 'label' => 'Voto no Impeachment?', 'slug'=>'politico_impeachment' ,'info' =>  'Nenhuma Posição de Impeachemnt Informado', 'html' => array ('tag'=> 'select', 'options' => array(
 						array ( 'value' => '' , 'content' => 'Selecione' ),
 						array ( 'value' => 'A Favor' , 'content' => 'A Favor' ),
 						array ( 'value' => 'Contra' , 'content' => 'Contra' ),
 						array ( 'value' => 'Indeciso' , 'content' => 'Indeciso' )))),
-			array ( 'label' => 'Facebook', 'slug'=>'deputado_facebook' ,'info' => 'Nenhum Facebook Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-			array ( 'label' => 'Twitter', 'slug'=>'deputado_twitter' ,'info' => 'Nenhum Twitter Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-			array ( 'label' => 'Instagram', 'slug'=>'deputado_instagram' ,'info' => 'Nenhum Instagram Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-			array ( 'label' => 'Telefone Gabinete', 'slug'=>'deputado_phone' ,'info' =>  'Nenhum Telefone Informado', 'html' => array ('tag'=> 'input', 'type' => 'text' ) ),
+			array ( 'label' => 'Facebook', 'slug'=>'politico_facebook' ,'info' => 'Nenhum Facebook Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+			array ( 'label' => 'Twitter', 'slug'=>'politico_twitter' ,'info' => 'Nenhum Twitter Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+			array ( 'label' => 'Instagram', 'slug'=>'politico_instagram' ,'info' => 'Nenhum Instagram Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+			array ( 'label' => 'Telefone Gabinete', 'slug'=>'politico_phone' ,'info' =>  'Nenhum Telefone Informado', 'html' => array ('tag'=> 'input', 'type' => 'text' ) ),
 			//array ( 'label' => '', 'slug'=>'' ,'info' => '', 'html' => array ('tag'=> 'textarea', 'rows' => 4 , 'cols' => 50 ) ),
-			array ( 'label' => 'Estado', 'slug'=>'deputado_estado' ,'info' =>  'Nenhum Estado Informado', 'html' => array ('tag'=> 'select', 'options' => array(
+			array ( 'label' => 'Estado', 'slug'=>'politico_estado' ,'info' =>  'Nenhum Estado Informado', 'html' => array ('tag'=> 'select', 'options' => array(
 						array ( 'value' => '' , 'content' => 'Selecione' ),
 						array ( 'value' => 'AC' , 'content' => 'Acre' ),
 						array ( 'value' => 'AL' , 'content' => 'Alagoas' ),
@@ -95,7 +95,7 @@ function get_metas()
 							)
 							)
 							),
-						array ( 'label' => 'Partido', 'slug'=>'deputado_partido' ,'info' =>  'Nenhum Partido Informado', 'html' => array ('tag'=> 'select', 'options' => array(
+						array ( 'label' => 'Partido', 'slug'=>'politico_partido' ,'info' =>  'Nenhum Partido Informado', 'html' => array ('tag'=> 'select', 'options' => array(
 						                                array ( 'value' => '' , 'content' => 'Selecione' ),
 										array ( 'value' => 'PMDB' , 'content' => 'PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO' ) ,
 										array ( 'value' => 'PTB' , 'content' => 'PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO' ) ,
@@ -140,44 +140,44 @@ function get_metas()
 
 }
 
-function deputados_the_meta()
+function politicos_the_meta()
 {
 	the_meta();
 }
 
-add_action("loop_end", "deputados_the_meta");
+add_action("loop_end", "politicos_the_meta");
 
-function deputados_change_post_placeholder($title)
+function politicos_change_post_placeholder($title)
 {
 	$screen = get_current_screen();
-	if ('deputados' == $screen->post_type) {
+	if ('politicos' == $screen->post_type) {
 		$title = 'Insira o nome do deputado';
 	}
 	return $title;
 }
 
-add_filter('enter_title_here', 'deputados_change_post_placeholder');
+add_filter('enter_title_here', 'politicos_change_post_placeholder');
 
-add_action('pre_get_posts', 'add_deputados_to_query');
+add_action('pre_get_posts', 'add_politicos_to_query');
 
-function add_deputados_to_query($query)
+function add_politicos_to_query($query)
 {
 	if (is_home() && $query->is_main_query())
-		$query->set('post_type', array('post', 'page', 'deputados'));
+		$query->set('post_type', array('post', 'page', 'politicos'));
 	return $query;
 }
 
-add_action('admin_menu', 'deputados_meta_box');
-add_action('save_post', 'save_deputados_meta_box', 10, 2);
+add_action('admin_menu', 'politicos_meta_box');
+add_action('save_post', 'save_politicos_meta_box', 10, 2);
 
-function deputados_meta_box()
+function politicos_meta_box()
 {
-	add_meta_box('Deputado-meta-box', 'Informações Complementares', 'display_Deputado_meta_box', 'deputados', 'normal', 'high');
+	add_meta_box('Deputado-meta-box', 'Informações Complementares', 'display_politico_meta_box', 'politicos', 'normal', 'high');
 }
 
 
 
-function display_deputado_meta_box($object, $box)
+function display_politico_meta_box($object, $box)
 { 
 	$metas = get_metas();
 
@@ -235,7 +235,7 @@ $content = iconv("utf-8", "ascii//TRANSLIT", $option['content']);
 
 		<?php }
 
-function save_deputados_meta_box($post_id, $post)
+function save_politicos_meta_box($post_id, $post)
 {
 	if (!current_user_can('edit_post', $post_id))
 		return;
@@ -260,9 +260,9 @@ function save_deputados_meta_box($post_id, $post)
 
 //insert collumns on administration Deputado's page
 
-add_filter('manage_deputados_posts_columns', 'filter_deputados_columns');
+add_filter('manage_politicos_posts_columns', 'politicos_filter_columns');
 
-function filter_deputados_columns($columns)
+function politicos_filter_columns($columns)
 {
 	// this will add the column to the end of the array
 	$metas = get_metas();
@@ -273,9 +273,9 @@ function filter_deputados_columns($columns)
 	return $columns;
 }
 
-add_action('manage_posts_custom_column', 'action_custom_columns_content', 10, 2);
+add_action('manage_posts_custom_column', 'politicos_action_custom_columns_content', 10, 2);
 
-function action_custom_columns_content($column_id, $post_id)
+function politicos_action_custom_columns_content($column_id, $post_id)
 {
 	//run a switch statement for all of the custom columns created
 	$metas = get_metas();
@@ -288,14 +288,14 @@ function action_custom_columns_content($column_id, $post_id)
 
 
 // pages and search system
-function userpage_rewrite_add_var( $vars ) {
+function politicos_rewrite_add_var( $vars ) {
 	$vars[] = 'busca';
 	return $vars;
 }
-add_filter( 'query_vars', 'userpage_rewrite_add_var' );
+add_filter( 'query_vars', 'politicos_rewrite_add_var' );
 
 // Create the rewrites
-function userpage_rewrite_rule() {
+function politicos_rewrite_rule() {
 	add_rewrite_tag( '%busca%', '([^&]+)' );
 	add_rewrite_rule(
 			'^busca',
@@ -306,43 +306,43 @@ function userpage_rewrite_rule() {
 add_action('init','userpage_rewrite_rule');
 
 // Catch the URL and redirect it to a template file
-function userpage_rewrite_catch() {
+function politicos_rewrite_catch() {
 	global $wp_query;
 	if ( array_key_exists( 'busca', $wp_query->query_vars ) ) {
-		include ( ABSPATH . 'wp-content/plugins/deputados/deputados_list.php');
+		include ( POLITICOS_PATH . 'politicos_list.php');
 		exit;
 	}
 }
-add_action( 'template_redirect', 'userpage_rewrite_catch' );
+add_action( 'template_redirect', 'politicos_rewrite_catch' );
 
 // Filter wp_nav_menu() to add additional links and other output
-function new_nav_menu_items($items) {
-	$deputados_link = '<li class="deputados"><a href="' . home_url( '/deputados' ) . '">' . __('Deputados') . '</a></li>';
+function politicos_nav_menu_items($items) {
+	$politicos_link = '<li class="politicos"><a href="' . home_url( '/busca' ) . '">' . __('Busca' , 'politicos') . '</a></li>';
 	// add the home link to the end of the menu
-	$items = $items . $deputados_link;
+	$items = $items . $politicos_link;
 	return $items;
 }
-add_filter( 'wp_nav_menu_items', 'new_nav_menu_items' );
+add_filter( 'wp_nav_menu_items', 'politicos_nav_menu_items' );
 
 //options page
-add_action( 'admin_menu', 'deputados_custom_admin_menu' );
+add_action( 'admin_menu', 'politicos_custom_admin_menu' );
 
-function deputados_custom_admin_menu() {
+function politicos_custom_admin_menu() {
 	add_options_page(
-			'Configurações dos Deputados',
-			'Configurações dos Deputados',
+			'Configurações dos Politicos',
+			'Configurações dos Politicos',
 			'manage_options',
-			'deputados',
-			'deputados_options_page'
+			'politicos',
+			'politicos_options_page'
 			);
 
 }
 
-function deputados_options_page() {
+function politicos_options_page() {
 	?>
 		<div class="wrap">
-		<h2>Configurações Deputados</h2>
-		Futura Página de Configurações do Plugin Deputados 
+		<h2>Configurações Politicos</h2>
+		Futura Página de Configurações do Plugin Politicos 
 		</div>
 		<?php
 }
