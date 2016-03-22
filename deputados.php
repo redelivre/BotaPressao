@@ -97,6 +97,7 @@ function get_metas()
 							)
 							),
 						array ( 'label' => 'Partido', 'slug'=>'deputado_partido' ,'info' =>  'Nenhum Partido Informado', 'html' => array ('tag'=> 'select', 'options' => array(
+						                                array ( 'value' => '' , 'content' => 'Selecione' ),
 										array ( 'value' => 'PMDB' , 'content' => 'PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO' ) ,
 										array ( 'value' => 'PTB' , 'content' => 'PARTIDO TRABALHISTA BRASILEIRO' ) ,
 										array ( 'value' => 'PDT' , 'content' => 'PARTIDO DEMOCRÁTICO TRABALHISTA' ) ,
@@ -162,6 +163,8 @@ function deputados_meta_box()
 	add_meta_box('Deputado-meta-box', 'Informações Complementares', 'display_Deputado_meta_box', 'deputados', 'normal', 'high');
 }
 
+
+
 function display_deputado_meta_box($object, $box)
 { 
 	$metas = get_metas();
@@ -179,10 +182,11 @@ function display_deputado_meta_box($object, $box)
 				<br>
 				<select name="<?php echo $meta['slug'] ?>">
 				<?php
-
+setlocale(LC_ALL, "en_US.utf8");
 				foreach ($meta['html']['options'] as $option) {
+$content = iconv("utf-8", "ascii//TRANSLIT", $option['content']);
 					?>
-						<option value="<?php echo $option['value'] ?>" <?php echo esc_html(get_post_meta($object->ID, $meta['slug'] , true), 1) === $option['value'] ? 'selected' : ''; ?> ><?php echo $option['content'] ?></option>
+						<option value="<?php echo $option['value'] ?>" <?php echo esc_html(get_post_meta($object->ID, $meta['slug'] , true), 1) === $option['value'] ? 'selected' : ''; ?> ><?php echo ucwords(strtolower($content)) ?></option>
 						<?php
 				}
 			?>
