@@ -1,9 +1,9 @@
-# Deputados
-É um Plugin para o gerenciamento de deputados no wordpress, mas tb serve para senadores ;)
+# Bota Pressão
+É um Plugin para o gerenciamento do wordpress que permite botar pressão nos politicos ;)
 
-# Inserindo novos campos input e textarea
+# Inserindo novos campos input, select e textarea
 
-Atualmente podemos inserir dois tipos de campos rapidamente usando a função get_metas em deputados.php:
+Atualmente podemos inserir 3 tipos de campos rapidamente usando a função get_metas em deputados.php:
 
 ```
 function get_metas()´
@@ -26,6 +26,18 @@ function get_metas()´
                         'tag'=> 'textarea', 
                         'rows' => 4 , 
                         'cols' => 50 
+                        ) 
+        ),
+        array ( 
+        'label' => 'Partidos', 
+        'slug'=>'deputado_partidos' ,
+        'info' => 'Nenhum Partido Encontrado', 
+        'html' => array (
+                        'tag'=> 'select', 
+                        'options' => array (
+                           array ( 'value' => 'PMDB' , 'content' => 'PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO' ) ,
+                           array ( 'value' => 'PTB' , 'content' => 'PARTIDO TRABALHISTA BRASILEIRO' ) 
+                          )
                         ) 
         ),
   ); 
