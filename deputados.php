@@ -48,7 +48,6 @@ function create_deputados()
 function get_metas()
 {
 	return array(
-			array ( 'label' => 'Partido', 'slug'=>'deputado_partido' ,'info' => 'Nenhum Partido Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
 			array ( 'label' => 'Email', 'slug'=>'deputado_email' ,'info' => 'Nenhum Email Informado ' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
 			array ( 'label' => 'Está na Comissão?', 'slug'=>'deputado_comissao' ,'info' =>  'Nenhuma Comissao Informado', 'html' => array ('tag'=> 'select', 'options' => array(
 						array ( 'value' => '' , 'content' => 'Selecione' ),
@@ -98,15 +97,19 @@ function get_metas()
 							),
 						array ( 'label' => 'Partido', 'slug'=>'deputado_partido' ,'info' =>  'Nenhum Partido Informado', 'html' => array ('tag'=> 'select', 'options' => array(
 										array ( 'value' => 'PMDB' , 'content' => 'PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO' ) ,
-										array ( 'value' => 'PTB' , 'content' => 'PARTIDO TRABALHISTA BRASILEIRO' ) ,
+										array ( 'value' => 'PTB' , 'content' => 'PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO' ) ,
 										array ( 'value' => 'PDT' , 'content' => 'PARTIDO DEMOCRÁTICO TRABALHISTA' ) ,
+										array ( 'value' => 'PT' , 'content' => 'PARTIDO DOS TRABALHADORES' ) ,
+										array ( 'value' => 'DEM' , 'content' => 'DEMOCRATAS' ) ,
 										array ( 'value' => 'PCdoB' , 'content' => 'PARTIDO COMUNISTA DO BRASIL' ) ,
 										array ( 'value' => 'PSB' , 'content' => 'PARTIDO SOCIALISTA BRASILEIRO' ) ,
 										array ( 'value' => 'PSDB' , 'content' => 'PARTIDO DA SOCIAL DEMOCRACIA BRASILEIRA' ) ,
 										array ( 'value' => 'PTC' , 'content' => 'PARTIDO TRABALHISTA CRISTÃO' ) ,
 										array ( 'value' => 'PSC' , 'content' => 'PARTIDO SOCIAL CRISTÃO' ) ,
+										array ( 'value' => 'PMN' , 'content' => 'PARTIDO DA MOBILIZAÇÃO NACIONAL' ) ,
 										array ( 'value' => 'PRP' , 'content' => 'PARTIDO REPUBLICANO PROGRESSISTA' ) ,
 										array ( 'value' => 'PPS' , 'content' => 'PARTIDO POPULAR SOCIALISTA' ) ,
+										array ( 'value' => 'PV' , 'content' => 'PARTIDO VERDE' ) ,
 										array ( 'value' => 'PTdoB' , 'content' => 'PARTIDO TRABALHISTA DO BRASIL' ) ,
 										array ( 'value' => 'PP' , 'content' => 'PARTIDO PROGRESSISTA' ) ,
 										array ( 'value' => 'PSTU' , 'content' => 'PARTIDO SOCIALISTA DOS TRABALHADORES UNIFICADO' ) ,
@@ -117,8 +120,17 @@ function get_metas()
 										array ( 'value' => 'PCO' , 'content' => 'PARTIDO DA CAUSA OPERÁRIA' ) ,
 										array ( 'value' => 'PTN' , 'content' => 'PARTIDO TRABALHISTA NACIONAL' ) ,
 										array ( 'value' => 'PSL' , 'content' => 'PARTIDO SOCIAL LIBERAL' ) ,
+										array ( 'value' => 'PRB' , 'content' => 'PARTIDO REPUBLICANO BRASILEIRO' ) ,
 										array ( 'value' => 'PSOL' , 'content' => 'PARTIDO SOCIALISMO E LIBERDADE' ) ,
-										array ( 'value' => 'PR' , 'content' => 'PARTIDO DA REPÚBLICA' )
+										array ( 'value' => 'PR' , 'content' => 'PARTIDO DA REPÚBLICA' ) ,
+										array ( 'value' => 'PSD' , 'content' => 'PARTIDO SOCIAL DEMOCRÁTICO' ) ,
+										array ( 'value' => 'PPL' , 'content' => 'PARTIDO PÁTRIA LIVRE' ) ,
+										array ( 'value' => 'PEN' , 'content' => 'PARTIDO ECOLÓGICO NACIONAL' ) ,
+										array ( 'value' => 'PROS' , 'content' => 'PARTIDO REPUBLICANO DA ORDEM SOCIAL' ) ,
+										array ( 'value' => 'SD' , 'content' => 'SOLIDARIEDADE' ) ,
+										array ( 'value' => 'NOVO' , 'content' => 'PARTIDO NOVO' ) ,
+										array ( 'value' => 'REDE' , 'content' => 'REDE SUSTENTABILIDADE' ) ,
+										array ( 'value' => 'PMB' , 'content' => 'PARTIDO DA MULHER BRASILEIRA' )
 											)
 											)
 											)
