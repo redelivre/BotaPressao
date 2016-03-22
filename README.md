@@ -3,7 +3,7 @@
 
 # Inserindo novos campos input e textarea
 
-Atualmente podemos inseirir dois tipos de campos rapidamente usando a função get_metas em deputados.php:
+Atualmente podemos inserir dois tipos de campos rapidamente usando a função get_metas em deputados.php:
 
 ```
 function get_metas()´
