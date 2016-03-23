@@ -134,6 +134,18 @@ function get_metas()
 										array ( 'value' => 'PMB' , 'content' => 'PARTIDO DA MULHER BRASILEIRA' )
 											)
 											)
+											),
+						array ( 'label' => 'Cargo Politico', 'slug'=>'politico_cargo' ,'info' =>  'Nenhum Cargo Informado', 'html' => array ('tag'=> 'select', 'options' => array(
+						                                array ( 'value' => '' , 'content' => 'Selecione' ),
+										array ( 'value' => 'DF' , 'content' => 'Deputado Federal' ) ,
+										array ( 'value' => 'SE' , 'content' => 'Senador' ) ,
+										array ( 'value' => 'DE' , 'content' => 'Deputado Estadual' ) ,
+										array ( 'value' => 'VR' , 'content' => 'Vereador' ) ,
+										array ( 'value' => 'PR' , 'content' => 'Presidente' ) ,
+										array ( 'value' => 'GV' , 'content' => 'Governador' ) ,
+										array ( 'value' => 'PF' , 'content' => 'Prefeito' ) ,
+											)
+											)
 											)
 											); 
 
@@ -303,7 +315,7 @@ function politicos_rewrite_rule() {
 			'top'
 			);
 }
-add_action('init','userpage_rewrite_rule');
+add_action('init','politicos_rewrite_rule');
 
 // Catch the URL and redirect it to a template file
 function politicos_rewrite_catch() {
