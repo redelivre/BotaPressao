@@ -152,9 +152,49 @@ function get_metas()
 
 }
 
-function politicos_the_meta()
+function get_jobs()
 {
-	the_meta();
+	return array (
+                           array ( 'DF' => 'Deputado Federal' ) ,
+	                   array ( 'SE' => 'Senador' ) ,
+	                   array ( 'DE' => 'Deputado Estadual' ) ,
+	                   array ( 'VR' => 'Vereador' ) ,
+	                   array ( 'PR' => 'Presidente' ) ,
+	                   array ( 'GV' => 'Governador' ) ,
+	                   array ( 'PF' => 'Prefeito' ) 
+                      );
+
+}
+
+function politicos_the_meta($post)
+{
+	if( !is_object($post) ) return;
+	$post = $post->queried_object;
+	if (isset($post->post_type) && $post->post_type!="politicos") return; 
+	if (isset($post->post_type) && $post->post_type=="politicos") 
+	{
+		$job = get_jobs();
+		?>
+
+
+			<ul class="post-meta">
+			<li><span class="post-meta-key">Email:</span>
+			<a href="mailto:<?php print_r(get_post_meta( $post->ID, 'politico_email', true)); ?>?subject=Excelentissimo%20<?php echo get_post_meta( $post->ID, 'politico_cargo', true); ?>%20<?php echo get_the_title(); ?>&body=Excelentissimo%20<?php echo $job[0][get_post_meta( $post->ID, 'politico_cargo', true)]; ?>%20<?php echo get_the_title(); ?>,%20...">
+			<?php print_r(get_post_meta( $post->ID, 'politico_email', true)); ?>
+			</a>
+			</li>
+			<li><span class="post-meta-key">Esta na Comissão:</span><?php print_r(get_post_meta( $post->ID, 'politico_comissao', true)); ?></li>
+			<li><span class="post-meta-key">Voto no Impeachment?</span><?php print_r(get_post_meta( $post->ID, 'politico_impeachment', true)); ?></li>
+			<li><span class="post-meta-key">Facebook</span><?php echo get_post_meta( $post->ID, 'politico_facebook', true); ?></li>
+			<li><span class="post-meta-key">Twitter:</span><?php echo get_post_meta( $post->ID, 'politico_twitter', true); ?></li>
+			<li><span class="post-meta-key">Instagram:</span><?php echo get_post_meta( $post->ID, 'politico_instagram', true); ?></li>
+			<li><span class="post-meta-key">Telefone Gabinete:</span><?php echo get_post_meta( $post->ID, 'politico_phone', true); ?></li>
+			<li><span class="post-meta-key">Estado:</span><?php echo get_post_meta( $post->ID, 'politico_estado', true); ?></li>
+			<li><span class="post-meta-key">Partido:</span><?php echo get_post_meta( $post->ID, 'politico_partido', true); ?></li>
+			<li><span class="post-meta-key">Partido:</span><?php echo get_post_meta( $post->ID, 'politico_cargo', true); ?></li>
+			</ul>
+			<?php
+	}
 }
 
 add_action("loop_end", "politicos_the_meta");
