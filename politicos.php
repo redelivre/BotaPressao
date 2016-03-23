@@ -96,7 +96,7 @@ function get_metas()
 							)
 							),
 						array ( 'label' => 'Partido', 'slug'=>'politico_partido' ,'info' =>  'Nenhum Partido Informado', 'html' => array ('tag'=> 'select', 'options' => array(
-						                                array ( 'value' => '' , 'content' => 'Selecione' ),
+										array ( 'value' => '' , 'content' => 'Selecione' ),
 										array ( 'value' => 'PMDB' , 'content' => 'PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO' ) ,
 										array ( 'value' => 'PTB' , 'content' => 'PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO' ) ,
 										array ( 'value' => 'PDT' , 'content' => 'PARTIDO DEMOCRÁTICO TRABALHISTA' ) ,
@@ -135,18 +135,18 @@ function get_metas()
 											)
 											)
 											),
-						array ( 'label' => 'Cargo Politico', 'slug'=>'politico_cargo' ,'info' =>  'Nenhum Cargo Informado', 'html' => array ('tag'=> 'select', 'options' => array(
-						                                array ( 'value' => '' , 'content' => 'Selecione' ),
-										array ( 'value' => 'DF' , 'content' => 'Deputado Federal' ) ,
-										array ( 'value' => 'SE' , 'content' => 'Senador' ) ,
-										array ( 'value' => 'DE' , 'content' => 'Deputado Estadual' ) ,
-										array ( 'value' => 'VR' , 'content' => 'Vereador' ) ,
-										array ( 'value' => 'PR' , 'content' => 'Presidente' ) ,
-										array ( 'value' => 'GV' , 'content' => 'Governador' ) ,
-										array ( 'value' => 'PF' , 'content' => 'Prefeito' ) ,
-											)
-											)
-											)
+										array ( 'label' => 'Cargo Politico', 'slug'=>'politico_cargo' ,'info' =>  'Nenhum Cargo Informado', 'html' => array ('tag'=> 'select', 'options' => array(
+														array ( 'value' => '' , 'content' => 'Selecione' ),
+														array ( 'value' => 'DF' , 'content' => 'Deputado Federal' ) ,
+														array ( 'value' => 'SE' , 'content' => 'Senador' ) ,
+														array ( 'value' => 'DE' , 'content' => 'Deputado Estadual' ) ,
+														array ( 'value' => 'VR' , 'content' => 'Vereador' ) ,
+														array ( 'value' => 'PR' , 'content' => 'Presidente' ) ,
+														array ( 'value' => 'GV' , 'content' => 'Governador' ) ,
+														array ( 'value' => 'PF' , 'content' => 'Prefeito' ) ,
+														)
+													)
+										      )
 											); 
 
 
@@ -184,9 +184,52 @@ add_action('save_post', 'save_politicos_meta_box', 10, 2);
 
 function politicos_meta_box()
 {
-	add_meta_box('Deputado-meta-box', 'Informações Complementares', 'display_politico_meta_box', 'politicos', 'normal', 'high');
+	add_meta_box('deputado-meta-box', 'Informações Complementares', 'display_politico_meta_box', 'politicos', 'normal', 'high');
+	add_meta_box('deputado-picture-meta-box', 'Imagem', 'display_politico_picture_meta_box', 'politicos', 'normal', 'high');
+
 }
 
+function display_politico_picture_meta_box($post)
+{
+	// jQuery
+	wp_enqueue_script('jquery');
+	// This will enqueue the Media Uploader script
+	wp_enqueue_media();
+	$picture_meta = get_post_meta( $post->ID, 'politico_picture', true);
+
+	?>
+		<p>
+		<img id="picture" src="<?php if ( isset ( $picture_meta ) ) echo $picture_meta; ?>">
+		<p>
+		<p>
+		<label for="politico_picture" class="politico_picture"><?php _e( 'Foto', 'politicos' )?></label>
+		<input type="text" name="politico_picture" id="politico_picture" value="<?php if ( isset ( $picture_meta ) ) echo $picture_meta; ?>" />
+		<input type="button" id="politico_picture_button" class="politico_picture_button" value="<?php _e( 'Escolha uma imagem para o politico', 'politicos' )?>" />
+		</p>
+		<script type="text/javascript">
+		jQuery(document).ready(function($){
+				$('#politico_picture_button').click(function(e) {
+					e.preventDefault();
+					var image = wp.media({ 
+title: 'Upload Foto',
+// mutiple: true if you want to upload multiple files at once
+multiple: false
+}).open()
+					.on('select', function(e){
+						// This will return the selected image from the Media Uploader, the result is an object
+						var uploaded_image = image.state().get('selection').first();
+						// We convert uploaded_image to a JSON object to make accessing it easier
+						// Output to the console uploaded_image
+						console.log(uploaded_image);
+						var politico_picture = uploaded_image.toJSON().url;
+						// Let's assign the url value to the input field
+						$('#politico_picture').val(politico_picture);
+						});
+					});
+				});
+</script>
+<?php
+}
 
 
 function display_politico_meta_box($object, $box)
@@ -206,13 +249,13 @@ function display_politico_meta_box($object, $box)
 				<br>
 				<select name="<?php echo $meta['slug'] ?>">
 				<?php
-setlocale(LC_ALL, "en_US.utf8");
-				foreach ($meta['html']['options'] as $option) {
-$content = iconv("utf-8", "ascii//TRANSLIT", $option['content']);
-					?>
-						<option value="<?php echo $option['value'] ?>" <?php echo esc_html(get_post_meta($object->ID, $meta['slug'] , true), 1) === $option['value'] ? 'selected' : ''; ?> ><?php echo ucwords(strtolower($content)) ?></option>
-						<?php
-				}
+				setlocale(LC_ALL, "en_US.utf8");
+			foreach ($meta['html']['options'] as $option) {
+				$content = iconv("utf-8", "ascii//TRANSLIT", $option['content']);
+				?>
+					<option value="<?php echo $option['value'] ?>" <?php echo esc_html(get_post_meta($object->ID, $meta['slug'] , true), 1) === $option['value'] ? 'selected' : ''; ?> ><?php echo ucwords(strtolower($content)) ?></option>
+					<?php
+			}
 			?>
 				</select>
 				</p>
@@ -253,6 +296,7 @@ function save_politicos_meta_box($post_id, $post)
 		return;
 
 	$metas = get_metas();
+	$metas[] = array ( 'slug' => 'politico_picture');
 	foreach ( $metas as $meta)
 	{
 		if (isset($_POST[$meta['slug']])) {
