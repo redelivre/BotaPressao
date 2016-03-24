@@ -23,11 +23,11 @@ function create_politicos()
 			array(
 				'labels' => array(
 					'name' => __('Politicos', 'politicos'),
-					'singular_name' => __('Deputado', 'politicos'),
-					'add_new_item' => __('Adicionar Novo Deputado', 'politicos'),
-					'edit_item' => __('Editar Deputado', 'politicos'),
+					'singular_name' => __('Politico', 'politicos'),
+					'add_new_item' => __('Adicionar Novo Politico', 'politicos'),
+					'edit_item' => __('Editar Politico', 'politicos'),
 					'all_items' => __('Todos os Politicos', 'politicos'),
-					'update_item' => __('Atualizar Deputado', 'politicos'),
+					'update_item' => __('Atualizar Politico', 'politicos'),
 					'search_items' => __('Buscar Politicos', 'politicos'),
 					'menu_name' => __('Politicos', 'politicos'),
 					'not_found' => __('Não Encontrado', 'politicos'),
@@ -442,5 +442,7 @@ function politicos_options_page() {
 		</div>
 		<?php
 }
+
+require_once dirname(__FILE__)."/options.php"; 
 
 ?>
