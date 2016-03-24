@@ -323,6 +323,19 @@ class SettingsPage
 	    			}
 	    		}
 	    		
+	    		$picture_meta = get_post_meta( $post_id, 'politico_picture', true);
+	    		
+	    		if(empty($picture_meta))
+	    		{
+	    			$id = get_post_meta($post->ID, 'politico_id_planilha', true);
+	    			$upload = wp_upload_dir();
+	    			if( !empty($id) && file_exists($upload['basedir']."/fotos/".$id.".jpg"))
+	    			{
+	    				$picture_meta = $upload['baseurl']."/fotos/".$id.".jpg";
+	    				update_post_meta( $post->ID, 'politico_picture', $picture_meta);
+	    			}
+	    		}
+	    		
     			if(!$debug && is_int($post_id) && count($pins) > 0 )
     			{
     				update_post_meta($post_id, '_mpv_pin', $pins[$row[0]]);
