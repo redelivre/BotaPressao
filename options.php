@@ -202,13 +202,14 @@ class SettingsPage
     		$file = fopen($_FILES['file-0']['tmp_name'], 'r');
     		
     		$debug = false;
-    		$getLocation = true;
+    		$getLocation = true; // try to get location from google maps api
     		$begin = 0;
     		$header_size = 2; //Header size
     		$header_n = 1; // Header slugs on
-    		$id_column = 1;
+    		$id_column = 0;
     		$last_column = 16;
-    		$sep = ',';
+    		$sep = ','; // field csv separator
+    		$no_import = array(1, 12, 13); // do not import this columns 
     		
     		$ids = array();
     		
@@ -286,8 +287,6 @@ class SettingsPage
 				$post_id = 0;
 	    		if(!$debug) $post_id = wp_insert_post($post);
 	    
-	    		$no_import = array(1, 12, 13);
-
 	    		$location = false;
 	    		
 	    		if(count($coords) > 0)
