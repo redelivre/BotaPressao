@@ -327,12 +327,12 @@ class SettingsPage
 	    		
 	    		if(empty($picture_meta))
 	    		{
-	    			$id = get_post_meta($post->ID, 'politico_id_planilha', true);
+	    			$id = get_post_meta($post_id, 'politico_id_planilha', true);
 	    			$upload = wp_upload_dir();
 	    			if( !empty($id) && file_exists($upload['basedir']."/fotos/".$id.".jpg"))
 	    			{
 	    				$picture_meta = $upload['baseurl']."/fotos/".$id.".jpg";
-	    				update_post_meta( $post->ID, 'politico_picture', $picture_meta);
+	    				update_post_meta( $post_id, 'politico_picture', $picture_meta);
 	    			}
 	    		}
 	    		
