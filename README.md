@@ -1,5 +1,6 @@
 # Bota Pressão
-É um Plugin para o gerenciamento do wordpress que permite botar pressão nos politicos ;)
+É um Plugin para o gerenciamento do WordPress que permite organizar informações sobre políticos e disponibiliza-las de forma facilitada, de forma que tenha utilidade tanto para fornecer informações qualificadas para o cidadão como para pressioná-los para causas específicas.
+Neste momento o plugin está sendo desenvolvido com foco no projeto #ditoefeito, que mapeou todos os votos sobre o Impeachment de Dilma Rouseff e as ocorrências judiciais de cada parlamentar. 
 
 # Inserindo novos campos input, select e textarea
 
