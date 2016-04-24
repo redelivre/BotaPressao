@@ -49,21 +49,9 @@ function get_metas()
 {
 	return array(
 			array ( 'label' => 'Email', 'slug'=>'politico_email' ,'info' => 'Nenhum Email Informado ' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-			array ( 'label' => 'Está na Comissão?', 'slug'=>'politico_comissao' ,'info' =>  'Nenhuma Comissao Informado', 'html' => array ('tag'=> 'select', 'options' => array(
-						array ( 'value' => '' , 'content' => 'Selecione' ),
-						array ( 'value' => 'Sim' , 'content' => 'Sim' ),
-						array ( 'value' => 'Não' , 'content' => 'Não' )))),
-			array ( 'label' => 'Voto no Impeachment?', 'slug'=>'politico_impeachment' ,'info' =>  'Nenhuma Posição de Impeachemnt Informado', 'html' => array ('tag'=> 'select', 'options' => array(
-						array ( 'value' => '' , 'content' => 'Selecione' ),
-						array ( 'value' => 'A Favor' , 'content' => 'A Favor' ),
-						array ( 'value' => 'Contra' , 'content' => 'Contra' ),
-						array ( 'value' => 'Indeciso' , 'content' => 'Indeciso' )))),
 			array ( 'label' => 'Facebook', 'slug'=>'politico_facebook' ,'info' => 'Nenhum Facebook Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
 			array ( 'label' => 'Twitter', 'slug'=>'politico_twitter' ,'info' => 'Nenhum Twitter Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
 			array ( 'label' => 'WhatsApp', 'slug'=>'politico_whatsapp' ,'info' => 'Nenhum WhatsApp Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-			array ( 'label' => 'Instagram', 'slug'=>'politico_instagram' ,'info' => 'Nenhum Instagram Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-			array ( 'label' => 'Telefone Gabinete', 'slug'=>'politico_phone' ,'info' =>  'Nenhum Telefone Informado', 'html' => array ('tag'=> 'input', 'type' => 'text' ) ),
-			//array ( 'label' => '', 'slug'=>'' ,'info' => '', 'html' => array ('tag'=> 'textarea', 'rows' => 4 , 'cols' => 50 ) ),
 			array ( 'label' => 'Estado', 'slug'=>'politico_estado' ,'info' =>  'Nenhum Estado Informado', 'html' => array ('tag'=> 'select', 'options' => array(
 						array ( 'value' => '' , 'content' => 'Selecione' ),
 						array ( 'value' => 'AC' , 'content' => 'Acre' ),
@@ -153,7 +141,7 @@ function get_metas()
 						array ( 'value' => 'Feminino' , 'content' => 'Feminino' ),
 						array ( 'value' => 'Masculino' , 'content' => 'Masculino' )))),
 			array ( 'label' => 'Declaração de voto', 'slug'=>'politico_declaracao_voto' ,'info' => 'Nenhuma Declaração de voto Informada ' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-			array ( 'label' => 'Ocorrências Juducuiais', 'slug'=>'politico_ocorrencias' ,'info' => 'Nenhuma Ocorrencia Judicial Informada ', 'html' => array ('tag'=> 'textarea', 'rows' => 4 , 'cols' => 50 ) ),
+			array ( 'label' => 'Ocorrências Judiciais', 'slug'=>'politico_ocorrencias' ,'info' => 'Nenhuma Ocorrencia Judicial Informada ', 'html' => array ('tag'=> 'textarea', 'rows' => 4 , 'cols' => 50 ) ),
 			array ( 'label' => 'Número de ocorrências', 'slug'=>'politico_numero_ocorrencias' ,'info' => 'Nenhum Número de Ocorrências Informado ' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
 			array ( 'label' => 'Tipo de Voto', 'slug'=>'politico_tipo_voto' ,'info' =>  'Nenhum Tipo de Voto Informado', 'html' => array ('tag'=> 'select', 'options' => array(
 						array ( 'value' => '' , 'content' => 'Selecione' ),
@@ -180,6 +168,20 @@ function get_jobs()
 
 }
 
+
+function add_picture($post)
+{
+        $post = $post->queried_object;
+	$picture_meta = get_post_meta( $post->ID, 'politico_picture', true);
+	?>
+		<p>
+		<img id="picture" src="<?php if ( isset ( $picture_meta ) ) echo $picture_meta; ?>">
+<?php
+}
+
+
+add_action('loop_start' , 'add_picture' );
+
 function politicos_the_meta($post)
 {
 	if( !is_object($post) ) return;
@@ -192,21 +194,21 @@ function politicos_the_meta($post)
 
 
 			<ul class="post-meta">
-			<li><span class="post-meta-key">Email:</span>
+                        <!-- XXX comentado por enquanto ate tempo de colocar isso para rodar bem com o conteudo de abaixo. -->
+			<!--li><span class="post-meta-key">Email:</span>
 			<a href="mailto:<?php print_r(get_post_meta( $post->ID, 'politico_email', true)); ?>?subject=Excelentissimo%20<?php echo get_post_meta( $post->ID, 'politico_cargo', true); ?>%20<?php echo get_the_title(); ?>&body=Excelentissimo%20<?php echo $job[0][get_post_meta( $post->ID, 'politico_cargo', true)]; ?>%20<?php echo get_the_title(); ?>,%20...">
 			<?php print_r(get_post_meta( $post->ID, 'politico_email', true)); ?>
 			</a>
-			</li>
-			<li><span class="post-meta-key">Esta na Comissão:</span><?php print_r(get_post_meta( $post->ID, 'politico_comissao', true)); ?></li>
-			<li><span class="post-meta-key">Voto no Impeachment?</span><?php print_r(get_post_meta( $post->ID, 'politico_impeachment', true)); ?></li>
-			<li><span class="post-meta-key">Facebook</span><?php echo get_post_meta( $post->ID, 'politico_facebook', true); ?></li>
-			<li><span class="post-meta-key">Twitter:</span><?php echo get_post_meta( $post->ID, 'politico_twitter', true); ?></li>
-			<li><span class="post-meta-key">Instagram:</span><?php echo get_post_meta( $post->ID, 'politico_instagram', true); ?></li>
-			<li><span class="post-meta-key">Telefone Gabinete:</span><?php echo get_post_meta( $post->ID, 'politico_phone', true); ?></li>
-			<li><span class="post-meta-key">Estado:</span><?php echo get_post_meta( $post->ID, 'politico_estado', true); ?></li>
-			<li><span class="post-meta-key">Partido:</span><?php echo get_post_meta( $post->ID, 'politico_partido', true); ?></li>
-			<li><span class="post-meta-key">Partido:</span><?php echo get_post_meta( $post->ID, 'politico_cargo', true); ?></li>
-			</ul>
+			</li-->
+			<?php 
+			$metas = get_metas();
+		foreach($metas as $meta)
+		{?>
+			<li><span class="post-meta-key"><?php echo $meta['label']; ?>: </span><?php print_r(get_post_meta( $post->ID, $meta['slug'] , true)); ?></li>
+
+
+				<?php       } ?>
+				</ul>
 			<?php
 	}
 }
@@ -268,6 +270,7 @@ function display_politico_picture_meta_box($post)
 		<p>
 		<p>
 		<label for="politico_picture" class="politico_picture"><?php _e( 'Foto', 'politicos' )?></label>
+                <!!-- XXX arrumar a imagem do politico sem imagem-->
 		<input type="text" name="politico_picture" id="politico_picture" value="<?php if ( isset ( $picture_meta ) ) echo $picture_meta; ?>" />
 		<input type="button" id="politico_picture_button" class="politico_picture_button" value="<?php _e( 'Escolha uma imagem para o politico', 'politicos' )?>" />
 		</p>
@@ -276,7 +279,7 @@ function display_politico_picture_meta_box($post)
 				$('#politico_picture_button').click(function(e) {
 					e.preventDefault();
 					var image = wp.media({ 
-title: 'Upload Foto',
+title: 'Enviar foto',
 // mutiple: true if you want to upload multiple files at once
 multiple: false
 }).open()
@@ -387,9 +390,12 @@ function politicos_filter_columns($columns)
 {
 	// this will add the column to the end of the array
 	$metas = get_metas();
+        $i = 0;
 	foreach ( $metas as $meta)
 	{
+                if ( $i === 5) break;
 		$columns[$meta['slug']] = $meta['label'];
+                $i++;
 	}
 	return $columns;
 }
@@ -400,10 +406,13 @@ function politicos_action_custom_columns_content($column_id, $post_id)
 {
 	//run a switch statement for all of the custom columns created
 	$metas = get_metas();
+        $i = 0;
 	foreach ( $metas as $meta)
 	{
+                if ( $i === 5) break;
 		if ( $column_id ==  $meta['slug'] )
 			echo ($value = get_post_meta($post_id, $meta['slug'], true)) ? $value : $meta['info'];
+                $i++;
 	}
 }
 
