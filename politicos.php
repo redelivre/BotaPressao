@@ -60,6 +60,7 @@ function get_metas()
 						array ( 'value' => 'Indeciso' , 'content' => 'Indeciso' )))),
 			array ( 'label' => 'Facebook', 'slug'=>'politico_facebook' ,'info' => 'Nenhum Facebook Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
 			array ( 'label' => 'Twitter', 'slug'=>'politico_twitter' ,'info' => 'Nenhum Twitter Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+			array ( 'label' => 'WhatsApp', 'slug'=>'politico_whatsapp' ,'info' => 'Nenhum WhatsApp Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
 			array ( 'label' => 'Instagram', 'slug'=>'politico_instagram' ,'info' => 'Nenhum Instagram Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
 			array ( 'label' => 'Telefone Gabinete', 'slug'=>'politico_phone' ,'info' =>  'Nenhum Telefone Informado', 'html' => array ('tag'=> 'input', 'type' => 'text' ) ),
 			//array ( 'label' => '', 'slug'=>'' ,'info' => '', 'html' => array ('tag'=> 'textarea', 'rows' => 4 , 'cols' => 50 ) ),
@@ -146,7 +147,20 @@ function get_metas()
 														array ( 'value' => 'PF' , 'content' => 'Prefeito' ) ,
 														)
 													)
-										      )
+										      ),
+			array ( 'label' => 'Gênero', 'slug'=>'politico_genero' ,'info' =>  'Nenhuma gênero Informado', 'html' => array ('tag'=> 'select', 'options' => array(
+						array ( 'value' => '' , 'content' => 'Selecione' ),
+						array ( 'value' => 'Feminino' , 'content' => 'Feminino' ),
+						array ( 'value' => 'Masculino' , 'content' => 'Masculino' )))),
+			array ( 'label' => 'Declaração de voto', 'slug'=>'politico_declaracao_voto' ,'info' => 'Nenhuma Declaração de voto Informada ' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+			array ( 'label' => 'Ocorrências Juducuiais', 'slug'=>'politico_ocorrencias' ,'info' => 'Nenhuma Ocorrencia Judicial Informada ', 'html' => array ('tag'=> 'textarea', 'rows' => 4 , 'cols' => 50 ) ),
+			array ( 'label' => 'Número de ocorrências', 'slug'=>'politico_numero_ocorrencias' ,'info' => 'Nenhum Número de Ocorrências Informado ' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+			array ( 'label' => 'Tipo de Voto', 'slug'=>'politico_tipo_voto' ,'info' =>  'Nenhum Tipo de Voto Informado', 'html' => array ('tag'=> 'select', 'options' => array(
+						array ( 'value' => '' , 'content' => 'Selecione' ),
+						array ( 'value' => 'Sim' , 'content' => 'Sim' ),
+						array ( 'value' => 'Não' , 'content' => 'Não' )))),
+			array ( 'label' => 'Bancada que compões', 'slug'=>'politico_bancada' ,'info' => 'Nenhuma Bancada Informada ' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+			array ( 'label' => 'Profissão', 'slug'=>'politico_profissao' ,'info' => 'Nenhuma Profissão Informada ' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
 											); 
 
 
