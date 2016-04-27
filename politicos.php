@@ -84,46 +84,7 @@ function politicos_get_metas()
 							)
 							)
 							),
-						array ( 'label' => 'Partido', 'slug'=>'politico_partido' ,'info' =>  'Nenhum Partido Informado', 'html' => array ('tag'=> 'select', 'options' => array(
-										array ( 'value' => '' , 'content' => 'Selecione' ),
-										array ( 'value' => 'PMDB' , 'content' => 'PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO' ) ,
-										array ( 'value' => 'PTB' , 'content' => 'PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO' ) ,
-										array ( 'value' => 'PDT' , 'content' => 'PARTIDO DEMOCRÁTICO TRABALHISTA' ) ,
-										array ( 'value' => 'PT' , 'content' => 'PARTIDO DOS TRABALHADORES' ) ,
-										array ( 'value' => 'DEM' , 'content' => 'DEMOCRATAS' ) ,
-										array ( 'value' => 'PCdoB' , 'content' => 'PARTIDO COMUNISTA DO BRASIL' ) ,
-										array ( 'value' => 'PSB' , 'content' => 'PARTIDO SOCIALISTA BRASILEIRO' ) ,
-										array ( 'value' => 'PSDB' , 'content' => 'PARTIDO DA SOCIAL DEMOCRACIA BRASILEIRA' ) ,
-										array ( 'value' => 'PTC' , 'content' => 'PARTIDO TRABALHISTA CRISTÃO' ) ,
-										array ( 'value' => 'PSC' , 'content' => 'PARTIDO SOCIAL CRISTÃO' ) ,
-										array ( 'value' => 'PMN' , 'content' => 'PARTIDO DA MOBILIZAÇÃO NACIONAL' ) ,
-										array ( 'value' => 'PRP' , 'content' => 'PARTIDO REPUBLICANO PROGRESSISTA' ) ,
-										array ( 'value' => 'PPS' , 'content' => 'PARTIDO POPULAR SOCIALISTA' ) ,
-										array ( 'value' => 'PV' , 'content' => 'PARTIDO VERDE' ) ,
-										array ( 'value' => 'PTdoB' , 'content' => 'PARTIDO TRABALHISTA DO BRASIL' ) ,
-										array ( 'value' => 'PP' , 'content' => 'PARTIDO PROGRESSISTA' ) ,
-										array ( 'value' => 'PSTU' , 'content' => 'PARTIDO SOCIALISTA DOS TRABALHADORES UNIFICADO' ) ,
-										array ( 'value' => 'PCB' , 'content' => 'PARTIDO COMUNISTA BRASILEIRO' ) ,
-										array ( 'value' => 'PRTB' , 'content' => 'PARTIDO RENOVADOR TRABALHISTA BRASILEIRO' ) ,
-										array ( 'value' => 'PHS' , 'content' => 'PARTIDO HUMANISTA DA SOLIDARIEDADE' ) ,
-										array ( 'value' => 'PSDC' , 'content' => 'PARTIDO SOCIAL DEMOCRATA CRISTÃO' ) ,
-										array ( 'value' => 'PCO' , 'content' => 'PARTIDO DA CAUSA OPERÁRIA' ) ,
-										array ( 'value' => 'PTN' , 'content' => 'PARTIDO TRABALHISTA NACIONAL' ) ,
-										array ( 'value' => 'PSL' , 'content' => 'PARTIDO SOCIAL LIBERAL' ) ,
-										array ( 'value' => 'PRB' , 'content' => 'PARTIDO REPUBLICANO BRASILEIRO' ) ,
-										array ( 'value' => 'PSOL' , 'content' => 'PARTIDO SOCIALISMO E LIBERDADE' ) ,
-										array ( 'value' => 'PR' , 'content' => 'PARTIDO DA REPÚBLICA' ) ,
-										array ( 'value' => 'PSD' , 'content' => 'PARTIDO SOCIAL DEMOCRÁTICO' ) ,
-										array ( 'value' => 'PPL' , 'content' => 'PARTIDO PÁTRIA LIVRE' ) ,
-										array ( 'value' => 'PEN' , 'content' => 'PARTIDO ECOLÓGICO NACIONAL' ) ,
-										array ( 'value' => 'PROS' , 'content' => 'PARTIDO REPUBLICANO DA ORDEM SOCIAL' ) ,
-										array ( 'value' => 'SD' , 'content' => 'SOLIDARIEDADE' ) ,
-										array ( 'value' => 'NOVO' , 'content' => 'PARTIDO NOVO' ) ,
-										array ( 'value' => 'REDE' , 'content' => 'REDE SUSTENTABILIDADE' ) ,
-										array ( 'value' => 'PMB' , 'content' => 'PARTIDO DA MULHER BRASILEIRA' )
-											)
-											)
-											),
+						array ( 'label' => 'Partido', 'slug'=>'politico_partido' ,'info' =>  'Nenhum Partido Informado', 'html' => array ('tag'=> 'select', 'options' => get_option('politicos_partidos_array'))),
 										array ( 'label' => 'Cargo Politico', 'slug'=>'politico_cargo' ,'info' =>  'Nenhum Cargo Informado', 'html' => array ('tag'=> 'select', 'options' => array(
 														array ( 'value' => '' , 'content' => 'Selecione' ),
 														array ( 'value' => 'DF' , 'content' => 'Deputado Federal' ) ,
@@ -472,13 +433,124 @@ function politicos_custom_admin_menu() {
 }
 
 function politicos_options_page() {
+                
+                if ( isset( $_POST['partidos'] ) )
+                {
+                    $politicos_partidos = array( array ( 'value' => '' , 'content' => 'Selecione' ) );
+                    $duplas = explode( ',' , $_POST['partidos'] ) ;
+                    foreach( $duplas as $dupla)
+                    {
+                       $politicos_partidos[] = array( 'value' => $dupla[0] , 'content' => $dupla[1]);
+                    }
+
+                    update_option('politicos_partidos' , $_POST['partidos']);
+                    update_option('politicos_partidos_array' , $politicos_partidos);
+                }
+                //isset($_POST['partidos']) ? update_option('politicos_partidos' , $_POST['partidos']) : '';
 	?>
 		<div class="wrap">
 		<h2>Configurações Politicos</h2>
-		Futura Página de Configurações do Plugin Politicos 
+		Por favor insira abaixo os Partidos Politicos, da seguinte forma:
+                <br>
+                sigla|nome do partido,
+                sigla|nome do partido
+                <br>
+                <form method="post" >
+                <textarea name="partidos" rows="20" cols="50" ><?php echo get_option('politicos_partidos'); ?></textarea>
+                <?php submit_button( 'Salvar' ); ?>
+                </form>
 		</div>
 		<?php
 }
+
+
+
+function politicos_activation()
+{
+
+
+$politicos_partidos = "PMDB|PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO,
+PTB|PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO,
+PDT|PARTIDO DEMOCRÁTICO TRABALHISTA,
+PT|PARTIDO DOS TRABALHADORES,
+DEM|DEMOCRATAS,
+PCdoB|PARTIDO COMUNISTA DO BRASIL,
+PSB|PARTIDO SOCIALISTA BRASILEIRO,
+PSDB|PARTIDO DA SOCIAL DEMOCRACIA BRASILEIRA,
+PTC|PARTIDO TRABALHISTA CRISTÃO,
+PSC|PARTIDO SOCIAL CRISTÃO,
+PMN|PARTIDO DA MOBILIZAÇÃO NACIONAL,
+PRP|PARTIDO REPUBLICANO PROGRESSISTA,
+PPS|PARTIDO POPULAR SOCIALISTA,
+PV|PARTIDO VERDE,
+PTdoB|PARTIDO TRABALHISTA DO BRASIL,
+PP|PARTIDO PROGRESSISTA,
+PSTU|PARTIDO SOCIALISTA DOS TRABALHADORES UNIFICADO,
+PCB|PARTIDO COMUNISTA BRASILEIRO,
+PRTB|PARTIDO RENOVADOR TRABALHISTA BRASILEIRO,
+PHS|PARTIDO HUMANISTA DA SOLIDARIEDADE,
+PSDC|PARTIDO SOCIAL DEMOCRATA CRISTÃO,
+PCO|PARTIDO DA CAUSA OPERÁRIA,
+PTN|PARTIDO TRABALHISTA NACIONAL,
+PSL|PARTIDO SOCIAL LIBERAL,
+PRB|PARTIDO REPUBLICANO BRASILEIRO,
+PSOL|PARTIDO SOCIALISMO E LIBERDADE,
+PR|PARTIDO DA REPÚBLICA,
+PSD|PARTIDO SOCIAL DEMOCRÁTICO,
+PPL|PARTIDO PÁTRIA LIVRE,
+PEN|PARTIDO ECOLÓGICO NACIONAL,
+PROS|PARTIDO REPUBLICANO DA ORDEM SOCIAL,
+SD|SOLIDARIEDADE,
+NOVO|PARTIDO NOVO,
+REDE|REDE SUSTENTABILIDADE,
+PMB|PARTIDO DA MULHER BRASILEIRA";
+
+$politicos_partidos_array = array( 
+		array ( 'value' => '' , 'content' => 'Selecione' ),
+		array ( 'value' => 'PMDB' , 'content' => 'PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO' ) ,
+		array ( 'value' => 'PTB' , 'content' => 'PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO' ) ,
+		array ( 'value' => 'PDT' , 'content' => 'PARTIDO DEMOCRÁTICO TRABALHISTA' ) ,
+		array ( 'value' => 'PT' , 'content' => 'PARTIDO DOS TRABALHADORES' ) ,
+		array ( 'value' => 'DEM' , 'content' => 'DEMOCRATAS' ) ,
+		array ( 'value' => 'PCdoB' , 'content' => 'PARTIDO COMUNISTA DO BRASIL' ) ,
+		array ( 'value' => 'PSB' , 'content' => 'PARTIDO SOCIALISTA BRASILEIRO' ) ,
+		array ( 'value' => 'PSDB' , 'content' => 'PARTIDO DA SOCIAL DEMOCRACIA BRASILEIRA' ) ,
+		array ( 'value' => 'PTC' , 'content' => 'PARTIDO TRABALHISTA CRISTÃO' ) ,
+		array ( 'value' => 'PSC' , 'content' => 'PARTIDO SOCIAL CRISTÃO' ) ,
+		array ( 'value' => 'PMN' , 'content' => 'PARTIDO DA MOBILIZAÇÃO NACIONAL' ) ,
+		array ( 'value' => 'PRP' , 'content' => 'PARTIDO REPUBLICANO PROGRESSISTA' ) ,
+		array ( 'value' => 'PPS' , 'content' => 'PARTIDO POPULAR SOCIALISTA' ) ,
+		array ( 'value' => 'PV' , 'content' => 'PARTIDO VERDE' ) ,
+		array ( 'value' => 'PTdoB' , 'content' => 'PARTIDO TRABALHISTA DO BRASIL' ) ,
+		array ( 'value' => 'PP' , 'content' => 'PARTIDO PROGRESSISTA' ) ,
+		array ( 'value' => 'PSTU' , 'content' => 'PARTIDO SOCIALISTA DOS TRABALHADORES UNIFICADO' ) ,
+		array ( 'value' => 'PCB' , 'content' => 'PARTIDO COMUNISTA BRASILEIRO' ) ,
+		array ( 'value' => 'PRTB' , 'content' => 'PARTIDO RENOVADOR TRABALHISTA BRASILEIRO' ) ,
+		array ( 'value' => 'PHS' , 'content' => 'PARTIDO HUMANISTA DA SOLIDARIEDADE' ) ,
+		array ( 'value' => 'PSDC' , 'content' => 'PARTIDO SOCIAL DEMOCRATA CRISTÃO' ) ,
+		array ( 'value' => 'PCO' , 'content' => 'PARTIDO DA CAUSA OPERÁRIA' ) ,
+		array ( 'value' => 'PTN' , 'content' => 'PARTIDO TRABALHISTA NACIONAL' ) ,
+		array ( 'value' => 'PSL' , 'content' => 'PARTIDO SOCIAL LIBERAL' ) ,
+		array ( 'value' => 'PRB' , 'content' => 'PARTIDO REPUBLICANO BRASILEIRO' ) ,
+		array ( 'value' => 'PSOL' , 'content' => 'PARTIDO SOCIALISMO E LIBERDADE' ) ,
+		array ( 'value' => 'PR' , 'content' => 'PARTIDO DA REPÚBLICA' ) ,
+		array ( 'value' => 'PSD' , 'content' => 'PARTIDO SOCIAL DEMOCRÁTICO' ) ,
+		array ( 'value' => 'PPL' , 'content' => 'PARTIDO PÁTRIA LIVRE' ) ,
+		array ( 'value' => 'PEN' , 'content' => 'PARTIDO ECOLÓGICO NACIONAL' ) ,
+		array ( 'value' => 'PROS' , 'content' => 'PARTIDO REPUBLICANO DA ORDEM SOCIAL' ) ,
+		array ( 'value' => 'SD' , 'content' => 'SOLIDARIEDADE' ) ,
+		array ( 'value' => 'NOVO' , 'content' => 'PARTIDO NOVO' ) ,
+		array ( 'value' => 'REDE' , 'content' => 'REDE SUSTENTABILIDADE' ) ,
+		array ( 'value' => 'PMB' , 'content' => 'PARTIDO DA MULHER BRASILEIRA' )
+			);
+
+
+update_option('politicos_partidos' , $politicos_partidos );
+update_option('politicos_partidos_array' , $politicos_partidos_array );
+
+}
+
+register_activation_hook( __FILE__, 'politicos_activation' );
 
 require_once dirname(__FILE__)."/options.php"; 
 
