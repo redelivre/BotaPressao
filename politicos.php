@@ -45,7 +45,7 @@ function create_politicos()
 }
 
 
-function get_metas()
+function politicos_get_metas()
 {
 	return array(
 			array ( 'label' => 'Email', 'slug'=>'politico_email' ,'info' => 'Nenhum Email Informado ' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
@@ -169,18 +169,21 @@ function get_jobs()
 }
 
 
-function add_picture($post)
+function politicos_add_picture($post)
 {
+	if (is_home() && is_front_page()) return;
         $post = $post->queried_object;
+	if (isset($post->post_type) && $post->post_type!="politicos") return ; 
+	if (isset($post->post_type) && $post->post_type=="politicos") {
 	$picture_meta = get_post_meta( $post->ID, 'politico_picture', true);
 	?>
 		<p>
 		<img id="picture" src="<?php if ( isset ( $picture_meta ) ) echo $picture_meta; ?>">
-<?php
+	<?php
+	}
 }
 
-
-add_action('loop_start' , 'add_picture' );
+add_action('loop_start' , 'politicos_add_picture' );
 
 function politicos_the_meta($post)
 {
@@ -190,26 +193,29 @@ function politicos_the_meta($post)
 	if (isset($post->post_type) && $post->post_type=="politicos") 
 	{
 		$job = get_jobs();
-		?>
-
-
+                
+                $metas = politicos_get_metas();
+		foreach($metas as $meta)
+		{
+                  if ($meta['slug'] == "politico_email"){
+		  ?>
 			<ul class="post-meta">
-                        <!-- XXX comentado por enquanto ate tempo de colocar isso para rodar bem com o conteudo de abaixo. -->
-			<!--li><span class="post-meta-key">Email:</span>
+			<li><span class="post-meta-key">Email:</span>
 			<a href="mailto:<?php print_r(get_post_meta( $post->ID, 'politico_email', true)); ?>?subject=Excelentissimo%20<?php echo get_post_meta( $post->ID, 'politico_cargo', true); ?>%20<?php echo get_the_title(); ?>&body=Excelentissimo%20<?php echo $job[0][get_post_meta( $post->ID, 'politico_cargo', true)]; ?>%20<?php echo get_the_title(); ?>,%20...">
 			<?php print_r(get_post_meta( $post->ID, 'politico_email', true)); ?>
 			</a>
-			</li-->
+			</li>
 			<?php 
-			$metas = get_metas();
-		foreach($metas as $meta)
-		{?>
+                        continue;
+                  }
+?>
 			<li><span class="post-meta-key"><?php echo $meta['label']; ?>: </span><?php print_r(get_post_meta( $post->ID, $meta['slug'] , true)); ?></li>
 
 
-				<?php       } ?>
-				</ul>
-			<?php
+			<?php       
+                } ?>
+			</ul>
+		<?php
 	}
 }
 
@@ -240,8 +246,8 @@ add_action('save_post', 'save_politicos_meta_box', 10, 2);
 
 function politicos_meta_box()
 {
-	add_meta_box('deputado-meta-box', 'Informações Complementares', 'display_politico_meta_box', 'politicos', 'normal', 'high');
-	add_meta_box('deputado-picture-meta-box', 'Imagem', 'display_politico_picture_meta_box', 'politicos', 'normal', 'high');
+	add_meta_box('politico-meta-box', 'Informações Complementares', 'display_politico_meta_box', 'politicos', 'normal', 'high');
+	add_meta_box('politico-picture-meta-box', 'Imagem', 'display_politico_picture_meta_box', 'politicos', 'normal', 'high');
 
 }
 
@@ -302,10 +308,7 @@ multiple: false
 
 function display_politico_meta_box($object, $box)
 { 
-	$metas = get_metas();
-
-
-
+	$metas = politicos_get_metas();
 	foreach($metas as $meta)
 	{
 
@@ -363,7 +366,7 @@ function save_politicos_meta_box($post_id, $post)
 	if (!current_user_can('edit_post', $post_id))
 		return;
 
-	$metas = get_metas();
+	$metas = politicos_get_metas();
 	$metas[] = array ( 'slug' => 'politico_picture');
 	foreach ( $metas as $meta)
 	{
@@ -389,7 +392,7 @@ add_filter('manage_politicos_posts_columns', 'politicos_filter_columns');
 function politicos_filter_columns($columns)
 {
 	// this will add the column to the end of the array
-	$metas = get_metas();
+	$metas = politicos_get_metas();
         $i = 0;
 	foreach ( $metas as $meta)
 	{
@@ -405,7 +408,7 @@ add_action('manage_posts_custom_column', 'politicos_action_custom_columns_conten
 function politicos_action_custom_columns_content($column_id, $post_id)
 {
 	//run a switch statement for all of the custom columns created
-	$metas = get_metas();
+	$metas = politicos_get_metas();
         $i = 0;
 	foreach ( $metas as $meta)
 	{
