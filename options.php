@@ -266,11 +266,14 @@ class SettingsPage
 					{
 						//var_dump( wp_upload_dir()['baseurl']);
 						//echo "(" . $value . ": " . $row[$key] . "<br>";
-						if ($value=="title") continue;
-						else if($value=="politico_picture")
-							update_post_meta($post_id, $value ,wp_upload_dir()['baseurl']."/politicos/".$row[$key]);
-						else
+                                                $aux = wp_upload_dir();
+						if ($value=="title"){ continue;}
+						else if($value=="politico_picture"){
+							update_post_meta($post_id, $value ,$aux['baseurl']."/politicos/".$row[$key]);
+						}
+						else{
 							update_post_meta($post_id, $value ,$row[$key]);
+						}
 					}
 				}
 			}
