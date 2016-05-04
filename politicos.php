@@ -163,7 +163,7 @@ function politicos_the_meta($post)
 		  ?>
 			<ul class="post-meta">
 			<li><span class="post-meta-key">Email:</span>
-			<a href="mailto:<?php print_r(get_post_meta( $post->ID, 'politico_email', true)); ?>?subject=Excelentissimo%20<?php echo get_post_meta( $post->ID, 'politico_cargo', true); ?>%20<?php echo get_the_title(); ?>&body=Excelentissimo%20<?php echo $job[0][get_post_meta( $post->ID, 'politico_cargo', true)]; ?>%20<?php echo get_the_title(); ?>,%20...">
+			<a href="mailto:<?php print_r(get_post_meta( $post->ID, 'politico_email', true)); ?>?subject=Excelentissimo%20<?php echo get_post_meta( $post->ID, 'politico_cargo', true); ?>%20<?php echo get_the_title(); ?>&body=Excelentissimo%20<?php echo (get_post_meta( $post->ID, 'politico_cargo', true) != null)?$job[0][get_post_meta( $post->ID, 'politico_cargo', true)]:""; ?>%20<?php echo get_the_title(); ?>,%20...">
 			<?php print_r(get_post_meta( $post->ID, 'politico_email', true)); ?>
 			</a>
 			</li>
