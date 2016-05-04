@@ -107,6 +107,7 @@ function politicos_get_metas()
 			array ( 'label' => 'Tipo de Voto', 'slug'=>'politico_tipo_voto' ,'info' =>  'Nenhum Tipo de Voto Informado', 'html' => array ('tag'=> 'select', 'options' => array(
 						array ( 'value' => '' , 'content' => 'Selecione' ),
 						array ( 'value' => 'Sim' , 'content' => 'Sim' ),
+						array ( 'value' => 'Indeciso' , 'content' => 'Indeciso' ),
 						array ( 'value' => 'Não' , 'content' => 'Não' )))),
 			array ( 'label' => 'Bancada que compões', 'slug'=>'politico_bancada' ,'info' => 'Nenhuma Bancada Informada ' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
 			array ( 'label' => 'Profissão', 'slug'=>'politico_profissao' ,'info' => 'Nenhuma Profissão Informada ' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
@@ -118,7 +119,7 @@ function politicos_get_metas()
 function get_jobs()
 {
 	return array (
-                           array ( 'DF' => 'Deputado Federal' ) ,
+                       array ( 'DF' => 'Deputado Federal' ) ,
 	                   array ( 'SE' => 'Senador' ) ,
 	                   array ( 'DE' => 'Deputado Estadual' ) ,
 	                   array ( 'VR' => 'Vereador' ) ,
