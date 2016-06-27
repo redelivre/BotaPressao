@@ -87,13 +87,18 @@ function politicos_get_metas()
 						array ( 'label' => 'Partido', 'slug'=>'politico_partido' ,'info' =>  'Nenhum Partido Informado', 'html' => array ('tag'=> 'select', 'options' => get_option('politicos_partidos_array'))),
 										array ( 'label' => 'Cargo Politico', 'slug'=>'politico_cargo' ,'info' =>  'Nenhum Cargo Informado', 'html' => array ('tag'=> 'select', 'options' => array(
 														array ( 'value' => '' , 'content' => 'Selecione' ),
-														array ( 'value' => 'DF' , 'content' => 'Deputado Federal' ) ,
-														array ( 'value' => 'SE' , 'content' => 'Senador' ) ,
-														array ( 'value' => 'DE' , 'content' => 'Deputado Estadual' ) ,
-														array ( 'value' => 'VR' , 'content' => 'Vereador' ) ,
-														array ( 'value' => 'PR' , 'content' => 'Presidente' ) ,
-														array ( 'value' => 'GV' , 'content' => 'Governador' ) ,
-														array ( 'value' => 'PF' , 'content' => 'Prefeito' ) ,
+	                                                                                                        array ( 'value' => 'presidente', 'content' => 'Presidentx' ) ,
+	                                                                                                        array ( 'value' => 'vice_presidente', 'content' => 'Vice-Presidentx' ) ,
+	                                                                                                        array ( 'value' => 'Ministro', 'content' => 'Ministrx' ) ,
+	                                                                                                        array ( 'value' => 'secretário', 'content' => 'Secretarix' ) ,
+	                                                                                                        array ( 'value'=> 'deputado_federal', 'content' => 'Deputadx Federal' ) ,
+	                                                                                                        array ( 'value' =>'senador', 'content' => 'Senadorx' ) ,
+	                                                                                                        array ( 'value' => 'governador', 'content' => 'Governadorx' ) ,
+	                                                                                                        array ( 'value' => 'vice_governador', 'content' => 'Vice-Governadorx' ) ,
+	                                                                                                        array ( 'value' => 'deputado_estadual', 'content' => 'Deputadx Estadual' ) ,
+	                                                                                                        array ( 'value' => 'prefeito', 'content' => 'Prefeitx' ), 
+	                                                                                                        array ( 'value' => 'vice_prefeito', 'content' => 'Vice-Prefeitx' ), 
+	                                                                                                        array ( 'value' => 'vereador', 'content' => 'Vereadorx' ) ,
 														)
 													)
 										      ),
@@ -119,13 +124,18 @@ function politicos_get_metas()
 function get_jobs()
 {
 	return array (
-                       array ( 'DF' => 'Deputado Federal' ) ,
-	                   array ( 'SE' => 'Senador' ) ,
-	                   array ( 'DE' => 'Deputado Estadual' ) ,
-	                   array ( 'VR' => 'Vereador' ) ,
-	                   array ( 'PR' => 'Presidente' ) ,
-	                   array ( 'GV' => 'Governador' ) ,
-	                   array ( 'PF' => 'Prefeito' ) 
+	                   array ( 'presidente' => 'Presidentx' ) ,
+	                   array ( 'vice_presidente' => 'Vice-Presidentx' ) ,
+	                   array ( 'Ministro' => 'Ministrx' ) ,
+	                   array ( 'secretário' => 'Secretarix' ) ,
+	                   array ( 'deputado_federal' => 'Deputadx Federal' ) ,
+	                   array ( 'senador' => 'Senadorx' ) ,
+	                   array ( 'governador' => 'Governador' ) ,
+	                   array ( 'vice_governador' => 'Vice-Governador' ) ,
+	                   array ( 'deputado_estadual' => 'Deputado Estadual' ) ,
+	                   array ( 'prefeito' => 'Prefeito' ), 
+	                   array ( 'vice_prefeito' => 'Vice-Prefeito' ), 
+	                   array ( 'vereador' => 'Vereador' ) ,
                       );
 
 }
@@ -285,6 +295,7 @@ function display_politico_meta_box($object, $box)
 				setlocale(LC_ALL, "en_US.utf8");
 			foreach ($meta['html']['options'] as $option) {
 				$content = iconv("utf-8", "ascii//TRANSLIT", $option['content']);
+				var_dump($option);
 				?>
 					<option value="<?php echo $option['value'] ?>" <?php echo esc_html(get_post_meta($object->ID, $meta['slug'] , true), 1) === $option['value'] ? 'selected' : ''; ?> ><?php echo ucwords(strtolower($content)) ?></option>
 					<?php
@@ -461,6 +472,30 @@ function politicos_options_page() {
                 <?php submit_button( 'Salvar' ); ?>
                 </form>
 		</div>
+		<div>
+                
+		  <h4>definir novos campos para os politicos</h4>
+                  <p>Abaixo você pode definir campos novos aos vários politicos, basta usar os shortcodes do bota pressão:
+
+                    <p>["nome do campo", "tipo do campo", "informações no placeholder"]</p>
+
+                    <strong>tipos de campos disponiveis:</strong>
+                    <p>text</p>
+                    <p>email</p>
+                    <p>textarea</p>
+                    <p>    ["nome do campo", "tipo do campo", "informações no placeholder"]</p>
+                    <p>select<p>
+                    <p>    ["nome do campo", "tipo do campo", "informações no placeholder", options... ]</p>
+                  </p>
+                  <p><strong>Presidente</strong></p>
+                  <form method="submit">
+                    <textarea name="fields_presidente" rows="5" cols="50" placeholder="Coloque shortcodes para definir novos campos ao presidentx" ></textarea>
+                    <?php submit_button( 'Salvar' ); ?>
+                  </form>
+
+                </div>
+
+
 		<?php
 }
 
@@ -468,7 +503,22 @@ function politicos_options_page() {
 
 function politicos_activation()
 {
+// comissao
 
+$comissoes = "";
+
+// frente_parlamentar
+
+$frente_parlamentar = "";
+
+// bancada
+
+$bancadas_deputados_federais = "Bancada da Bala,
+Bancada da Bíblia";
+
+$bancadas_deputados_estatuais = "";
+
+$bancadas_vereadores = ""; 
 
 $politicos_partidos = "PMDB|PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO,
 PTB|PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO,
