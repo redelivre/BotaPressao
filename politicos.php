@@ -455,10 +455,23 @@ function politicos_options_page() {
       $politicos_partidos[] = array( 'value' => $dupla[0] , 'content' => $dupla[1]);
     }
 
-    update_option('politicos_partidos' , $_POST['partidos']);
+    isset($_POST['partidos'])? update_option('politicos_partidos' , $_POST['partidos']):"";
+    isset($_POST['presidente'])? update_option('politicos_presidente' , $_POST['presidente']):"";
+    isset($_POST['vice_presidente'])? update_option('politicos_vice_presidente' , $_POST['vice_presidente']):"";
+    isset($_POST['ministro'])? update_option('politicos_ministro' , $_POST['ministro']):"";
+    isset($_POST['secretario'])? update_option('politicos_secretario' , $_POST['secretario']):"";
+    isset($_POST['deputado_federal'])? update_option('politicos_deputado_federal' , $_POST['deputado_federal']):"";
+    isset($_POST['senador'])? update_option('politicos_senador' , $_POST['senador']):"";
+    isset($_POST['governador'])? update_option('politicos_governador' , $_POST['governador']):"";
+    isset($_POST['vice_governador'])? update_option('politicos_vice_governador' , $_POST['vice_governador']):"";
+    isset($_POST['deputado_estadual'])? update_option('politicos_deputado_estadual' , $_POST['deputado_estadual']):"";
+    isset($_POST['prefeito'])? update_option('politicos_prefeito' , $_POST['prefeito']):"";
+    isset($_POST['vice_prefeito'])? update_option('politicos_vice_prefeito' , $_POST['vice_prefeito']):"";
+    isset($_POST['vereador'])? update_option('politicos_vereador' , $_POST['vereador']):"";
+    
+
     update_option('politicos_partidos_array' , $politicos_partidos);
   }
-  //isset($_POST['partidos']) ? update_option('politicos_partidos' , $_POST['partidos']) : '';
   ?>
     <div class="wrap">
     <h2>Configurações Politicos</h2>
@@ -487,9 +500,68 @@ function politicos_options_page() {
       <p>select<p>
       <p>    ["nome do campo", "tipo do campo", "informações no placeholder", options... ]</p>
       </p>
-      <p><strong>Presidente</strong></p>
-      <form method="submit">
-      <textarea name="fields_presidente" rows="5" cols="50" placeholder="Coloque shortcodes para definir novos campos ao presidentx" ></textarea>
+      <p><strong>Presidentx</strong></p>
+      <form method="post">
+      <textarea name="presidente" rows="5" cols="50" placeholder="Coloque shortcodes para definir novos campos" ><?php echo get_option('fields_presidente'); ?></textarea>
+      <?php submit_button( 'Salvar' ); ?>
+      </form>
+      <p><strong>Vice Presidentx</strong></p>
+      <form method="post">
+      <textarea name="vice_presidente" rows="5" cols="50" placeholder="Coloque shortcodes para definir novos campos" ><?php echo get_option('fields_vice_presidente'); ?></textarea>
+      <?php submit_button( 'Salvar' ); ?>
+      </form>
+      </form>
+      <p><strong>Ministrx</strong></p>
+      <form method="post">
+      <textarea name="ministro" rows="5" cols="50" placeholder="Coloque shortcodes para definir novos campos" ><?php echo get_option('fields_ministro'); ?></textarea>
+      <?php submit_button( 'Salvar' ); ?>
+      </form>
+      </form>
+      <p><strong>Secretárix</strong></p>
+      <form method="post">
+      <textarea name="secretario" rows="5" cols="50" placeholder="Coloque shortcodes para definir novos campos" ><?php echo get_option('fields_secretario'); ?></textarea>
+      <?php submit_button( 'Salvar' ); ?>
+      </form>
+      </form>
+      <p><strong>Deputadx Federal</strong></p>
+      <form method="post">
+      <textarea name="deputado_federal" rows="5" cols="50" placeholder="Coloque shortcodes para definir novos campos" ><?php echo get_option('fields_deputado_federal'); ?></textarea>
+      <?php submit_button( 'Salvar' ); ?>
+      </form>
+      </form>
+      <p><strong>Senadorx</strong></p>
+      <form method="post">
+      <textarea name="senador" rows="5" cols="50" placeholder="Coloque shortcodes para definir novos campos" ><?php echo get_option('fields_senador'); ?></textarea>
+      <?php submit_button( 'Salvar' ); ?>
+      </form>
+      </form>
+      <p><strong>Governadorx</strong></p>
+      <form method="post">
+      <textarea name="governador" rows="5" cols="50" placeholder="Coloque shortcodes para definir novos campos" ><?php echo get_option('fields_governador'); ?></textarea>
+      <?php submit_button( 'Salvar' ); ?>
+      </form>
+      </form>
+      <p><strong>Deputadx Estadual</strong></p>
+      <form method="post">
+      <textarea name="deputado_estadual" rows="5" cols="50" placeholder="Coloque shortcodes para definir novos campos" ><?php echo get_option('fields_deputado_estadual'); ?></textarea>
+      <?php submit_button( 'Salvar' ); ?>
+      </form>
+      </form>
+      <p><strong>Prefeitx</strong></p>
+      <form method="post">
+      <textarea name="prefeito" rows="5" cols="50" placeholder="Coloque shortcodes para definir novos campos" ><?php echo get_option('fields_prefeito'); ?></textarea>
+      <?php submit_button( 'Salvar' ); ?>
+      </form>
+      </form>
+      <p><strong>Vice Prefeitx</strong></p>
+      <form method="post">
+      <textarea name="vice_prefeito" rows="5" cols="50" placeholder="Coloque shortcodes para definir novos campos" ><?php echo get_option('fields_vice_prefeito'); ?></textarea>
+      <?php submit_button( 'Salvar' ); ?>
+      </form>
+      </form>
+      <p><strong>Vereadorx</strong></p>
+      <form method="post">
+      <textarea name="vereador" rows="5" cols="50" placeholder="Coloque shortcodes para definir novos campos" ><?php echo get_option('fields_vereador'); ?></textarea>
       <?php submit_button( 'Salvar' ); ?>
       </form>
 
@@ -497,6 +569,83 @@ function politicos_options_page() {
 
 
       <?php
+}
+
+add_action('init','politicos_menu');
+
+function politicos_menu()
+{
+  //add_menu_page( __('Painel Politicos','politicos'), __('Painel Politicos','jaiminho'), 'manage_options', 'politicos-settings', 'politicos_settings', POLITICOS_URL . 'img/jaiminho-bg-16.png' );
+  add_menu_page( __('Painel Politicos','politicos'), __('Painel Politicos','jaiminho'), 'manage_options', 'politicos-settings', 'politicos_settings');
+
+
+}
+
+
+function politicos_settings()
+{ ?>
+  <form method="post">
+  <div id="selecao_politicos">
+    <h1>Bota Pressão</h1>
+    <p>Qual o grupo instancia que deve ser precionado?</p>
+    <textarea placeholder="Entre com a lista de identificadores dos politcos" ></textarea>
+  </div> 
+  <div id="descricao">
+    <input type="text" name="titulo_pressao" id="titulo_pressao" placeholder="Qual o titúlo da sua pressão?"></input>
+    <br>
+    <textarea name="descricao_pressao" id="descricao_pressao" placeholder="Descreva sua pressão"></textarea>
+  </div>
+  <div>
+    redes e links e ...
+  </div>
+  <div id="ferramentas">
+    <p>Ferramentas - conjunto de infos dos deputados que devem aparecer em seus cards</p>
+    <p>
+      <input type="checkbox" id="email" name="email">
+      <label>Email
+    </p>
+    <p>
+      <input type="checkbox" id="facebook" name="facebook"/>
+      <label>Facebook</label>
+    </p>
+    <p>
+      <input type="checkbox" id="twitter" name="twitter"/>
+      <label>twitter</label>
+    </p>
+    <p>
+      <input type="checkbox" id="whatsapp" name="whatsapp"/>
+      <label>whatsapp</label>
+    </p>
+    <p>
+      <input type="checkbox" id="telefone" name="telefone"/>
+      <label>Telefone</label>
+    </p>
+    <p>
+      <label>Correio</label>
+      <br>
+      <p>
+        <input type="checkbox" id="cartao_postal" name="cartao_postal"/>
+        </label>Cartão Postal</label>
+      </p>
+      <p>
+        <input type="checkbox" id="telegrama" name="cartao_postal"/>
+        </label>Telegrama</label>
+      </p>
+      <p>
+        </label>Encomenda</label>
+        <p>
+          <input type="checkbox" id="flores" name="flores"/>
+          </label>Flores</label>
+        </p>
+        <p>
+          <input type="checkbox" id="carro_de_som" name="carro_de_som"/>
+          </label>Carro de Som</label>
+        </p>
+      </p>
+    </p>
+  </div>
+
+<?php  
 }
 
 
