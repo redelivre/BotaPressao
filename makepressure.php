@@ -191,7 +191,7 @@ function public_agent_the_meta($post)
   {
     $job = get_jobs();
 
-    $metas = public_agents_get_metas();
+    $metas = public_agent_get_metas();
     foreach($metas as $meta)
     {
       // se o usuário apertar o botão nos contabilizamos uma nova mensagem enviada a pessoa!
