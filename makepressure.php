@@ -1,14 +1,10 @@
 <?php
-/**
- * @package Politicos
- * @version 0.0
- */
 /*
    Plugin Name: Bota Pressão
    Plugin URI: http://redelivre.org.br
    Description: Plugin for manager and pressure a Public Agents
    Author: Maurilio Atila
-   Version: 0.0
+   Version: 0.1
    Author URI: https://twitter.com/cabelotaina
  */
 
@@ -104,10 +100,10 @@ function public_agent_get_metas()
             array ( 'value' => 'MT' , 'content' => 'Mato Grosso' ),
             array ( 'value' => 'MG' , 'content' => 'Minas Gerais' ),
             array ( 'value' => 'PA' , 'content' => 'Para' ),
-            array ( 'value' => 'PB' , 'content' => 'Paraíba' ),
-            array ( 'value' => 'PR' , 'content' => 'Paraná' ),
+            array ( 'value' => 'PB' , 'content' => 'Paraiba' ),
+            array ( 'value' => 'PR' , 'content' => 'Parana' ),
             array ( 'value' => 'PE' , 'content' => 'Pernambuco' ),
-            array ( 'value' => 'PI' , 'content' => 'Piauí' ),
+            array ( 'value' => 'PI' , 'content' => 'Piaui' ),
             array ( 'value' => 'RJ' , 'content' => 'Rio de Janeiro' ),
             array ( 'value' => 'RN' , 'content' => 'Rio Grande do Norte' ),
             array ( 'value' => 'RS' , 'content' => 'Rio Grande do Sul' ),
