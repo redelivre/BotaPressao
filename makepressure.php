@@ -4,55 +4,91 @@
  * @version 0.0
  */
 /*
-   Plugin Name: Politicos
+   Plugin Name: Bota Pressão
    Plugin URI: http://redelivre.org.br
-   Description: Plugin for manager a Politicos Content
+   Description: Plugin for manager and pressure a Public Agents
    Author: Maurilio Atila
    Version: 0.0
    Author URI: https://twitter.com/cabelotaina
  */
 
 defined('ABSPATH') or die('No script kiddies please!');
-define( 'POLITICOS_PATH', plugin_dir_path( __FILE__ ) );
+define( 'MAKE_PRESSURE_PATH', plugin_dir_path( __FILE__ ) );
 
-
-add_action('init', 'create_politicos');
-function create_politicos()
+add_action('init', 'create_public_agent');
+function create_public_agent()
 {
-  register_post_type('politicos',
-      array(
-        'labels' => array(
-          'name' => __('Politicos', 'politicos'),
-          'singular_name' => __('Politico', 'politicos'),
-          'add_new_item' => __('Adicionar Novo Politico', 'politicos'),
-          'edit_item' => __('Editar Politico', 'politicos'),
-          'all_items' => __('Todos os Politicos', 'politicos'),
-          'update_item' => __('Atualizar Politico', 'politicos'),
-          'search_items' => __('Buscar Politicos', 'politicos'),
-          'menu_name' => __('Politicos', 'politicos'),
-          'not_found' => __('Não Encontrado', 'politicos'),
-          'not_found_in_trash' => __('Não Encontrado na lixeira', 'politicos'),
-          'description' => __('Conjunto de Politicos', 'politicos')
-          ),
-        'public' => true,
-        'rewrite' => array(
-          'with_front' => false,
-          'slug' => 'politicos'
-          ),
-        'menu_icon' => 'dashicons-admin-users',
-        )
-          );
+ $labels = array(
+    'name'               => esc_html__( 'Agente Público', 'et_builder' ),
+    'singular_name'      => esc_html__( 'Agente Público', 'et_builder' ),
+    'add_new'            => esc_html__( 'Adicionar Novo', 'et_builder' ),
+    'add_new_item'       => esc_html__( 'Adicionar Novo Agente Público', 'et_builder' ),
+    'edit_item'          => esc_html__( 'Editar Agente Público', 'et_builder' ),
+    'new_item'           => esc_html__( 'Novo Agente Público', 'et_builder' ),
+    'all_items'          => esc_html__( 'Todos os Agentes Públicos', 'et_builder' ),
+    'view_item'          => esc_html__( 'Visuarlizar Agente Público Public Agent', 'et_builder' ),
+    'search_items'       => esc_html__( 'Buscar Agente Público', 'et_builder' ),
+    'not_found'          => esc_html__( 'Nada Encontrado', 'et_builder' ),
+    'not_found_in_trash' => esc_html__( 'Nada encontrado na Lixeira', 'et_builder' ),
+    'parent_item_colon'  => '',
+  );
+
+  $args = array(
+    'labels'             => $labels,
+    'public'             => true,
+    'publicly_queryable' => true,
+    'show_ui'            => true,
+    'can_export'         => true,
+    'show_in_nav_menus'  => true,
+    'query_var'          => true,
+    'has_archive'        => true,
+    'rewrite'            => apply_filters( 'et_public_agent_posttype_rewrite_args', array(
+      'feeds'      => true,
+      'slug'       => 'public_agent',
+      'with_front' => false,
+    ) ),
+    'capability_type'    => 'post',
+    'hierarchical'       => false,
+    'menu_position'      => null,
+    'supports'           => array( 'title', 'author', 'editor', 'thumbnail', 'excerpt', 'comments', 'revisions', 'custom-fields' ),
+    'taxonomies'         => array( 'category' ),
+  );
+
+  register_post_type( 'public_agent', apply_filters( 'et_public_agent_posttype_args', $args ) );
+
+
+        $labels = array(
+                'name'              => esc_html__( 'Tags de Agente Público', 'et_builder' ),
+                'singular_name'     => esc_html__( 'Tag de Agente Público', 'et_builder' ),
+                'search_items'      => esc_html__( 'Buscar Tags', 'et_builder' ),
+                'all_items'         => esc_html__( 'Todas as Tags', 'et_builder' ),
+                'parent_item'       => esc_html__( 'Tag Pai', 'et_builder' ),
+                'parent_item_colon' => esc_html__( 'Tag Pai:', 'et_builder' ),
+                'edit_item'         => esc_html__( 'Editar Tag', 'et_builder' ),
+                'update_item'       => esc_html__( 'Atualizar Tag', 'et_builder' ),
+                'add_new_item'      => esc_html__( 'Adicionar Nova Tag', 'et_builder' ),
+                'new_item_name'     => esc_html__( 'Novo nome de Tag', 'et_builder' ),
+                'menu_name'         => esc_html__( 'Tags', 'et_builder' ),
+        );
+
+        register_taxonomy( 'public_agent_tag', array( 'public_agent' ), array(
+                'hierarchical'      => false,
+                'labels'            => $labels,
+                'show_ui'           => true,
+                'show_admin_column' => true,
+                'query_var'         => true,
+        ) );
 }
 
 
-function politicos_get_metas()
+function public_agent_get_metas()
 {
   return array(
-      array ( 'label' => 'Email', 'slug'=>'politico_email' ,'info' => 'Nenhum Email Informado ' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-      array ( 'label' => 'Facebook', 'slug'=>'politico_facebook' ,'info' => 'Nenhum Facebook Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-      array ( 'label' => 'Twitter', 'slug'=>'politico_twitter' ,'info' => 'Nenhum Twitter Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-      array ( 'label' => 'WhatsApp', 'slug'=>'politico_whatsapp' ,'info' => 'Nenhum WhatsApp Informado' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-      array ( 'label' => 'Estado', 'slug'=>'politico_estado' ,'info' =>  'Nenhum Estado Informado', 'html' => array ('tag'=> 'select', 'options' => array(
+      array ( 'label' => 'Email', 'slug'=>'public_agent_email' ,'info' => __('Nenhum Email Informado ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+      array ( 'label' => 'Facebook', 'slug'=>'public_agent_facebook' ,'info' => __('Nenhum Facebook Informado', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+      array ( 'label' => 'Twitter', 'slug'=>'public_agent_twitter' ,'info' => __('Nenhum Twitter Informado', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+      array ( 'label' => 'WhatsApp', 'slug'=>'public_agent_whatsapp' ,'info' => __('Nenhum WhatsApp Informado', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+      array ( 'label' => __('Estado','makepressure'), 'slug'=>'public_agent_state' ,'info' =>  __('Nenhum Estado Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
             array ( 'value' => '' , 'content' => 'Selecione' ),
             array ( 'value' => 'AC' , 'content' => 'Acre' ),
             array ( 'value' => 'AL' , 'content' => 'Alagoas' ),
@@ -84,38 +120,40 @@ function politicos_get_metas()
               )
               )
               ),
-            array ( 'label' => 'Partido', 'slug'=>'politico_partido' ,'info' =>  'Nenhum Partido Informado', 'html' => array ('tag'=> 'select', 'options' => get_option('politicos_partidos_array'))),
-            array ( 'label' => 'Cargo Politico', 'slug'=>'politico_cargo' ,'info' =>  'Nenhum Cargo Informado', 'html' => array ('tag'=> 'select', 'options' => array(
-                    array ( 'value' => '' , 'content' => 'Selecione' ),
-                    array ( 'value' => 'presidente', 'content' => 'Presidentx' ) ,
-                    array ( 'value' => 'vice_presidente', 'content' => 'Vice-Presidentx' ) ,
-                    array ( 'value' => 'Ministro', 'content' => 'Ministrx' ) ,
-                    array ( 'value' => 'secretário', 'content' => 'Secretarix' ) ,
-                    array ( 'value'=> 'deputado_federal', 'content' => 'Deputadx Federal' ) ,
-                    array ( 'value' =>'senador', 'content' => 'Senadorx' ) ,
-                    array ( 'value' => 'governador', 'content' => 'Governadorx' ) ,
-                    array ( 'value' => 'vice_governador', 'content' => 'Vice-Governadorx' ) ,
-                    array ( 'value' => 'deputado_estadual', 'content' => 'Deputadx Estadual' ) ,
-                    array ( 'value' => 'prefeito', 'content' => 'Prefeitx' ), 
-                    array ( 'value' => 'vice_prefeito', 'content' => 'Vice-Prefeitx' ), 
-                    array ( 'value' => 'vereador', 'content' => 'Vereadorx' ) ,
-                    )
+            array ( 'label' => __('Partido', 'makepressure'), 'slug'=>'public_agent_partido' ,'info' =>  __('Nenhum Partido Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => get_option('public_agents_partidos_array'))),
+            array ( 'label' => __('Cargo Politico', 'makepressure'), 'slug'=>'people_cargo' ,'info' =>  __('Nenhum Cargo Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
+                    array ( 'value' => '' , 'content' => __('Selecione','makepressure') ),
+                    array ( 'value' => 'presidente', 'content' => __('Presidentx', 'makepressure') ) ,
+                    array ( 'value' => 'vice_presidente', 'content' => __('Vice-Presidentx', 'makepressure' ) ) ,
+                    array ( 'value' => 'Ministro', 'content' => __('Ministrx','makepressure') ) ,
+                    array ( 'value' => 'secretario_federal', 'content' => __('Secretarix Federal','makepressure') ) ,
+                    array ( 'value' => 'deputado_federal', 'content' => __('Deputadx Federal', 'makepressure') ) ,
+                    array ( 'value' => 'senador', 'content' => __('Senadorx','makepressure') ) ,
+                    array ( 'value' => 'governador', 'content' => __('Governadorx','makepressure') ) ,
+                    array ( 'value' => 'vice_governador', 'content' => __( 'Vice-Governadorx', 'makepressure') ) ,
+                    array ( 'value' => 'deputado_estadual', 'content' => __('Deputadx Estadual', 'makepressure') ) ,
+                    array ( 'value' => 'secretario_estadual', 'content' => __('Secretarix Estadual','makepressure') ) ,
+                    array ( 'value' => 'prefeito', 'content' => __('Prefeitx', 'makepressure') ), 
+                    array ( 'value' => 'vice_prefeito', 'content' => __('Vice-Prefeitx', 'makepressure') ), 
+                    array ( 'value' => 'vereador', 'content' => __('Vereadorx', 'makepressure') ) ,
+                    array ( 'value' => 'secretario_municipal', 'content' => __('Secretarix Municipal','makepressure') ) ,
                   )
-                ),
-            array ( 'label' => 'Gênero', 'slug'=>'politico_genero' ,'info' =>  'Nenhuma gênero Informado', 'html' => array ('tag'=> 'select', 'options' => array(
+                )
+            ),
+            array ( 'label' => 'Gênero', 'slug'=>'people_genero' ,'info' =>  __('Nenhuma gênero Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
                     array ( 'value' => '' , 'content' => 'Selecione' ),
-                    array ( 'value' => 'Feminino' , 'content' => 'Feminino' ),
-                    array ( 'value' => 'Masculino' , 'content' => 'Masculino' )))),
-            array ( 'label' => 'Declaração de voto', 'slug'=>'politico_declaracao_voto' ,'info' => 'Nenhuma Declaração de voto Informada ' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-            array ( 'label' => 'Ocorrências Judiciais', 'slug'=>'politico_ocorrencias' ,'info' => 'Nenhuma Ocorrencia Judicial Informada ', 'html' => array ('tag'=> 'textarea', 'rows' => 4 , 'cols' => 50 ) ),
-            array ( 'label' => 'Número de ocorrências', 'slug'=>'politico_numero_ocorrencias' ,'info' => 'Nenhum Número de Ocorrências Informado ' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-            array ( 'label' => 'Tipo de Voto', 'slug'=>'politico_tipo_voto' ,'info' =>  'Nenhum Tipo de Voto Informado', 'html' => array ('tag'=> 'select', 'options' => array(
-                    array ( 'value' => '' , 'content' => 'Selecione' ),
-                    array ( 'value' => 'Sim' , 'content' => 'Sim' ),
-                    array ( 'value' => 'Indeciso' , 'content' => 'Indeciso' ),
-                    array ( 'value' => 'Não' , 'content' => 'Não' )))),
-            array ( 'label' => 'Bancada que compões', 'slug'=>'politico_bancada' ,'info' => 'Nenhuma Bancada Informada ' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-            array ( 'label' => 'Profissão', 'slug'=>'politico_profissao' ,'info' => 'Nenhuma Profissão Informada ' , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+                    array ( 'value' => 'Feminino' , 'content' => __('Feminino', 'makepressure') ),
+                    array ( 'value' => 'Masculino' , 'content' => __('Masculino', 'makepressure') )))),
+            array ( 'label' => __('Declaração de voto', 'makepressure'), 'slug'=>'people_declaracao_voto' ,'info' => __('Nenhuma Declaração de voto Informada ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+            array ( 'label' => __('Ocorrências Judiciais', 'makepressure'), 'slug'=>'people_ocorrencias' ,'info' => __('Nenhuma Ocorrencia Judicial Informada ', 'makepressure'), 'html' => array ('tag'=> 'textarea', 'rows' => 4 , 'cols' => 50 ) ),
+            array ( 'label' => __('Número de ocorrências', 'makepressure'), 'slug'=>'people_numero_ocorrencias' ,'info' => __('Nenhum Número de Ocorrências Informado ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+            array ( 'label' => __('Tipo de Voto', 'makepressure'), 'slug'=>'people_tipo_voto' ,'info' =>  __('Nenhum Tipo de Voto Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
+                    array ( 'value' => '' , 'content' => __('Selecione', 'makepressure') ),
+                    array ( 'value' => 'Sim' , 'content' => __('Sim', 'makepressure') ),
+                    array ( 'value' => 'Indeciso' , 'content' => __('Indeciso', 'makepressure') ),
+                    array ( 'value' => 'Não' , 'content' => 'Não', __('makepressure') )))),
+            array ( 'label' => __('Bancada que compões', 'makepressure'), 'slug'=>'people_bancada' ,'info' => __('Nenhuma Bancada Informada ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+            array ( 'label' => __('Profissão', 'makepressure'), 'slug'=>'people_profissao' ,'info' => __('Nenhuma Profissão Informada ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
             ); 
 
 
@@ -124,57 +162,45 @@ function politicos_get_metas()
 function get_jobs()
 {
   return array (
-      array ( 'presidente' => 'Presidentx' ) ,
-      array ( 'vice_presidente' => 'Vice-Presidentx' ) ,
-      array ( 'Ministro' => 'Ministrx' ) ,
-      array ( 'secretário' => 'Secretarix' ) ,
-      array ( 'deputado_federal' => 'Deputadx Federal' ) ,
-      array ( 'senador' => 'Senadorx' ) ,
-      array ( 'governador' => 'Governador' ) ,
-      array ( 'vice_governador' => 'Vice-Governador' ) ,
-      array ( 'deputado_estadual' => 'Deputado Estadual' ) ,
-      array ( 'prefeito' => 'Prefeito' ), 
-      array ( 'vice_prefeito' => 'Vice-Prefeito' ), 
-      array ( 'vereador' => 'Vereador' ) ,
-      );
+      array ( 'presidente' => __('Presidentx', 'makepressure') ) ,
+      array ( 'vice_presidente' => __('Vice-Presidentx', 'makepressure') ) ,
+      array ( 'ministro' => __('Ministrx' , 'makepressure') ) ,
+      array ( 'secretario_federal' => __('Secretarix Federal' ) ),
+      array ( 'deputado_federal' => __('Deputadx Federal', 'makepressure') ) ,
+      array ( 'senador' => __('Senadorx', 'makepressure') ) ,
+
+      array ( 'governador' => __('Governador', 'makepressure') ) ,
+      array ( 'vice_governador' => __('Vice-Governador', 'makepressure') ) ,
+      array ( 'secretario_estadual' => __('Secretarix Estadual' ) ),
+      array ( 'deputado_estadual' => __('Deputado Estadual', 'makepressure') ) ,
+      
+      array ( 'prefeito' => __('Prefeito', 'makepressure') ), 
+      array ( 'vice_prefeito' => __('Vice-Prefeito', 'makepressure') ), 
+      array ( 'vereador' => __('Vereador', 'makepressure') ) ,
+      array ( 'secretario_municipal' => __('Secretarix Municipal' ) ) ,
+  );
 
 }
 
-
-function politicos_add_picture($post)
-{
-  if (is_home() && is_front_page()) return;
-  $post = $post->queried_object;
-  if (isset($post->post_type) && $post->post_type!="politicos") return ; 
-  if (isset($post->post_type) && $post->post_type=="politicos") {
-    $picture_meta = get_post_meta( $post->ID, 'politico_picture', true);
-    ?>
-      <p>
-      <img id="picture" src="<?php if ( isset ( $picture_meta ) ) echo $picture_meta; ?>">
-      <?php
-  }
-}
-
-add_action('loop_start' , 'politicos_add_picture' );
-
-function politicos_the_meta($post)
+function public_agent_the_meta($post)
 {
   if( !is_object($post) ) return;
   $post = $post->queried_object;
-  if (isset($post->post_type) && $post->post_type!="politicos") return; 
-  if (isset($post->post_type) && $post->post_type=="politicos") 
+  if (isset($post->post_type) && $post->post_type!="public_agent") return; 
+  if (isset($post->post_type) && $post->post_type=="public_agent") 
   {
     $job = get_jobs();
 
-    $metas = politicos_get_metas();
+    $metas = public_agents_get_metas();
     foreach($metas as $meta)
     {
-      if ($meta['slug'] == "politico_email"){
+      // se o usuário apertar o botão nos contabilizamos uma nova mensagem enviada a pessoa!
+      if ($meta['slug'] == "public_agent_email"){
         ?>
           <ul class="post-meta">
           <li><span class="post-meta-key">Email:</span>
-          <a href="mailto:<?php print_r(get_post_meta( $post->ID, 'politico_email', true)); ?>?subject=Excelentissimo%20<?php echo get_post_meta( $post->ID, 'politico_cargo', true); ?>%20<?php echo get_the_title(); ?>&body=Excelentissimo%20<?php echo (get_post_meta( $post->ID, 'politico_cargo', true) != null)?$job[0][get_post_meta( $post->ID, 'politico_cargo', true)]:""; ?>%20<?php echo get_the_title(); ?>,%20...">
-          <?php print_r(get_post_meta( $post->ID, 'politico_email', true)); ?>
+          <a href="mailto:<?php print_r(get_post_meta( $post->ID, 'public_agent_email', true)); ?>?subject=Excelentissimo%20<?php echo get_post_meta( $post->ID, 'public_agent_cargo', true); ?>%20<?php echo get_the_title(); ?>&body=Excelentissimo%20<?php echo (get_post_meta( $post->ID, 'public_agent_cargo', true) != null)?$job[0][get_post_meta( $post->ID, 'public_agent_cargo', true)]:""; ?>%20<?php echo get_the_title(); ?>,%20...">
+          <?php print_r(get_post_meta( $post->ID, 'public_agent_email', true)); ?>
           </a>
           </li>
           <?php 
@@ -191,96 +217,39 @@ function politicos_the_meta($post)
   }
 }
 
-add_action("loop_end", "politicos_the_meta");
+add_action("loop_end", "public_agent_the_meta");
 
-function politicos_change_post_placeholder($title)
+function public_agent_change_post_placeholder($title)
 {
   $screen = get_current_screen();
-  if ('politicos' == $screen->post_type) {
-    $title = 'Insira o nome do deputado';
+  if ('public_agent' == $screen->post_type) {
+    $title = __('Insira o nome do Agente Público', 'makepressure');
   }
   return $title;
 }
 
-add_filter('enter_title_here', 'politicos_change_post_placeholder');
+add_filter('enter_title_here', 'public_agent_change_post_placeholder');
 
-add_action('pre_get_posts', 'add_politicos_to_query');
+add_action('pre_get_posts', 'add_public_agent_to_query');
 
-function add_politicos_to_query($query)
+function add_public_agent_to_query($query)
 {
   if (is_home() && $query->is_main_query())
-    $query->set('post_type', array('post', 'page', 'politicos'));
+    $query->set('post_type', array('post', 'page', 'public_agent'));
   return $query;
 }
 
-add_action('admin_menu', 'politicos_meta_box');
-add_action('save_post', 'save_politicos_meta_box', 10, 2);
+add_action('admin_menu', 'public_agent_meta_box');
 
-function politicos_meta_box()
+function public_agent_meta_box()
 {
-  add_meta_box('politico-meta-box', 'Informações Complementares', 'display_politico_meta_box', 'politicos', 'normal', 'high');
-  add_meta_box('politico-picture-meta-box', 'Imagem', 'display_politico_picture_meta_box', 'politicos', 'normal', 'high');
+  add_meta_box('public_agent-meta-box', __('Informações Complementares', 'makepressure'), 'display_public_agent_meta_box', 'public_agent', 'normal', 'high');
 
 }
 
-function display_politico_picture_meta_box($post)
-{
-  // jQuery
-  wp_enqueue_script('jquery');
-  // This will enqueue the Media Uploader script
-  wp_enqueue_media();
-  $picture_meta = get_post_meta( $post->ID, 'politico_picture', true);
-
-  if(empty($picture_meta))
-  {
-    $id = get_post_meta($post->ID, 'politico_id_planilha', true);
-    $upload = wp_upload_dir();
-    if( !empty($id) && file_exists($upload['basedir']."/fotos/".$id.".jpg"))
-    {
-      $picture_meta = $upload['baseurl']."/fotos/".$id.".jpg";
-      update_post_meta( $post->ID, 'politico_picture', $picture_meta);
-    }
-  }
-
-  ?>
-    <p>
-    <img id="picture" src="<?php if ( isset ( $picture_meta ) ) echo $picture_meta; ?>">
-    <p>
-    <p>
-    <label for="politico_picture" class="politico_picture"><?php _e( 'Foto', 'politicos' )?></label>
-    <!!-- XXX arrumar a imagem do politico sem imagem-->
-    <input type="text" name="politico_picture" id="politico_picture" value="<?php if ( isset ( $picture_meta ) ) echo $picture_meta; ?>" />
-    <input type="button" id="politico_picture_button" class="politico_picture_button" value="<?php _e( 'Escolha uma imagem para o politico', 'politicos' )?>" />
-    </p>
-    <script type="text/javascript">
-    jQuery(document).ready(function($){
-        $('#politico_picture_button').click(function(e) {
-          e.preventDefault();
-          var image = wp.media({ 
-title: 'Enviar foto',
-// mutiple: true if you want to upload multiple files at once
-multiple: false
-}).open()
-          .on('select', function(e){
-            // This will return the selected image from the Media Uploader, the result is an object
-            var uploaded_image = image.state().get('selection').first();
-            // We convert uploaded_image to a JSON object to make accessing it easier
-            // Output to the console uploaded_image
-            console.log(uploaded_image);
-            var politico_picture = uploaded_image.toJSON().url;
-            // Let's assign the url value to the input field
-            $('#politico_picture').val(politico_picture);
-            });
-          });
-        });
-</script>
-<?php
-}
-
-
-function display_politico_meta_box($object, $box)
+function display_public_agent_meta_box($object, $box)
 { 
-  $metas = politicos_get_metas();
+  $metas = public_agent_get_metas();
   foreach($metas as $meta)
   {
 
@@ -328,19 +297,17 @@ function display_politico_meta_box($object, $box)
         <?php
     }
   } 
-  ?>
-    <input type="hidden" name="my_meta_box_nonce"
-    value="<?php echo wp_create_nonce(plugin_basename(__FILE__)); ?>"/>
+?>
+    <input type="hidden" name="makepressure_meta_box_nonce" value="<?php echo wp_create_nonce(plugin_basename(__FILE__)); ?>"/>
+<?php }
 
-    <?php }
-
-function save_politicos_meta_box($post_id, $post)
+add_action('save_post', 'save_public_agent_meta_box', 10, 2);
+function save_public_agent_meta_box($post_id, $post)
 {
   if (!current_user_can('edit_post', $post_id))
     return;
 
-  $metas = politicos_get_metas();
-  $metas[] = array ( 'slug' => 'politico_picture');
+  $metas = public_agent_get_metas();
   foreach ( $metas as $meta)
   {
     if (isset($_POST[$meta['slug']])) {
@@ -358,14 +325,14 @@ function save_politicos_meta_box($post_id, $post)
   }
 }
 
-//insert collumns on administration Deputado's page
+//insert collumns on administration Public Agents page
 
-add_filter('manage_politicos_posts_columns', 'politicos_filter_columns');
+add_filter('manage_public_agent_posts_columns', 'public_agent_filter_columns');
 
-function politicos_filter_columns($columns)
+function public_agent_filter_columns($columns)
 {
   // this will add the column to the end of the array
-  $metas = politicos_get_metas();
+  $metas = public_agent_get_metas();
   $i = 0;
   foreach ( $metas as $meta)
   {
@@ -376,12 +343,12 @@ function politicos_filter_columns($columns)
   return $columns;
 }
 
-add_action('manage_posts_custom_column', 'politicos_action_custom_columns_content', 10, 2);
+add_action('manage_posts_custom_column', 'public_agent_action_custom_columns_content', 10, 2);
 
-function politicos_action_custom_columns_content($column_id, $post_id)
+function public_agent_action_custom_columns_content($column_id, $post_id)
 {
   //run a switch statement for all of the custom columns created
-  $metas = politicos_get_metas();
+  $metas = public_agent_get_metas();
   $i = 0;
   foreach ( $metas as $meta)
   {
@@ -392,16 +359,15 @@ function politicos_action_custom_columns_content($column_id, $post_id)
   }
 }
 
-
 // pages and search system
-function politicos_rewrite_add_var( $vars ) {
+function public_agent_rewrite_add_var( $vars ) {
   $vars[] = 'busca';
   return $vars;
 }
-add_filter( 'query_vars', 'politicos_rewrite_add_var' );
+add_filter( 'query_vars', 'public_agent_rewrite_add_var' );
 
 // Create the rewrites
-function politicos_rewrite_rule() {
+function public_agent_rewrite_rule() {
   add_rewrite_tag( '%busca%', '([^&]+)' );
   add_rewrite_rule(
       '^busca',
@@ -409,88 +375,92 @@ function politicos_rewrite_rule() {
       'top'
       );
 }
-add_action('init','politicos_rewrite_rule');
+add_action('init','public_agent_rewrite_rule');
 
 // Catch the URL and redirect it to a template file
-function politicos_rewrite_catch() {
+function public_agent_rewrite_catch() {
   global $wp_query;
   if ( array_key_exists( 'busca', $wp_query->query_vars ) ) {
-    include ( POLITICOS_PATH . 'politicos_list.php');
+    include ( MAKE_PRESSURE_PATH . 'people_list.php');
     exit;
   }
 }
-add_action( 'template_redirect', 'politicos_rewrite_catch' );
+add_action( 'template_redirect', 'public_agent_rewrite_catch' );
 
 // Filter wp_nav_menu() to add additional links and other output
-function politicos_nav_menu_items($items) {
-  $politicos_link = '<li class="politicos"><a href="' . home_url( '/busca' ) . '">' . __('Busca' , 'politicos') . '</a></li>';
+function public_agent_nav_menu_item($items) {
+  $public_agents_link = '<li class="search_people"><a href="' . home_url( '/busca' ) . '">' . __('Busca' , 'public_agent') . '</a></li>';
   // add the home link to the end of the menu
-  $items = $items . $politicos_link;
+  $items = $items . $public_agents_link;
   return $items;
 }
-add_filter( 'wp_nav_menu_items', 'politicos_nav_menu_items' );
+add_filter( 'wp_nav_menu_items', 'public_agent_nav_menu_item' );
 
 //options page
-add_action( 'admin_menu', 'politicos_custom_admin_menu' );
+add_action( 'admin_menu', 'public_agent_custom_admin_menu' );
 
-function politicos_custom_admin_menu() {
+function public_agent_custom_admin_menu() {
   add_options_page(
-      'Configurações dos Politicos',
-      'Configurações dos Politicos',
+      __('Configurações dos Agentes Públicos', 'makepressure'),
+      __('Configurações dos Agentes Públicos', 'makepressure'),
       'manage_options',
-      'politicos',
-      'politicos_options_page'
+      'public_agents',
+      'public_agents_options_page'
       );
 
 }
 
-function politicos_options_page() {
+function public_agent_options_page() {
 
   if ( isset( $_POST['partidos'] ) )
   {
-    $politicos_partidos = array( array ( 'value' => '' , 'content' => 'Selecione' ) );
+    $public_agents_partidos = array( array ( 'value' => '' , 'content' => __('Selecione', 'makepressure') ) );
     $duplas = explode( ',' , $_POST['partidos'] ) ;
     foreach( $duplas as $dupla)
     {
-      $politicos_partidos[] = array( 'value' => $dupla[0] , 'content' => $dupla[1]);
+      $public_agents_partidos[] = array( 'value' => $dupla[0] , 'content' => $dupla[1]);
     }
 
-    isset($_POST['partidos'])? update_option('politicos_partidos' , $_POST['partidos']):"";
-    isset($_POST['presidente'])? update_option('politicos_presidente' , $_POST['presidente']):"";
-    isset($_POST['vice_presidente'])? update_option('politicos_vice_presidente' , $_POST['vice_presidente']):"";
-    isset($_POST['ministro'])? update_option('politicos_ministro' , $_POST['ministro']):"";
-    isset($_POST['secretario'])? update_option('politicos_secretario' , $_POST['secretario']):"";
-    isset($_POST['deputado_federal'])? update_option('politicos_deputado_federal' , $_POST['deputado_federal']):"";
-    isset($_POST['senador'])? update_option('politicos_senador' , $_POST['senador']):"";
-    isset($_POST['governador'])? update_option('politicos_governador' , $_POST['governador']):"";
-    isset($_POST['vice_governador'])? update_option('politicos_vice_governador' , $_POST['vice_governador']):"";
-    isset($_POST['deputado_estadual'])? update_option('politicos_deputado_estadual' , $_POST['deputado_estadual']):"";
-    isset($_POST['prefeito'])? update_option('politicos_prefeito' , $_POST['prefeito']):"";
-    isset($_POST['vice_prefeito'])? update_option('politicos_vice_prefeito' , $_POST['vice_prefeito']):"";
-    isset($_POST['vereador'])? update_option('politicos_vereador' , $_POST['vereador']):"";
+    isset($_POST['partidos'])? update_option('public_agent_partidos' , $_POST['partidos']):"";
+    isset($_POST['presidente'])? update_option('public_agent_presidente' , $_POST['presidente']):"";
+    isset($_POST['vice_presidente'])? update_option('public_agent_vice_presidente' , $_POST['vice_presidente']):"";
+    isset($_POST['ministro'])? update_option('public_agent_ministro' , $_POST['ministro']):"";
+    isset($_POST['secretario_federal'])? update_option('public_agent_secretario_federal' , $_POST['secretario_federal']):"";
+    isset($_POST['deputado_federal'])? update_option('public_agent_deputado_federal' , $_POST['deputado_federal']):"";
+    isset($_POST['senador'])? update_option('public_agent_senador' , $_POST['senador']):"";
+    isset($_POST['governador'])? update_option('public_agent_governador' , $_POST['governador']):"";
+    isset($_POST['vice_governador'])? update_option('public_agent_vice_governador' , $_POST['vice_governador']):"";
+    isset($_POST['deputado_estadual'])? update_option('public_agent_deputado_estadual' , $_POST['deputado_estadual']):"";
+    isset($_POST['secretario_estadual'])? update_option('public_agent_secretario_estadual' , $_POST['secretario_estadual']):"";
+    isset($_POST['prefeito'])? update_option('public_agent_prefeito' , $_POST['prefeito']):"";
+    isset($_POST['vice_prefeito'])? update_option('public_agent_vice_prefeito' , $_POST['vice_prefeito']):"";
+    isset($_POST['vereador'])? update_option('public_agent_vereador' , $_POST['vereador']):"";
+    isset($_POST['secretario_municipal'])? update_option('public_agent_secretario_municipal' , $_POST['secretario_municipal']):"";
+
     
 
-    update_option('politicos_partidos_array' , $politicos_partidos);
+    update_option('public_agent_partidos_array' , $public_agents_partidos);
   }
+
   ?>
     <div class="wrap">
-    <h2>Configurações Politicos</h2>
-    Por favor insira abaixo os Partidos Politicos, da seguinte forma:
+    <h2><?php _e('Configurações Politicos', 'makepressure'); ?></h2>
+    <?php _e('Por favor insira abaixo os Partidos Politicos, da seguinte forma:' , 'makepressure'); ?>
     <br>
-    sigla|nome do partido,
-    sigla|nome do partido
+    <?php _e( 'sigla|nome do partido,
+    sigla|nome do partido', 'makepressure'); ?>
       <br>
       <form method="post" >
-      <textarea name="partidos" rows="20" cols="50" ><?php echo get_option('politicos_partidos'); ?></textarea>
-      <?php submit_button( 'Salvar' ); ?>
+      <textarea name="partidos" rows="20" cols="50" ><?php echo get_option('public_agent_partidos'); ?></textarea>
+      <?php submit_button( __('Salvar', 'makepressure') ); ?>
       </form>
       </div>
       <div>
 
-      <h4>definir novos campos para os politicos</h4>
-      <p>Abaixo você pode definir campos novos aos vários politicos, basta usar os shortcodes do bota pressão:
+      <h4>definir novos campos para os public_agents</h4>
+      <p><?php _e('Abaixo você pode definir campos novos aos vários public_agents, basta usar os shortcodes do bota pressão:', 'makepressure' ); ?>
 
-      <p>["nome do campo", "tipo do campo", "informações no placeholder"]</p>
+      <p><?php _e('["nome do campo", "tipo do campo", "informações no placeholder"]', 'makepressure'); ?></p>
 
       <strong>tipos de campos disponiveis:</strong>
       <p>text</p>
@@ -568,27 +538,23 @@ function politicos_options_page() {
       </div>
 
 
-      <?php
+    <?php
 }
 
-add_action('init','politicos_menu');
+add_action('init','public_agents_menu');
 
-function politicos_menu()
+function public_agents_menu()
 {
-  //add_menu_page( __('Painel Politicos','politicos'), __('Painel Politicos','jaiminho'), 'manage_options', 'politicos-settings', 'politicos_settings', POLITICOS_URL . 'img/jaiminho-bg-16.png' );
-  add_menu_page( __('Painel Politicos','politicos'), __('Painel Politicos','jaiminho'), 'manage_options', 'politicos-settings', 'politicos_settings');
-
-
+  add_menu_page( __('Painel Agentes Públicos','makepressure'), __('Painel Agentes Publicos','makepressure'), 'manage_options', 'public_agents-settings', 'public_agents_settings');
 }
 
-
-function politicos_settings()
+function public_agents_settings()
 { ?>
   <form method="post">
-  <div id="selecao_politicos">
+  <div id="selecao_public_agents">
     <h1>Bota Pressão</h1>
     <p>Qual o grupo instancia que deve ser precionado?</p>
-    <textarea placeholder="Entre com a lista de identificadores dos politcos" ></textarea>
+    <textarea placeholder="Entre com a lista de identificadores dos Agentes Públicos" ></textarea>
   </div> 
   <div id="descricao">
     <input type="text" name="titulo_pressao" id="titulo_pressao" placeholder="Qual o titúlo da sua pressão?"></input>
@@ -650,7 +616,7 @@ function politicos_settings()
 
 
 
-function politicos_activation()
+function public_agents_activation()
 {
   // comissao
 
@@ -669,7 +635,7 @@ function politicos_activation()
 
   $bancadas_vereadores = ""; 
 
-  $politicos_partidos = "PMDB|PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO,
+  $public_agents_partidos = "PMDB|PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO,
     PTB|PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO,
     PDT|PARTIDO DEMOCRÁTICO TRABALHISTA,
     PT|PARTIDO DOS TRABALHADORES,
@@ -705,7 +671,7 @@ function politicos_activation()
     REDE|REDE SUSTENTABILIDADE,
     PMB|PARTIDO DA MULHER BRASILEIRA";
 
-  $politicos_partidos_array = array( 
+  $public_agents_partidos_array = array( 
       array ( 'value' => '' , 'content' => 'Selecione' ),
       array ( 'value' => 'PMDB' , 'content' => 'PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO' ) ,
       array ( 'value' => 'PTB' , 'content' => 'PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO' ) ,
@@ -742,15 +708,15 @@ function politicos_activation()
       array ( 'value' => 'NOVO' , 'content' => 'PARTIDO NOVO' ) ,
       array ( 'value' => 'REDE' , 'content' => 'REDE SUSTENTABILIDADE' ) ,
       array ( 'value' => 'PMB' , 'content' => 'PARTIDO DA MULHER BRASILEIRA' )
-        );
+    );
 
 
-  update_option('politicos_partidos' , $politicos_partidos );
-  update_option('politicos_partidos_array' , $politicos_partidos_array );
+  update_option('public_agents_partidos' , $public_agents_partidos );
+  update_option('public_agents_partidos_array' , $public_agents_partidos_array );
 
 }
 
-register_activation_hook( __FILE__, 'politicos_activation' );
+register_activation_hook( __FILE__, 'public_agents_activation' );
 
 require_once dirname(__FILE__)."/options.php"; 
 
