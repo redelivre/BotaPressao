@@ -97,6 +97,10 @@ function public_agent_get_metas()
     $metas[] = array ( 'label' => 'Twitter', 'slug'=>'public_agent_twitter' ,'info' => __('Nenhum Twitter Informado', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' ));
   }
   
+  if ( get_option('makepressure_telefone_show') ) {
+    $metas[] = array ( 'label' => 'Telefone', 'slug'=>'public_agent_telefone' ,'info' => __('Nenhum Telefone Informado', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' ));
+  }
+
   $metas[] = array ( 'label' => __('Estado','makepressure'), 'slug'=>'public_agent_state' ,'info' =>  __('Nenhum Estado Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
       array ( 'value' => '' , 'content' => 'Selecione' ),
       array ( 'value' => 'AC' , 'content' => 'Acre' ),
@@ -555,6 +559,7 @@ function prefix_admin_update_options() {
     update_option( "makepressure_facebook_show", $_POST["twitter"] == 'on'? "1" : '0' );
     update_option( "makepressure_twitter_show", $_POST["twitter"] == 'on'? "1" : '0' );
     update_option( "makepressure_whatsapp_show", $_POST["twitter"] == 'on'? "1" : '0' );
+    update_option( "makepressure_telefone_show", $_POST["twitter"] == 'on'? "1" : '0' );
 
 
     wp_redirect( "admin.php?page=makepressure_menu" );
@@ -733,6 +738,7 @@ function public_agents_activation()
   update_option( "makepressure_facebook_show", '1' );
   update_option( "makepressure_twitter_show", '1' );
   update_option( "makepressure_whatsapp_show", '1' );
+  update_option( "makepressure_telefone_show", '1' );
 
 }
 
