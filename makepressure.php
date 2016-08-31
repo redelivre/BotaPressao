@@ -22,7 +22,7 @@ function create_public_agent()
     'edit_item'          => esc_html__( 'Editar Agente Público', 'et_builder' ),
     'new_item'           => esc_html__( 'Novo Agente Público', 'et_builder' ),
     'all_items'          => esc_html__( 'Todos os Agentes Públicos', 'et_builder' ),
-    'view_item'          => esc_html__( 'Visuarlizar Agente Público Public Agent', 'et_builder' ),
+    'view_item'          => esc_html__( 'Visualizar Agente Público', 'et_builder' ),
     'search_items'       => esc_html__( 'Buscar Agente Público', 'et_builder' ),
     'not_found'          => esc_html__( 'Nada Encontrado', 'et_builder' ),
     'not_found_in_trash' => esc_html__( 'Nada encontrado na Lixeira', 'et_builder' ),
@@ -79,45 +79,60 @@ function create_public_agent()
 
 function public_agent_get_metas()
 {
-  return array(
-      array ( 'label' => 'Email', 'slug'=>'public_agent_email' ,'info' => __('Nenhum Email Informado ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-      array ( 'label' => 'Facebook', 'slug'=>'public_agent_facebook' ,'info' => __('Nenhum Facebook Informado', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-      array ( 'label' => 'Twitter', 'slug'=>'public_agent_twitter' ,'info' => __('Nenhum Twitter Informado', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-      array ( 'label' => 'WhatsApp', 'slug'=>'public_agent_whatsapp' ,'info' => __('Nenhum WhatsApp Informado', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-      array ( 'label' => __('Estado','makepressure'), 'slug'=>'public_agent_state' ,'info' =>  __('Nenhum Estado Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
-            array ( 'value' => '' , 'content' => 'Selecione' ),
-            array ( 'value' => 'AC' , 'content' => 'Acre' ),
-            array ( 'value' => 'AL' , 'content' => 'Alagoas' ),
-            array ( 'value' => 'AP' , 'content' => 'Amapa' ),
-            array ( 'value' => 'AM' , 'content' => 'Amazonas' ),
-            array ( 'value' => 'BA' , 'content' => 'Bahia' ),
-            array ( 'value' => 'CE' , 'content' => 'Ceara' ),
-            array ( 'value' => 'DF' , 'content' => 'Distrito Federal' ),
-            array ( 'value' => 'ES' , 'content' => 'Espirito Santo' ),
-            array ( 'value' => 'GO' , 'content' => 'Goias' ),
-            array ( 'value' => 'MA' , 'content' => 'Maranhao' ),
-            array ( 'value' => 'MS' , 'content' => 'Mato Grosso do Sul' ),
-            array ( 'value' => 'MT' , 'content' => 'Mato Grosso' ),
-            array ( 'value' => 'MG' , 'content' => 'Minas Gerais' ),
-            array ( 'value' => 'PA' , 'content' => 'Para' ),
-            array ( 'value' => 'PB' , 'content' => 'Paraiba' ),
-            array ( 'value' => 'PR' , 'content' => 'Parana' ),
-            array ( 'value' => 'PE' , 'content' => 'Pernambuco' ),
-            array ( 'value' => 'PI' , 'content' => 'Piaui' ),
-            array ( 'value' => 'RJ' , 'content' => 'Rio de Janeiro' ),
-            array ( 'value' => 'RN' , 'content' => 'Rio Grande do Norte' ),
-            array ( 'value' => 'RS' , 'content' => 'Rio Grande do Sul' ),
-            array ( 'value' => 'RO' , 'content' => 'Rondonia' ),
-            array ( 'value' => 'RR' , 'content' => 'Roraima' ),
-            array ( 'value' => 'SC' , 'content' => 'Santa Catarina' ),
-            array ( 'value' => 'SP' , 'content' => 'Sao Paulo' ),
-            array ( 'value' => 'SE' , 'content' => 'Sergipe' ),
-            array ( 'value' => 'TO' , 'content' => 'Tocantins' )
-              )
-              )
-              ),
-            array ( 'label' => __('Partido', 'makepressure'), 'slug'=>'public_agent_partido' ,'info' =>  __('Nenhum Partido Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => get_option('public_agents_partidos_array'))),
-            array ( 'label' => __('Cargo Politico', 'makepressure'), 'slug'=>'public_agent_cargo' ,'info' =>  __('Nenhum Cargo Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
+  $metas = array();
+
+  if ( get_option('makepressure_email_show') ) {
+    $metas[] = array ( 'label' => 'Email', 'slug'=>'public_agent_email' ,'info' => __('Nenhum Email Informado ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' ));
+  }
+
+  if ( get_option('makepressure_facebook_show') ) {
+    $metas[] = array ( 'label' => 'Facebook', 'slug'=>'public_agent_facebook' ,'info' => __('Nenhum Facebook Informado', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' ));
+  }
+
+  if ( get_option('makepressure_whatsapp_show') ) {
+    $metas[] = array ( 'label' => 'WhatsApp', 'slug'=>'public_agent_whatsapp' ,'info' => __('Nenhum WhatsApp Informado', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' ));
+  }
+
+  if ( get_option('makepressure_twitter_show') ) {
+    $metas[] = array ( 'label' => 'Twitter', 'slug'=>'public_agent_twitter' ,'info' => __('Nenhum Twitter Informado', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' ));
+  }
+  
+  $metas[] = array ( 'label' => __('Estado','makepressure'), 'slug'=>'public_agent_state' ,'info' =>  __('Nenhum Estado Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
+      array ( 'value' => '' , 'content' => 'Selecione' ),
+      array ( 'value' => 'AC' , 'content' => 'Acre' ),
+      array ( 'value' => 'AL' , 'content' => 'Alagoas' ),
+      array ( 'value' => 'AP' , 'content' => 'Amapa' ),
+      array ( 'value' => 'AM' , 'content' => 'Amazonas' ),
+      array ( 'value' => 'BA' , 'content' => 'Bahia' ),
+      array ( 'value' => 'CE' , 'content' => 'Ceara' ),
+      array ( 'value' => 'DF' , 'content' => 'Distrito Federal' ),
+      array ( 'value' => 'ES' , 'content' => 'Espirito Santo' ),
+      array ( 'value' => 'GO' , 'content' => 'Goias' ),
+      array ( 'value' => 'MA' , 'content' => 'Maranhao' ),
+      array ( 'value' => 'MS' , 'content' => 'Mato Grosso do Sul' ),
+      array ( 'value' => 'MT' , 'content' => 'Mato Grosso' ),
+      array ( 'value' => 'MG' , 'content' => 'Minas Gerais' ),
+      array ( 'value' => 'PA' , 'content' => 'Para' ),
+      array ( 'value' => 'PB' , 'content' => 'Paraiba' ),
+      array ( 'value' => 'PR' , 'content' => 'Parana' ),
+      array ( 'value' => 'PE' , 'content' => 'Pernambuco' ),
+      array ( 'value' => 'PI' , 'content' => 'Piaui' ),
+      array ( 'value' => 'RJ' , 'content' => 'Rio de Janeiro' ),
+      array ( 'value' => 'RN' , 'content' => 'Rio Grande do Norte' ),
+      array ( 'value' => 'RS' , 'content' => 'Rio Grande do Sul' ),
+      array ( 'value' => 'RO' , 'content' => 'Rondonia' ),
+      array ( 'value' => 'RR' , 'content' => 'Roraima' ),
+      array ( 'value' => 'SC' , 'content' => 'Santa Catarina' ),
+      array ( 'value' => 'SP' , 'content' => 'Sao Paulo' ),
+      array ( 'value' => 'SE' , 'content' => 'Sergipe' ),
+      array ( 'value' => 'TO' , 'content' => 'Tocantins' )
+      )
+    )
+  );
+
+  $metas[] = array ( 'label' => __('Partido', 'makepressure'), 'slug'=>'public_agent_partido' ,'info' =>  __('Nenhum Partido Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => get_option('public_agents_partidos_array')));
+  
+  $metas[] = array ( 'label' => __('Cargo Politico', 'makepressure'), 'slug'=>'public_agent_cargo' ,'info' =>  __('Nenhum Cargo Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
                     array ( 'value' => '' , 'content' => __('Selecione','makepressure') ),
                     array ( 'value' => 'presidente', 'content' => __('Presidentx', 'makepressure') ) ,
                     array ( 'value' => 'vice_presidente', 'content' => __('Vice-Presidentx', 'makepressure' ) ) ,
@@ -135,22 +150,23 @@ function public_agent_get_metas()
                     array ( 'value' => 'secretario_municipal', 'content' => __('Secretarix Municipal','makepressure') ) ,
                   )
                 )
-            ),
-            array ( 'label' => 'Gênero', 'slug'=>'public_agent_genero' ,'info' =>  __('Nenhuma gênero Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
+            );
+  $metas[] = array ( 'label' => 'Gênero', 'slug'=>'public_agent_genero' ,'info' =>  __('Nenhuma gênero Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
                     array ( 'value' => '' , 'content' => 'Selecione' ),
                     array ( 'value' => 'Feminino' , 'content' => __('Feminino', 'makepressure') ),
-                    array ( 'value' => 'Masculino' , 'content' => __('Masculino', 'makepressure') )))),
-            array ( 'label' => __('Declaração de voto', 'makepressure'), 'slug'=>'public_agent_declaracao_voto' ,'info' => __('Nenhuma Declaração de voto Informada ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-            array ( 'label' => __('Ocorrências Judiciais', 'makepressure'), 'slug'=>'public_agent_ocorrencias' ,'info' => __('Nenhuma Ocorrencia Judicial Informada ', 'makepressure'), 'html' => array ('tag'=> 'textarea', 'rows' => 4 , 'cols' => 50 ) ),
-            array ( 'label' => __('Número de ocorrências', 'makepressure'), 'slug'=>'public_agent_numero_ocorrencias' ,'info' => __('Nenhum Número de Ocorrências Informado ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-            array ( 'label' => __('Tipo de Voto', 'makepressure'), 'slug'=>'public_agent_tipo_voto' ,'info' =>  __('Nenhum Tipo de Voto Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
+                    array ( 'value' => 'Masculino' , 'content' => __('Masculino', 'makepressure') ))));
+            //array ( 'label' => __('Declaração de voto', 'makepressure'), 'slug'=>'public_agent_declaracao_voto' ,'info' => __('Nenhuma Declaração de voto Informada ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+            //array ( 'label' => __('Ocorrências Judiciais', 'makepressure'), 'slug'=>'public_agent_ocorrencias' ,'info' => __('Nenhuma Ocorrencia Judicial Informada ', 'makepressure'), 'html' => array ('tag'=> 'textarea', 'rows' => 4 , 'cols' => 50 ) ),
+            //array ( 'label' => __('Número de ocorrências', 'makepressure'), 'slug'=>'public_agent_numero_ocorrencias' ,'info' => __('Nenhum Número de Ocorrências Informado ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+            /*array ( 'label' => __('Tipo de Voto', 'makepressure'), 'slug'=>'public_agent_tipo_voto' ,'info' =>  __('Nenhum Tipo de Voto Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
                     array ( 'value' => '' , 'content' => __('Selecione', 'makepressure') ),
                     array ( 'value' => 'Sim' , 'content' => __('Sim', 'makepressure') ),
                     array ( 'value' => 'Indeciso' , 'content' => __('Indeciso', 'makepressure') ),
                     array ( 'value' => 'Não' , 'content' => 'Não', __('makepressure') )))),
-            array ( 'label' => __('Bancada que compões', 'makepressure'), 'slug'=>'public_agent_bancada' ,'info' => __('Nenhuma Bancada Informada ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-            array ( 'label' => __('Profissão', 'makepressure'), 'slug'=>'public_agent_profissao' ,'info' => __('Nenhuma Profissão Informada ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-            ); 
+            */
+            //array ( 'label' => __('Bancada que compões', 'makepressure'), 'slug'=>'public_agent_bancada' ,'info' => __('Nenhuma Bancada Informada ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+            //array ( 'label' => __('Profissão', 'makepressure'), 'slug'=>'public_agent_profissao' ,'info' => __('Nenhuma Profissão Informada ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+  return $metas;
 
 
 }
@@ -204,8 +220,6 @@ function public_agent_the_meta($post)
       }
       ?>
         <li><span class="post-meta-key"><?php echo $meta['label']; ?>: </span><?php print_r(get_post_meta( $post->ID, $meta['slug'] , true)); ?></li>
-
-
         <?php       
     } ?>
     </ul>
@@ -260,7 +274,6 @@ function display_public_agent_meta_box($object, $box)
         setlocale(LC_ALL, "en_US.utf8");
       foreach ($meta['html']['options'] as $option) {
         $content = iconv("utf-8", "ascii//TRANSLIT", $option['content']);
-        var_dump($option);
         ?>
           <option value="<?php echo $option['value'] ?>" <?php echo esc_html(get_post_meta($object->ID, $meta['slug'] , true), 1) === $option['value'] ? 'selected' : ''; ?> ><?php echo ucwords(strtolower($content)) ?></option>
           <?php
@@ -275,11 +288,12 @@ function display_public_agent_meta_box($object, $box)
     {
       ?>
         <p>
-        <label for="<?php echo $meta['slug'] ?>"><?php echo $meta['label'] ?></label>
-        <br>
-        <input type="<?php echo $meta['html']['type'] ?>" name="<?php echo $meta['slug'] ?>" id="<?php echo $meta['slug'] ?>" style="width:50%"
-        value="<?php echo esc_html(get_post_meta($object->ID, $meta['slug'] , true), 1); ?>">
-        </p>
+          <label for="<?php echo $meta['slug'] ?>"><?php echo $meta['label'] ?></label>
+          <br>
+         <input type="<?php echo $meta['html']['type'] ?>" name="<?php echo $meta['slug'] ?>" 
+           id="<?php echo $meta['slug'] ?>" style="width:50%"
+           value="<?php echo get_post_meta($object->ID, $meta['slug'] , true); ?>">
+          </p>
         <?php
     }
     else if ( $meta['html']['tag'] == 'textarea' )
@@ -391,20 +405,6 @@ function public_agent_nav_menu_item($items) {
   return $items;
 }
 add_filter( 'wp_nav_menu_items', 'public_agent_nav_menu_item' );
-
-//options page
-add_action( 'admin_menu', 'public_agent_custom_admin_menu' );
-
-function public_agent_custom_admin_menu() {
-  add_options_page(
-      __('Configurações dos Agentes Públicos', 'makepressure'),
-      __('Configurações dos Agentes Públicos', 'makepressure'),
-      'manage_options',
-      'public_agents',
-      'public_agents_options_page'
-      );
-
-}
 
 function public_agent_options_page() {
 
@@ -541,14 +541,33 @@ add_action('init','public_agents_menu');
 
 function public_agents_menu()
 {
-  //add_menu_page( __('Painel Agentes Públicos','makepressure'), __('Painel Agentes Públicos','makepressure'), 'manage_options', 'public_agents-settings', 'public_agents_settings');
+  add_menu_page( __('Bota Pressão','makepressure'), __('Bota Pressão','makepressure'), 'manage_options', 'makepressure_menu', 'makepressure_settings', 'dashicons-megaphone', 100);
+  add_submenu_page( 'makepressure_menu', __('Configurações dos Agentes Públicos', 'makepressure'), __('Configurações dos Agentes Públicos', 'makepressure'), 'manage_options', 'makepressure_conf_agentes_publicos', 'public_agent_options_page' );
 }
 
-function public_agents_settings()
+
+add_action( 'admin_post_update_options', 'prefix_admin_update_options' );
+
+
+function prefix_admin_update_options() {
+    //var_dump($_POST);
+    update_option( "makepressure_email_show", $_POST["twitter"] == 'on'? "1" : '0' );
+    update_option( "makepressure_facebook_show", $_POST["twitter"] == 'on'? "1" : '0' );
+    update_option( "makepressure_twitter_show", $_POST["twitter"] == 'on'? "1" : '0' );
+    update_option( "makepressure_whatsapp_show", $_POST["twitter"] == 'on'? "1" : '0' );
+
+
+    wp_redirect( "admin.php?page=makepressure_menu" );
+    exit;
+}
+
+
+function makepressure_settings()
 { ?>
-  <form method="post">
-  <div id="selecao_public_agents">
-    <h1>Bota Pressão</h1>
+  <h1>Página de Configuração do Bota Pressão</h1>
+  <form method="post" action="admin-post.php" >
+  <input type="hidden" name="action" value="update_options">
+  <!--div id="selecao_public_agents">
     <p>Qual o grupo instancia que deve ser precionado?</p>
     <textarea placeholder="Entre com a lista de identificadores dos Agentes Públicos" ></textarea>
   </div> 
@@ -559,48 +578,48 @@ function public_agents_settings()
   </div>
   <div>
     redes e links e ...
-  </div>
+  </div-->
   <div id="ferramentas">
-    <p>Ferramentas - conjunto de infos dos deputados que devem aparecer em seus cards</p>
+    <p>Marque quais as ferramentas de pressão sobre cada agente público</p>
     <p>
-      <input type="checkbox" id="email" name="email">
+      <input type="checkbox" id="email" name="email"  <?php echo get_option('makepressure_email_show') ? "checked":""; ?>/>
       <label>Email
     </p>
     <p>
-      <input type="checkbox" id="facebook" name="facebook"/>
+      <input type="checkbox" id="facebook" name="facebook"  <?php echo get_option('makepressure_facebook_show') ? "checked":""; ?>/>
       <label>Facebook</label>
     </p>
     <p>
-      <input type="checkbox" id="twitter" name="twitter"/>
+      <input type="checkbox" id="twitter" name="twitter" <?php echo get_option('makepressure_twitter_show') ? "checked":""; ?>/>
       <label>twitter</label>
     </p>
     <p>
-      <input type="checkbox" id="whatsapp" name="whatsapp"/>
+      <input type="checkbox" id="whatsapp" name="whatsapp"  <?php echo get_option('makepressure_whatsapp_show') ? "checked":""; ?>/>
       <label>whatsapp</label>
     </p>
     <p>
-      <input type="checkbox" id="telefone" name="telefone"/>
+      <input type="checkbox" id="telefone" name="telefone"  <?php echo get_option('makepressure_telefone_show') ? "checked":""; ?>/>
       <label>Telefone</label>
     </p>
     <p>
       <label>Correio</label>
       <br>
       <p>
-        <input type="checkbox" id="cartao_postal" name="cartao_postal"/>
+        <input type="checkbox" id="cartao_postal" name="cartao_postal"  <?php echo get_option('makepressure_correio_show') ? "checked":""; ?>/>
         </label>Cartão Postal</label>
       </p>
       <p>
-        <input type="checkbox" id="telegrama" name="cartao_postal"/>
+        <input type="checkbox" id="cartao_postal" name="cartao_postal"  <?php echo get_option('makepressure_cartao_postal_show') ? "checked":""; ?>/>
         </label>Telegrama</label>
       </p>
       <p>
         </label>Encomenda</label>
         <p>
-          <input type="checkbox" id="flores" name="flores"/>
+          <input type="checkbox" id="flores" name="flores"  <?php echo get_option('makepressure_flores_show') ? "checked":""; ?>/>
           </label>Flores</label>
         </p>
         <p>
-          <input type="checkbox" id="carro_de_som" name="carro_de_som"/>
+          <input type="checkbox" id="carro_de_som" name="carro_de_som"  <?php echo get_option('makepressure_carro_de_som_show') ? "checked":""; ?>/>
           </label>Carro de Som</label>
         </p>
       </p>
@@ -608,6 +627,7 @@ function public_agents_settings()
   </div>
 
 <?php  
+  submit_button("Salvar");
 }
 
 
@@ -631,7 +651,7 @@ function public_agents_activation()
 
   $bancadas_vereadores = ""; 
 
-  $public_agents_partidos = "PMDB|PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO,
+  $public_agent_partidos = "PMDB|PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO,
     PTB|PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO,
     PDT|PARTIDO DEMOCRÁTICO TRABALHISTA,
     PT|PARTIDO DOS TRABALHADORES,
@@ -667,7 +687,7 @@ function public_agents_activation()
     REDE|REDE SUSTENTABILIDADE,
     PMB|PARTIDO DA MULHER BRASILEIRA";
 
-  $public_agents_partidos_array = array( 
+  $public_agent_partidos_array = array( 
       array ( 'value' => '' , 'content' => 'Selecione' ),
       array ( 'value' => 'PMDB' , 'content' => 'PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO' ) ,
       array ( 'value' => 'PTB' , 'content' => 'PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO' ) ,
@@ -707,8 +727,12 @@ function public_agents_activation()
     );
 
 
-  update_option('public_agents_partidos' , $public_agents_partidos );
-  update_option('public_agents_partidos_array' , $public_agents_partidos_array );
+  update_option('public_agent_partidos' , $public_agent_partidos );
+  update_option('public_agent_partidos_array' , $public_agent_partidos_array );
+  update_option( "makepressure_email_show", '1' );
+  update_option( "makepressure_facebook_show", '1' );
+  update_option( "makepressure_twitter_show", '1' );
+  update_option( "makepressure_whatsapp_show", '1' );
 
 }
 
