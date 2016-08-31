@@ -117,7 +117,7 @@ function public_agent_get_metas()
               )
               ),
             array ( 'label' => __('Partido', 'makepressure'), 'slug'=>'public_agent_partido' ,'info' =>  __('Nenhum Partido Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => get_option('public_agents_partidos_array'))),
-            array ( 'label' => __('Cargo Politico', 'makepressure'), 'slug'=>'people_cargo' ,'info' =>  __('Nenhum Cargo Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
+            array ( 'label' => __('Cargo Politico', 'makepressure'), 'slug'=>'public_agent_cargo' ,'info' =>  __('Nenhum Cargo Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
                     array ( 'value' => '' , 'content' => __('Selecione','makepressure') ),
                     array ( 'value' => 'presidente', 'content' => __('Presidentx', 'makepressure') ) ,
                     array ( 'value' => 'vice_presidente', 'content' => __('Vice-Presidentx', 'makepressure' ) ) ,
@@ -136,20 +136,20 @@ function public_agent_get_metas()
                   )
                 )
             ),
-            array ( 'label' => 'Gênero', 'slug'=>'people_genero' ,'info' =>  __('Nenhuma gênero Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
+            array ( 'label' => 'Gênero', 'slug'=>'public_agent_genero' ,'info' =>  __('Nenhuma gênero Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
                     array ( 'value' => '' , 'content' => 'Selecione' ),
                     array ( 'value' => 'Feminino' , 'content' => __('Feminino', 'makepressure') ),
                     array ( 'value' => 'Masculino' , 'content' => __('Masculino', 'makepressure') )))),
-            array ( 'label' => __('Declaração de voto', 'makepressure'), 'slug'=>'people_declaracao_voto' ,'info' => __('Nenhuma Declaração de voto Informada ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-            array ( 'label' => __('Ocorrências Judiciais', 'makepressure'), 'slug'=>'people_ocorrencias' ,'info' => __('Nenhuma Ocorrencia Judicial Informada ', 'makepressure'), 'html' => array ('tag'=> 'textarea', 'rows' => 4 , 'cols' => 50 ) ),
-            array ( 'label' => __('Número de ocorrências', 'makepressure'), 'slug'=>'people_numero_ocorrencias' ,'info' => __('Nenhum Número de Ocorrências Informado ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-            array ( 'label' => __('Tipo de Voto', 'makepressure'), 'slug'=>'people_tipo_voto' ,'info' =>  __('Nenhum Tipo de Voto Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
+            array ( 'label' => __('Declaração de voto', 'makepressure'), 'slug'=>'public_agent_declaracao_voto' ,'info' => __('Nenhuma Declaração de voto Informada ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+            array ( 'label' => __('Ocorrências Judiciais', 'makepressure'), 'slug'=>'public_agent_ocorrencias' ,'info' => __('Nenhuma Ocorrencia Judicial Informada ', 'makepressure'), 'html' => array ('tag'=> 'textarea', 'rows' => 4 , 'cols' => 50 ) ),
+            array ( 'label' => __('Número de ocorrências', 'makepressure'), 'slug'=>'public_agent_numero_ocorrencias' ,'info' => __('Nenhum Número de Ocorrências Informado ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+            array ( 'label' => __('Tipo de Voto', 'makepressure'), 'slug'=>'public_agent_tipo_voto' ,'info' =>  __('Nenhum Tipo de Voto Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
                     array ( 'value' => '' , 'content' => __('Selecione', 'makepressure') ),
                     array ( 'value' => 'Sim' , 'content' => __('Sim', 'makepressure') ),
                     array ( 'value' => 'Indeciso' , 'content' => __('Indeciso', 'makepressure') ),
                     array ( 'value' => 'Não' , 'content' => 'Não', __('makepressure') )))),
-            array ( 'label' => __('Bancada que compões', 'makepressure'), 'slug'=>'people_bancada' ,'info' => __('Nenhuma Bancada Informada ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
-            array ( 'label' => __('Profissão', 'makepressure'), 'slug'=>'people_profissao' ,'info' => __('Nenhuma Profissão Informada ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+            array ( 'label' => __('Bancada que compões', 'makepressure'), 'slug'=>'public_agent_bancada' ,'info' => __('Nenhuma Bancada Informada ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
+            array ( 'label' => __('Profissão', 'makepressure'), 'slug'=>'public_agent_profissao' ,'info' => __('Nenhuma Profissão Informada ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
             ); 
 
 
@@ -541,7 +541,7 @@ add_action('init','public_agents_menu');
 
 function public_agents_menu()
 {
-  add_menu_page( __('Painel Agentes Públicos','makepressure'), __('Painel Agentes Publicos','makepressure'), 'manage_options', 'public_agents-settings', 'public_agents_settings');
+  //add_menu_page( __('Painel Agentes Públicos','makepressure'), __('Painel Agentes Públicos','makepressure'), 'manage_options', 'public_agents-settings', 'public_agents_settings');
 }
 
 function public_agents_settings()
