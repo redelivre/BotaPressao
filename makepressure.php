@@ -555,11 +555,11 @@ add_action( 'admin_post_update_options', 'prefix_admin_update_options' );
 
 function prefix_admin_update_options() {
     //var_dump($_POST);
-    update_option( "makepressure_email_show", $_POST["twitter"] == 'on'? "1" : '0' );
-    update_option( "makepressure_facebook_show", $_POST["twitter"] == 'on'? "1" : '0' );
+    update_option( "makepressure_email_show", $_POST["email"] == 'on'? "1" : '0' );
+    update_option( "makepressure_facebook_show", $_POST["facebook"] == 'on'? "1" : '0' );
     update_option( "makepressure_twitter_show", $_POST["twitter"] == 'on'? "1" : '0' );
-    update_option( "makepressure_whatsapp_show", $_POST["twitter"] == 'on'? "1" : '0' );
-    update_option( "makepressure_telefone_show", $_POST["twitter"] == 'on'? "1" : '0' );
+    update_option( "makepressure_whatsapp_show", $_POST["whatsapp"] == 'on'? "1" : '0' );
+    update_option( "makepressure_telefone_show", $_POST["telefone"] == 'on'? "1" : '0' );
 
 
     wp_redirect( "admin.php?page=makepressure_menu" );
