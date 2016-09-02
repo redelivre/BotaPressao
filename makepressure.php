@@ -410,7 +410,99 @@ function public_agent_nav_menu_item($items) {
 }
 add_filter( 'wp_nav_menu_items', 'public_agent_nav_menu_item' );
 
-function public_agent_options_page() {
+
+add_action('init','public_agents_menu');
+
+function public_agents_menu()
+{
+  add_menu_page( __('Bota Pressão','makepressure'), __('Bota Pressão','makepressure'), 'manage_options', 'makepressure_menu', 'makepressure_settings', 'dashicons-megaphone', 100);
+  add_submenu_page( 'makepressure_menu', __('Configurações dos Agentes Públicos', 'makepressure'), __('Configurações dos Agentes Públicos', 'makepressure'), 'manage_options', 'public-agent-settings', 'public_agent_settings' );
+}
+
+function makepressure_settings()
+{ 
+  ?>
+  <h1>Página de Configuração do Bota Pressão</h1>
+  <form method="post" action="admin-post.php" >
+  <input type="hidden" name="action" value="update_options">
+  <!--div id="selecao_public_agents">
+    <p>Qual o grupo instancia que deve ser precionado?</p>
+    <textarea placeholder="Entre com a lista de identificadores dos Agentes Públicos" ></textarea>
+  </div> 
+  <div id="descricao">
+    <input type="text" name="titulo_pressao" id="titulo_pressao" placeholder="Qual o titúlo da sua pressão?"></input>
+    <br>
+    <textarea name="descricao_pressao" id="descricao_pressao" placeholder="Descreva sua pressão"></textarea>
+  </div>
+  <div>
+    redes e links e ...
+  </div-->
+  <div id="ferramentas">
+    <p>Marque quais as ferramentas de pressão sobre cada agente público</p>
+    <p>
+      <input type="checkbox" id="email" name="email"  <?php echo get_option('makepressure_email_show') ? "checked":""; ?>/>
+      <label>Email
+    </p>
+    <p>
+      <input type="checkbox" id="facebook" name="facebook"  <?php echo get_option('makepressure_facebook_show') ? "checked":""; ?>/>
+      <label>Facebook</label>
+    </p>
+    <p>
+      <input type="checkbox" id="twitter" name="twitter" <?php echo get_option('makepressure_twitter_show') ? "checked":""; ?>/>
+      <label>twitter</label>
+    </p>
+    <p>
+      <input type="checkbox" id="whatsapp" name="whatsapp"  <?php echo get_option('makepressure_whatsapp_show') ? "checked":""; ?>/>
+      <label>whatsapp</label>
+    </p>
+    <p>
+      <input type="checkbox" id="telefone" name="telefone"  <?php echo get_option('makepressure_telefone_show') ? "checked":""; ?>/>
+      <label>Telefone</label>
+    </p>
+    <p>
+      <label>Correio</label>
+      <br>
+      <p>
+        <input type="checkbox" id="cartao_postal" name="cartao_postal"  <?php echo get_option('makepressure_correio_show') ? "checked":""; ?>/>
+        </label>Cartão Postal</label>
+      </p>
+      <p>
+        <input type="checkbox" id="cartao_postal" name="cartao_postal"  <?php echo get_option('makepressure_cartao_postal_show') ? "checked":""; ?>/>
+        </label>Telegrama</label>
+      </p>
+      <p>
+        </label>Encomenda</label>
+        <p>
+          <input type="checkbox" id="flores" name="flores"  <?php echo get_option('makepressure_flores_show') ? "checked":""; ?>/>
+          </label>Flores</label>
+        </p>
+        <p>
+          <input type="checkbox" id="carro_de_som" name="carro_de_som"  <?php echo get_option('makepressure_carro_de_som_show') ? "checked":""; ?>/>
+          </label>Carro de Som</label>
+        </p>
+      </p>
+    </p>
+  </div>
+
+  <?php  
+  submit_button("Salvar");
+}
+
+add_action( 'admin_post_update_options', 'public_agent_show_hide_fields' );
+function public_agent_show_hide_fields() 
+{
+    update_option( "makepressure_email_show", $_POST["email"] == 'on'? "1" : '0' );
+    update_option( "makepressure_facebook_show", $_POST["facebook"] == 'on'? "1" : '0' );
+    update_option( "makepressure_twitter_show", $_POST["twitter"] == 'on'? "1" : '0' );
+    update_option( "makepressure_whatsapp_show", $_POST["whatsapp"] == 'on'? "1" : '0' );
+    update_option( "makepressure_telefone_show", $_POST["telefone"] == 'on'? "1" : '0' );
+
+    wp_redirect( "admin.php?page=makepressure_menu" );
+    exit;
+}
+
+function public_agent_settings() 
+{
 
   if ( isset( $_POST['partidos'] ) )
   {
@@ -541,103 +633,8 @@ function public_agent_options_page() {
     <?php
 }
 
-add_action('init','public_agents_menu');
-
-function public_agents_menu()
-{
-  add_menu_page( __('Bota Pressão','makepressure'), __('Bota Pressão','makepressure'), 'manage_options', 'makepressure_menu', 'makepressure_settings', 'dashicons-megaphone', 100);
-  add_submenu_page( 'makepressure_menu', __('Configurações dos Agentes Públicos', 'makepressure'), __('Configurações dos Agentes Públicos', 'makepressure'), 'manage_options', 'makepressure_conf_agentes_publicos', 'public_agent_options_page' );
-}
-
-
-add_action( 'admin_post_update_options', 'prefix_admin_update_options' );
-
-
-function prefix_admin_update_options() {
-    //var_dump($_POST);
-    update_option( "makepressure_email_show", $_POST["email"] == 'on'? "1" : '0' );
-    update_option( "makepressure_facebook_show", $_POST["facebook"] == 'on'? "1" : '0' );
-    update_option( "makepressure_twitter_show", $_POST["twitter"] == 'on'? "1" : '0' );
-    update_option( "makepressure_whatsapp_show", $_POST["whatsapp"] == 'on'? "1" : '0' );
-    update_option( "makepressure_telefone_show", $_POST["telefone"] == 'on'? "1" : '0' );
-
-
-    wp_redirect( "admin.php?page=makepressure_menu" );
-    exit;
-}
-
-
-function makepressure_settings()
-{ ?>
-  <h1>Página de Configuração do Bota Pressão</h1>
-  <form method="post" action="admin-post.php" >
-  <input type="hidden" name="action" value="update_options">
-  <!--div id="selecao_public_agents">
-    <p>Qual o grupo instancia que deve ser precionado?</p>
-    <textarea placeholder="Entre com a lista de identificadores dos Agentes Públicos" ></textarea>
-  </div> 
-  <div id="descricao">
-    <input type="text" name="titulo_pressao" id="titulo_pressao" placeholder="Qual o titúlo da sua pressão?"></input>
-    <br>
-    <textarea name="descricao_pressao" id="descricao_pressao" placeholder="Descreva sua pressão"></textarea>
-  </div>
-  <div>
-    redes e links e ...
-  </div-->
-  <div id="ferramentas">
-    <p>Marque quais as ferramentas de pressão sobre cada agente público</p>
-    <p>
-      <input type="checkbox" id="email" name="email"  <?php echo get_option('makepressure_email_show') ? "checked":""; ?>/>
-      <label>Email
-    </p>
-    <p>
-      <input type="checkbox" id="facebook" name="facebook"  <?php echo get_option('makepressure_facebook_show') ? "checked":""; ?>/>
-      <label>Facebook</label>
-    </p>
-    <p>
-      <input type="checkbox" id="twitter" name="twitter" <?php echo get_option('makepressure_twitter_show') ? "checked":""; ?>/>
-      <label>twitter</label>
-    </p>
-    <p>
-      <input type="checkbox" id="whatsapp" name="whatsapp"  <?php echo get_option('makepressure_whatsapp_show') ? "checked":""; ?>/>
-      <label>whatsapp</label>
-    </p>
-    <p>
-      <input type="checkbox" id="telefone" name="telefone"  <?php echo get_option('makepressure_telefone_show') ? "checked":""; ?>/>
-      <label>Telefone</label>
-    </p>
-    <p>
-      <label>Correio</label>
-      <br>
-      <p>
-        <input type="checkbox" id="cartao_postal" name="cartao_postal"  <?php echo get_option('makepressure_correio_show') ? "checked":""; ?>/>
-        </label>Cartão Postal</label>
-      </p>
-      <p>
-        <input type="checkbox" id="cartao_postal" name="cartao_postal"  <?php echo get_option('makepressure_cartao_postal_show') ? "checked":""; ?>/>
-        </label>Telegrama</label>
-      </p>
-      <p>
-        </label>Encomenda</label>
-        <p>
-          <input type="checkbox" id="flores" name="flores"  <?php echo get_option('makepressure_flores_show') ? "checked":""; ?>/>
-          </label>Flores</label>
-        </p>
-        <p>
-          <input type="checkbox" id="carro_de_som" name="carro_de_som"  <?php echo get_option('makepressure_carro_de_som_show') ? "checked":""; ?>/>
-          </label>Carro de Som</label>
-        </p>
-      </p>
-    </p>
-  </div>
-
-<?php  
-  submit_button("Salvar");
-}
-
-
-
-function public_agents_activation()
+register_activation_hook( __FILE__, 'makepressure_activation' );
+function makepressure_activation()
 {
   // comissao
 
@@ -741,8 +738,6 @@ function public_agents_activation()
   update_option( "makepressure_telefone_show", '1' );
 
 }
-
-register_activation_hook( __FILE__, 'public_agents_activation' );
 
 require_once dirname(__FILE__)."/options.php"; 
 
