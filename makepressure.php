@@ -357,9 +357,8 @@ function public_agent_filter_columns($columns)
   return $columns;
 }
 
-add_action('manage_posts_custom_column', 'public_agent_action_custom_columns_content', 10, 2);
-
-function public_agent_action_custom_columns_content($column_id, $post_id)
+add_action('manage_posts_custom_column', 'public_agent_custom_columns', 10, 2);
+function public_agent_custom_columns($column_id, $post_id)
 {
   //run a switch statement for all of the custom columns created
   $metas = public_agent_get_metas();
@@ -416,7 +415,7 @@ add_action('init','public_agents_menu');
 function public_agents_menu()
 {
   add_menu_page( __('Bota Pressão','makepressure'), __('Bota Pressão','makepressure'), 'manage_options', 'makepressure_menu', 'makepressure_settings', 'dashicons-megaphone', 100);
-  add_submenu_page( 'makepressure_menu', __('Configurações dos Agentes Públicos', 'makepressure'), __('Configurações dos Agentes Públicos', 'makepressure'), 'manage_options', 'public-agent-settings', 'public_agent_settings' );
+  //add_submenu_page( 'makepressure_menu', __('Configurações dos Agentes Públicos', 'makepressure'), __('Configurações dos Agentes Públicos', 'makepressure'), 'manage_options', 'public-agent-settings', 'public_agent_settings' );
 }
 
 function makepressure_settings()
