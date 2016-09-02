@@ -97,8 +97,8 @@ function public_agent_get_metas()
     $metas[] = array ( 'label' => 'Twitter', 'slug'=>'public_agent_twitter' ,'info' => __('Nenhum Twitter Informado', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' ));
   }
   
-  if ( get_option('makepressure_telefone_show') ) {
-    $metas[] = array ( 'label' => 'Telefone', 'slug'=>'public_agent_telefone' ,'info' => __('Nenhum Telefone Informado', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' ));
+  if ( get_option('makepressure_phone_show') ) {
+    $metas[] = array ( 'label' => 'Telefone', 'slug'=>'public_agent_phone' ,'info' => __('Nenhum Telefone Informado', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' ));
   }
 
   $metas[] = array ( 'label' => __('Estado','makepressure'), 'slug'=>'public_agent_state' ,'info' =>  __('Nenhum Estado Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
@@ -198,40 +198,61 @@ function get_jobs()
 
 }
 
-function public_agent_the_meta($post)
+function public_agent_the_meta($content)
 {
-  if( !is_object($post) ) return;
-  $post = $post->queried_object;
-  if (isset($post->post_type) && $post->post_type!="public_agent") return; 
-  if (isset($post->post_type) && $post->post_type=="public_agent") 
-  {
+  if (get_post_type() != "public_agent") return $content;
+
+  $email = get_post_meta(  get_the_ID(), "public_agent_email", true);
+  $cargo = get_post_meta(  get_the_ID(), "public_agent_cargo", true);
+  $cargo_valid = isset($cargo) ? get_post_meta(  get_the_ID(), 'public_agent_cargo', true) : "";
+  $space = '%20';
+
+  if ( isset($email) ) : 
+    $new_content =  '<a class="et_pb_button et_pb_button_1 et_pb_module et_pb_bg_layout_light" href="mailto:';
+    $new_content .= $email;
+    $new_content .= '?subject=Excelentissimo'.$space;
+    $new_content .= $cargo_valid;
+    $new_content .= $space;
+    $new_content .= get_the_title(); 
+    $new_content .= '&body=Excelentissimo' .$space;
+    $new_content .= $cargo_valid . $space;
+    $new_content .= get_the_title();
+    $new_content .= ',%20...">Email</a>';
+  endif;
+
+  $twitter = get_post_meta(  get_the_ID(), 'public_agent_twitter', true);
+  
+  if ( isset($twitter) ) :
+    $new_content .= '<a class="et_pb_button et_pb_button_1 et_pb_module et_pb_bg_layout_light" href="https://twitter.com/intent/tweet?text=@';
+    $new_content .= $twitter;
+    $new_content .= '%20por%20favor%20defenda%20a%20exist%C3%AAncia%20do%20MCTI,%20fundamental%20para%20o%20desenvolvimento%20do%20Brasil%20&url=http%3A//goo.gl/Sc9aen&hashtags=FicaMCTI" class="twitter-mention-button" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
+  endif;
+
+  $facebook = get_post_meta(  get_the_ID(), 'public_agent_facebook', true);
+
+  if ( isset($facebook) ) : 
+    $new_content .= '<a class="et_pb_button et_pb_button_1 et_pb_module et_pb_bg_layout_light" target="_brank" href="';
+    $new_content .= $facebook;
+    $new_content .= '">Facebook</a>';
+  endif;
+
     $job = get_jobs();
 
     $metas = public_agent_get_metas();
     foreach($metas as $meta)
     {
-      // se o usuário apertar o botão nos contabilizamos uma nova mensagem enviada a pessoa!
-      if ($meta['slug'] == "public_agent_email"){
-        ?>
-          <ul class="post-meta">
-          <li><span class="post-meta-key">Email:</span>
-          <a href="mailto:<?php print_r(get_post_meta( $post->ID, 'public_agent_email', true)); ?>?subject=Excelentissimo%20<?php echo get_post_meta( $post->ID, 'public_agent_cargo', true); ?>%20<?php echo get_the_title(); ?>&body=Excelentissimo%20<?php echo (get_post_meta( $post->ID, 'public_agent_cargo', true) != null)?$job[0][get_post_meta( $post->ID, 'public_agent_cargo', true)]:""; ?>%20<?php echo get_the_title(); ?>,%20...">
-          <?php print_r(get_post_meta( $post->ID, 'public_agent_email', true)); ?>
-          </a>
-          </li>
-          <?php 
-          continue;
-      }
-      ?>
-        <li><span class="post-meta-key"><?php echo $meta['label']; ?>: </span><?php print_r(get_post_meta( $post->ID, $meta['slug'] , true)); ?></li>
-        <?php       
-    } ?>
-    </ul>
-      <?php
-  }
+      $new_content .= '<li><span class="post-meta-key">';
+      $new_content .= $meta['label'];
+      $new_content .= ': </span>';
+      $new_content .= get_post_meta( get_the_ID(), $meta['slug'] , true);
+    }
+    $new_content .= '</ul>';
+
+    return $content . $new_content;
 }
 
-add_action("loop_end", "public_agent_the_meta");
+add_filter("the_content", "public_agent_the_meta");
+
 
 function public_agent_change_post_placeholder($title)
 {
@@ -455,7 +476,7 @@ function makepressure_settings()
       <label>whatsapp</label>
     </p>
     <p>
-      <input type="checkbox" id="telefone" name="telefone"  <?php echo get_option('makepressure_telefone_show') ? "checked":""; ?>/>
+      <input type="checkbox" id="phone" name="phone"  <?php echo get_option('makepressure_phone_show') ? "checked":""; ?>/>
       <label>Telefone</label>
     </p>
     <p>
@@ -494,7 +515,7 @@ function public_agent_show_hide_fields()
     update_option( "makepressure_facebook_show", $_POST["facebook"] == 'on'? "1" : '0' );
     update_option( "makepressure_twitter_show", $_POST["twitter"] == 'on'? "1" : '0' );
     update_option( "makepressure_whatsapp_show", $_POST["whatsapp"] == 'on'? "1" : '0' );
-    update_option( "makepressure_telefone_show", $_POST["telefone"] == 'on'? "1" : '0' );
+    update_option( "makepressure_phone_show", $_POST["phone"] == 'on'? "1" : '0' );
 
     wp_redirect( "admin.php?page=makepressure_menu" );
     exit;
@@ -734,7 +755,7 @@ function makepressure_activation()
   update_option( "makepressure_facebook_show", '1' );
   update_option( "makepressure_twitter_show", '1' );
   update_option( "makepressure_whatsapp_show", '1' );
-  update_option( "makepressure_telefone_show", '1' );
+  update_option( "makepressure_phone_show", '1' );
 
 }
 
