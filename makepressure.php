@@ -39,15 +39,16 @@ function create_public_agent()
     'query_var'          => true,
     'has_archive'        => true,
     'rewrite'            => apply_filters( 'et_public_agent_posttype_rewrite_args', array(
-      'feeds'      => true,
-      'slug'       => 'public_agent',
-      'with_front' => false,
+      'feeds'            => true,
+      'slug'             => 'public_agent',
+      'with_front'       => false,
     ) ),
     'capability_type'    => 'post',
     'hierarchical'       => false,
     'menu_position'      => null,
     'supports'           => array( 'title', 'author', 'editor', 'thumbnail', 'excerpt', 'comments', 'revisions', 'custom-fields' ),
     'taxonomies'         => array( 'category' ),
+    'menu_icon'          =>  'dashicons-businessman',
   );
 
   register_post_type( 'public_agent', apply_filters( 'et_public_agent_posttype_args', $args ) );
@@ -207,8 +208,8 @@ function public_agent_the_meta($content)
   $cargo_valid = isset($cargo) ? get_post_meta(  get_the_ID(), 'public_agent_cargo', true) : "";
   $space = '%20';
 
-  if ( isset($email) ) : 
-    $new_content =  '<a class="et_pb_button et_pb_button_1 et_pb_module et_pb_bg_layout_light" href="mailto:';
+  if ( get_post_meta(  get_the_ID(), 'public_agent_email', true) ) : 
+    $new_content =  '<a style="margin:30px" href="mailto:';
     $new_content .= $email;
     $new_content .= '?subject=Excelentissimo'.$space;
     $new_content .= $cargo_valid;
@@ -217,34 +218,52 @@ function public_agent_the_meta($content)
     $new_content .= '&body=Excelentissimo' .$space;
     $new_content .= $cargo_valid . $space;
     $new_content .= get_the_title();
-    $new_content .= ',%20...">Email</a>';
+    $new_content .= ',%20..."><span style="font-size:38px" class="dashicons dashicons-email"></span></a>';
   endif;
 
   $twitter = get_post_meta(  get_the_ID(), 'public_agent_twitter', true);
   
-  if ( isset($twitter) ) :
-    $new_content .= '<a class="et_pb_button et_pb_button_1 et_pb_module et_pb_bg_layout_light" href="https://twitter.com/intent/tweet?text=@';
+  if ( get_post_meta(  get_the_ID(), 'public_agent_twitter', true) ) :
+    $new_content .= '<a style="margin:30px" href="https://twitter.com/intent/tweet?text=@';
     $new_content .= $twitter;
-    $new_content .= '%20por%20favor%20defenda%20a%20exist%C3%AAncia%20do%20MCTI,%20fundamental%20para%20o%20desenvolvimento%20do%20Brasil%20&url=http%3A//goo.gl/Sc9aen&hashtags=FicaMCTI" class="twitter-mention-button" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>';
+    $new_content .= '%20por%20favor%20defenda%20a%20exist%C3%AAncia%20do%20MCTI,%20fundamental%20para%20o%20desenvolvimento%20do%20Brasil%20&url=http%3A//goo.gl/Sc9aen&hashtags=FicaMCTI" class="twitter-mention-button" data-show-count="false"><span style="font-size:35px" class="dashicons dashicons-twitter"></span></a>';
   endif;
 
   $facebook = get_post_meta(  get_the_ID(), 'public_agent_facebook', true);
 
-  if ( isset($facebook) ) : 
-    $new_content .= '<a class="et_pb_button et_pb_button_1 et_pb_module et_pb_bg_layout_light" target="_brank" href="';
+  if ( get_post_meta(  get_the_ID(), 'public_agent_facebook', true) ) : 
+    $new_content .= '<a style="margin:30px" target="_brank" href="';
     $new_content .= $facebook;
-    $new_content .= '">Facebook</a>';
+    $new_content .= '"><span style="font-size:35px" class="dashicons dashicons-facebook"></span></a>';
+  endif;
+
+  $phone = get_post_meta(  get_the_ID(), 'public_agent_phone', true);
+
+  if ( get_post_meta(  get_the_ID(), 'public_agent_phone', true) ) : 
+    $new_content .= '<a style="margin:30px" target="_brank" href="tel:';
+    $new_content .= $phone;
+    $new_content .= '"><span style="font-size:35px;">';
+    $new_content .= $phone;
+    $new_content .= '</span><span style="font-size:35px;margin:10px;top:-10px;postition:relative" class="dashicons dashicons-phone"></span>';
+    $new_content .= '</a>';
   endif;
 
     $job = get_jobs();
-
+    $new_content .= '<br><br><br>';
     $metas = public_agent_get_metas();
     foreach($metas as $meta)
     {
+      if (  $meta['slug'] == 'public_agent_email' ) continue;
+      if (  $meta['slug'] == 'public_agent_facebook' ) continue;
+      if (  $meta['slug'] == 'public_agent_twitter' ) continue;
+      //if (  $meta['slug'] == 'public_agent_whatsapp' ) continue;
+      if (  $meta['slug'] == 'public_agent_phone' ) continue;
+
       $new_content .= '<li><span class="post-meta-key">';
       $new_content .= $meta['label'];
       $new_content .= ': </span>';
       $new_content .= get_post_meta( get_the_ID(), $meta['slug'] , true);
+
     }
     $new_content .= '</ul>';
 
@@ -252,7 +271,6 @@ function public_agent_the_meta($content)
 }
 
 add_filter("the_content", "public_agent_the_meta");
-
 
 function public_agent_change_post_placeholder($title)
 {
@@ -502,6 +520,19 @@ function makepressure_settings()
         </p>
       </p>
     </p>
+    <!-- TODO -->
+    <p>
+      <label>Inserir mensagem padrão para email:</label><br>
+      <input type="text" placeholder="Adicionar titulo da mensagem"></input><br>
+      <textarea placeholder="Adicionar o corpo da mensagem"></textarea><br>
+      <textarea placeholder="Adicionar + email's na mensagem"></textarea><br>
+    </p>
+    <p>
+      <label>Inserir mensagem padrão para o twitter:</label><br>
+      <textarea placeholder="Adicionar o corpo da mensagem"></textarea><br>
+      <input type="text" placeholder="Adicionar uma hashtag"></input><br>
+    </p>
+    <p>
   </div>
 
   <?php  
