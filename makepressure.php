@@ -557,19 +557,32 @@ add_action( 'admin_post_update_options', 'public_agent_show_hide_fields' );
 function public_agent_show_hide_fields() 
 {
 
-    update_option( "makepressure_email_show", $_POST["email"] == 'on'? "1" : '0' );
-    update_option( "makepressure_facebook_show", $_POST["facebook"] == 'on'? "1" : '0' );
-    update_option( "makepressure_twitter_show", $_POST["twitter"] == 'on'? "1" : '0' );
-    update_option( "makepressure_whatsapp_show", $_POST["whatsapp"] == 'on'? "1" : '0' );
-    update_option( "makepressure_phone_show", $_POST["phone"] == 'on'? "1" : '0' );
 
-    update_option( "makepressure_email_title", $_POST["email_subject"]?$_POST["email_subject"]:"" );
-    update_option( "makepressure_email_body", $_POST["email_body"]?$_POST["email_body"]:"" );
-    update_option( "makepressure_more_emails", $_POST["more_emails"]?$_POST["more_emails"]:"" );
+  if($_POST["email"]) $email = $_POST["email"] == 'on'? "1" : '0';
+  if($_POST["facebook"]) $facebook = $_POST["facebook"] == 'on'? "1" : '0';
+  if($_POST["twitter"]) $twitter = $_POST["twitter"] == 'on'? "1" : '0';
+  if($_POST["whatsapp"]) $whatsapp = $_POST["whatsapp"] == 'on'? "1" : '0';
+  if($_POST["phone"]) $phone = $_POST["phone"] == 'on'? "1" : '0';
+  if($_POST["email_subject"]) $email_subject = $_POST["email_subject"]?$_POST["email_subject"]:"";
+  if($_POST["email_body"]) $email_body = $_POST["email_body"]?$_POST["email_body"]:"";
+  if($_POST["more_emails"]) $more_emails = $_POST["more_emails"]?$_POST["more_emails"]:"";
+  if($_POST["twitter_text"]) $twitter_text = $_POST["twitter_text"]?$_POST["twitter_text"]:"";
+  if($_POST["twitter_hashtag"]) $twitter_hashtag = $_POST["twitter_hashtag"]?$_POST["twitter_hashtag"]:"";
+  if($_POST["twitter_url"]) $twitter_url = $_POST["twitter_url"]?$_POST["twitter_url"]:"";
 
-    update_option( "makepressure_twitter_text", $_POST["twitter_text"]?$_POST["twitter_text"]:"" );
-    update_option( "makepressure_twitter_hashtag", $_POST["twitter_hashtag"]?$_POST["twitter_hashtag"]:"" );
-    update_option( "makepressure_twitter_url", $_POST["twitter_url"]?$_POST["twitter_url"]:"" );
+
+    update_option( "makepressure_email_show", $email);
+    update_option( "makepressure_facebook_show", $facebook);
+    update_option( "makepressure_twitter_show", $twitter);
+    update_option( "makepressure_whatsapp_show", $whatsapp);
+    update_option( "makepressure_phone_show", $phone);
+    update_option( "makepressure_email_title", $email_subject);
+    update_option( "makepressure_email_body", $email_body);
+    update_option( "makepressure_more_emails", $more_emails);
+    update_option( "makepressure_twitter_text", $twitter_text);
+    update_option( "makepressure_twitter_hashtag", $twitter_hashtag);
+    update_option( "makepressure_twitter_url", $twitter_url);
+
 
     wp_redirect( "admin.php?page=makepressure_menu" );
     exit;
