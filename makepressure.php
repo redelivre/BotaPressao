@@ -207,26 +207,37 @@ function public_agent_the_meta($content)
   $cargo = get_post_meta(  get_the_ID(), "public_agent_cargo", true);
   $cargo_valid = isset($cargo) ? get_post_meta(  get_the_ID(), 'public_agent_cargo', true) : "";
   $space = '%20';
+  
+  $email_subject = get_option( 'makepressure_email_title' );
+  $email_body = get_option( 'makepressure_email_body' );
+  $more_emails = get_option( 'makepressure_more_emails' );
+
+  $twitter_text = get_option( 'makepressure_twitter_text' );
+  $twitter_url = get_option( 'makepressure_twitter_url' );
+  $twitter_hashtag = get_option( 'makepressure_twitter_hashtag' );
 
   if ( get_post_meta(  get_the_ID(), 'public_agent_email', true) ) : 
     $new_content =  '<a style="margin:30px" href="mailto:';
-    $new_content .= $email;
-    $new_content .= '?subject=Excelentissimo'.$space;
+    $new_content .= $email . $more_emails;
+    //$new_content .= '?subject=Excelentissimo' . $email_subject . $space;
+    $new_content .= '?subject=Excelentissimo' . $space;
     $new_content .= $cargo_valid;
     $new_content .= $space;
     $new_content .= get_the_title(); 
     $new_content .= '&body=Excelentissimo' .$space;
     $new_content .= $cargo_valid . $space;
-    $new_content .= get_the_title();
-    $new_content .= ',%20..."><span style="font-size:38px" class="dashicons dashicons-email"></span></a>';
+    $new_content .= get_the_title() . ", %0A%0A";
+    $new_content .= $email_body;
+    $new_content .= '"><span style="font-size:38px" class="dashicons dashicons-email"></span></a>';
   endif;
 
   $twitter = get_post_meta(  get_the_ID(), 'public_agent_twitter', true);
   
   if ( get_post_meta(  get_the_ID(), 'public_agent_twitter', true) ) :
     $new_content .= '<a style="margin:30px" href="https://twitter.com/intent/tweet?text=@';
-    $new_content .= $twitter;
-    $new_content .= '%20por%20favor%20defenda%20a%20exist%C3%AAncia%20do%20MCTI,%20fundamental%20para%20o%20desenvolvimento%20do%20Brasil%20&url=http%3A//goo.gl/Sc9aen&hashtags=FicaMCTI" class="twitter-mention-button" data-show-count="false"><span style="font-size:35px" class="dashicons dashicons-twitter"></span></a>';
+    $new_content .= $twitter . $twitter_text;
+    $new_content .= '&url=' . $twitter_url;
+    $new_content .= '&hashtags=' . $twitter_hashtag . '" class="twitter-mention-button" data-show-count="false"><span style="font-size:35px" class="dashicons dashicons-twitter"></span></a>';
   endif;
 
   $facebook = get_post_meta(  get_the_ID(), 'public_agent_facebook', true);
@@ -234,7 +245,7 @@ function public_agent_the_meta($content)
   if ( get_post_meta(  get_the_ID(), 'public_agent_facebook', true) ) : 
     $new_content .= '<a style="margin:30px" target="_brank" href="';
     $new_content .= $facebook;
-    $new_content .= '"><span style="font-size:35px" class="dashicons dashicons-facebook"></span></a>';
+    $new_content .= '"><span style="font-size:35px" class="dashicons dashicons-facebook"></span></a><br><br>';
   endif;
 
   $phone = get_post_meta(  get_the_ID(), 'public_agent_phone', true);
@@ -244,7 +255,7 @@ function public_agent_the_meta($content)
     $new_content .= $phone;
     $new_content .= '"><span style="font-size:35px;">';
     $new_content .= $phone;
-    $new_content .= '</span><span style="font-size:35px;margin:10px;top:-10px;postition:relative" class="dashicons dashicons-phone"></span>';
+    $new_content .= '</span><span style="font-size:29px;" class="dashicons dashicons-phone"></span>';
     $new_content .= '</a>';
   endif;
 
@@ -497,7 +508,7 @@ function makepressure_settings()
       <input type="checkbox" id="phone" name="phone"  <?php echo get_option('makepressure_phone_show') ? "checked":""; ?>/>
       <label>Telefone</label>
     </p>
-    <p>
+    <!--p>
       <label>Correio</label>
       <br>
       <p>
@@ -519,18 +530,21 @@ function makepressure_settings()
           </label>Carro de Som</label>
         </p>
       </p>
-    </p>
+    </p-->
     <!-- TODO -->
     <p>
       <label>Inserir mensagem padrão para email:</label><br>
-      <input type="text" placeholder="Adicionar titulo da mensagem"></input><br>
-      <textarea placeholder="Adicionar o corpo da mensagem"></textarea><br>
-      <textarea placeholder="Adicionar + email's na mensagem"></textarea><br>
+      <!--input id="email_subject" name="email_subject" type="text" placeholder="Adicionar titulo da mensagem" value="<?php echo get_option('makepressure_email_title') ? get_option('makepressure_email_title'):""; ?>" /><br-->
+      <textarea cols="50" rows="7" id="email_body" name="email_body" placeholder="Adicionar o corpo da mensagem"><?php echo get_option('makepressure_email_body') ? get_option('makepressure_email_body'):""; ?></textarea><br>
+      * Favor utilizar %0A%0A para enviar enter nas url's.
+      <!--textarea name="more_emails" placeholder="Adicionar + email's na mensagem, separados por virgula"><?php echo get_option('makepressure_more_emails') ? get_option('makepressure_more_emailsmails'):""; ?></textarea><br-->
     </p>
     <p>
       <label>Inserir mensagem padrão para o twitter:</label><br>
-      <textarea placeholder="Adicionar o corpo da mensagem"></textarea><br>
-      <input type="text" placeholder="Adicionar uma hashtag"></input><br>
+      <textarea cols="50" rows="7" id="twitter_text" name="twitter_text" placeholder="Adicionar o corpo da mensagem"><?php echo get_option('makepressure_twitter_text') ? get_option('makepressure_twitter_text'):""; ?></textarea><br>
+      <p>* Atenção com o limite de caracteres previsto pelo twitter</p>
+      <input id="twitter_hashtag" name="twitter_hashtag" type="text" placeholder="Adicionar uma hashtag sem # no inicio" value="<?php echo get_option('makepressure_twitter_hashtag') ? get_option('makepressure_twitter_hashtag'):""; ?>"><br>
+      <input id="twitter_url" name="twitter_url" type="text" placeholder="Adicionar uma url" value="<?php echo get_option('makepressure_twitter_url') ? get_option('makepressure_twitter_url'):""; ?>"><br>
     </p>
     <p>
   </div>
@@ -542,11 +556,20 @@ function makepressure_settings()
 add_action( 'admin_post_update_options', 'public_agent_show_hide_fields' );
 function public_agent_show_hide_fields() 
 {
+
     update_option( "makepressure_email_show", $_POST["email"] == 'on'? "1" : '0' );
     update_option( "makepressure_facebook_show", $_POST["facebook"] == 'on'? "1" : '0' );
     update_option( "makepressure_twitter_show", $_POST["twitter"] == 'on'? "1" : '0' );
     update_option( "makepressure_whatsapp_show", $_POST["whatsapp"] == 'on'? "1" : '0' );
     update_option( "makepressure_phone_show", $_POST["phone"] == 'on'? "1" : '0' );
+
+    update_option( "makepressure_email_title", $_POST["email_subject"]?$_POST["email_subject"]:"" );
+    update_option( "makepressure_email_body", $_POST["email_body"]?$_POST["email_body"]:"" );
+    update_option( "makepressure_more_emails", $_POST["more_emails"]?$_POST["more_emails"]:"" );
+
+    update_option( "makepressure_twitter_text", $_POST["twitter_text"]?$_POST["twitter_text"]:"" );
+    update_option( "makepressure_twitter_hashtag", $_POST["twitter_hashtag"]?$_POST["twitter_hashtag"]:"" );
+    update_option( "makepressure_twitter_url", $_POST["twitter_url"]?$_POST["twitter_url"]:"" );
 
     wp_redirect( "admin.php?page=makepressure_menu" );
     exit;
