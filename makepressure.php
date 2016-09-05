@@ -827,6 +827,30 @@ function makepressure_activation()
 
 }
 
+function wp_divi_delibera_enqueue_style() {
+
+  wp_register_script('angular', plugin_dir_url( __FILE__ ).'js/angular.min.js');
+  wp_enqueue_script('angular');
+
+  wp_register_script('angular-animate', plugin_dir_url( __FILE__ ).'js/angular-animate.min.js', array('angular'));
+  wp_enqueue_script('angular-animate');
+
+  wp_register_script('angular-aria', plugin_dir_url( __FILE__ ).'js/angular-aria.min.js', array('angular'));
+  wp_enqueue_script('angular-aria');
+
+  wp_register_script('angular-messages', plugin_dir_url( __FILE__ ).'js/angular-messages.min.js', array('angular'));
+  wp_enqueue_script('angular-messages');
+
+  wp_register_style( 'angular-material',  plugin_dir_url( __FILE__ ).'css/angular-material.min.css' );
+  wp_enqueue_style( 'angular-material' );
+
+  wp_register_style( 'fontawesome',  plugin_dir_url( __FILE__ ).'css/font-awesome.min.css' );
+  wp_enqueue_style( 'fontawesome' );
+
+}
+
+add_action( 'wp_enqueue_scripts', 'wp_divi_delibera_enqueue_style' );
+
 require_once dirname(__FILE__)."/options.php"; 
 
 ?>
