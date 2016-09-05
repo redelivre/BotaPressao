@@ -217,7 +217,7 @@ function public_agent_the_meta($content)
   $twitter_hashtag = get_option( 'makepressure_twitter_hashtag' );
 
   if ( get_post_meta(  get_the_ID(), 'public_agent_email', true) ) : 
-    $new_content =  '<a style="margin:30px" href="mailto:';
+    $new_content =  '<a class="fa fa-envelope fa-3x" style="margin:10px;color:green;" href="mailto:';
     $new_content .= $email . $more_emails;
     //$new_content .= '?subject=Excelentissimo' . $email_subject . $space;
     $new_content .= '?subject=Excelentissimo' . $space;
@@ -228,24 +228,24 @@ function public_agent_the_meta($content)
     $new_content .= $cargo_valid . $space;
     $new_content .= get_the_title() . ", %0A%0A";
     $new_content .= $email_body;
-    $new_content .= '"><span style="font-size:38px" class="dashicons dashicons-email"></span></a>';
+    $new_content .= '"></a>';
   endif;
 
   $twitter = get_post_meta(  get_the_ID(), 'public_agent_twitter', true);
   
   if ( get_post_meta(  get_the_ID(), 'public_agent_twitter', true) ) :
-    $new_content .= '<a style="margin:30px" href="https://twitter.com/intent/tweet?text=@';
+    $new_content .= '<a class="fa fa-twitter fa-3x" style="margin:10px;color:#1dcaff;"  href="https://twitter.com/intent/tweet?text=@';
     $new_content .= $twitter . $twitter_text;
     $new_content .= '&url=' . $twitter_url;
-    $new_content .= '&hashtags=' . $twitter_hashtag . '" class="twitter-mention-button" data-show-count="false"><span style="font-size:35px" class="dashicons dashicons-twitter"></span></a>';
+    $new_content .= '&hashtags=' . $twitter_hashtag . '" class="twitter-mention-button" data-show-count="false"></a>';
   endif;
 
   $facebook = get_post_meta(  get_the_ID(), 'public_agent_facebook', true);
 
   if ( get_post_meta(  get_the_ID(), 'public_agent_facebook', true) ) : 
-    $new_content .= '<a style="margin:30px" target="_brank" href="';
+    $new_content .= '<a class="fa fa-facebook-official fa-3x" style="margin:10px;color:#3b5998;" target="_brank" href="';
     $new_content .= $facebook;
-    $new_content .= '"><span style="font-size:35px" class="dashicons dashicons-facebook"></span></a><br><br>';
+    $new_content .= '"></a><br><br>';
   endif;
 
   $phone = get_post_meta(  get_the_ID(), 'public_agent_phone', true);
