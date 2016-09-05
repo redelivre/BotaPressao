@@ -558,17 +558,18 @@ function public_agent_show_hide_fields()
 {
 
 
-  if(isset($_POST["email"])) $email = $_POST["email"] == 'on'? "1" : '0';
-  if(isset($_POST["facebook"])) $facebook = $_POST["facebook"] == 'on'? "1" : '0';
-  if(isset($_POST["twitter"])) $twitter = $_POST["twitter"] == 'on'? "1" : '0';
-  if(isset($_POST["whatsapp"])) $whatsapp = $_POST["whatsapp"] == 'on'? "1" : '0';
-  if(isset($_POST["phone"])) $phone = $_POST["phone"] == 'on'? "1" : '0';
-  if(isset($_POST["email_subject"])) $email_subject = $_POST["email_subject"]?$_POST["email_subject"]:"";
-  if(isset($_POST["email_body"])) $email_body = $_POST["email_body"]?$_POST["email_body"]:"";
-  if(isset($_POST["more_emails"])) $more_emails = $_POST["more_emails"]?$_POST["more_emails"]:"";
-  if(isset($_POST["twitter_text"])) $twitter_text = $_POST["twitter_text"]?$_POST["twitter_text"]:"";
-  if(isset($_POST["twitter_hashtag"])) $twitter_hashtag = $_POST["twitter_hashtag"]?$_POST["twitter_hashtag"]:"";
-  if(isset($_POST["twitter_url"])) $twitter_url = $_POST["twitter_url"]?$_POST["twitter_url"]:"";
+  $email = $_POST["email"] == 'on'? "1" : '0';
+  $facebook = $_POST["facebook"] == 'on'? "1" : '0';
+  $twitter = $_POST["twitter"] == 'on'? "1" : '0';
+  $whatsapp = $_POST["whatsapp"] == 'on'? "1" : '0';
+  $phone = $_POST["phone"] == 'on'? "1" : '0';
+  
+  $email_subject = isset( $_POST["email_subject"]) ? $_POST["email_subject"]:"";
+  $email_body = isset( $_POST["email_body"]) ? $_POST["email_body"]:"";
+  $more_emails = isset( $_POST["more_emails"]) ? $_POST["more_emails"]:"";
+  $twitter_text = isset( $_POST["twitter_text"]) ? $_POST["twitter_text"]:"";
+  $twitter_hashtag = isset( $_POST["twitter_hashtag"]) ? $_POST["twitter_hashtag"]:"";
+  $twitter_url = isset( $_POST["twitter_url"]) ? $_POST["twitter_url"]:"";
 
 
   update_option( "makepressure_email_show", $email);
