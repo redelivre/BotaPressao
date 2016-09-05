@@ -508,7 +508,7 @@ function makepressure_settings()
       <input type="checkbox" id="phone" name="phone"  <?php echo get_option('makepressure_phone_show') ? "checked":""; ?>/>
       <label>Telefone</label>
     </p>
-    <!--p>
+    <p>
       <label>Correio</label>
       <br>
       <p>
@@ -530,7 +530,7 @@ function makepressure_settings()
           </label>Carro de Som</label>
         </p>
       </p>
-    </p-->
+    </p>
     <!-- TODO -->
     <p>
       <label>Inserir mensagem padrão para email:</label><br>
