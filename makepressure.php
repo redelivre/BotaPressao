@@ -271,7 +271,10 @@ function get_jobs()
 
 function public_agent_the_meta($content)
 {
+
   if (get_post_type() != "public_agent") return $content;
+  
+  $new_content = "";
 
   $email = get_post_meta(  get_the_ID(), "public_agent_email", true);
   $cargo = get_post_meta(  get_the_ID(), "public_agent_cargo", true);
@@ -339,24 +342,30 @@ function public_agent_the_meta($content)
       if (  $meta['slug'] == 'public_agent_twitter' ) continue;
       //if (  $meta['slug'] == 'public_agent_whatsapp' ) continue;
       if (  $meta['slug'] == 'public_agent_phone' ) continue;
-
-      $new_content .= '<p>';
-      $new_content .= $meta['label'];
-      $new_content .= ': ';
-      $new_content .= get_post_meta( get_the_ID(), $meta['slug'] , true) . "</p>";
+      if (get_post_meta( get_the_ID(), $meta['slug'] , true) != "") {
+        $new_content .= '<p>';
+        $new_content .= $meta['label'];
+        $new_content .= ': ';
+        $new_content .= get_post_meta( get_the_ID(), $meta['slug'] , true) . "</p>";
+      }
 
     }
     //pre get categories
-    $state = wp_get_post_terms( get_the_ID() , 'public_agent_state')[0];
-    $job = wp_get_post_terms( get_the_ID() , 'public_agent_job')[0];
-    $genre = wp_get_post_terms( get_the_ID() , 'public_agent_genre')[0];
-    $party = wp_get_post_terms( get_the_ID() , 'public_agent_party')[0];
+
+    $state = wp_get_post_terms( get_the_ID() , 'public_agent_state');
+    $job = wp_get_post_terms( get_the_ID() , 'public_agent_job');
+    $genre = wp_get_post_terms( get_the_ID() , 'public_agent_genre');
+    $party = wp_get_post_terms( get_the_ID() , 'public_agent_party');
     //$category = wp_get_post_terms( get_the_ID() , 'category')[0];
-    
-    $new_content .= "<p>Estado: " . $state->name . "</p>";
-    $new_content .= "<p>Cargo: " . $job->name . "</p>";
-    $new_content .= "<p>Gênero: " . $genre->name . "</p>";
-    $new_content .= "<p>Partido: " . $party->name . "</p>";
+
+    if ($state)
+      $new_content .= "<p>Estado: " . $state[0]->name . "</p>";
+    if ($job)
+      $new_content .= "<p>Cargo: " . $job[0]->name . "</p>";
+    if ($genre)
+      $new_content .= "<p>Gênero: " . $genre[0]->name . "</p>";
+    if ($party)
+      $new_content .= "<p>Partido: " . $party[0]->name . "</p>";
 
     $new_content .= '</ul>';
 
