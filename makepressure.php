@@ -324,52 +324,60 @@ function public_agent_the_meta($content)
   $phone = get_post_meta(  get_the_ID(), 'public_agent_phone', true);
 
   if ( get_post_meta(  get_the_ID(), 'public_agent_phone', true) ) : 
-    $new_content .= '<a style="margin:30px" target="_brank" href="tel:';
+    $new_content .= '<p><a class="fa fa-phone fa-3x" target="_brank" href="tel:';
     $new_content .= $phone;
-    $new_content .= '"><span style="font-size:35px;">';
+    $new_content .= '">';
     $new_content .= $phone;
-    $new_content .= '</span><span style="font-size:29px;" class="dashicons dashicons-phone"></span>';
-    $new_content .= '</a>';
+    $new_content .= '</a></p>';
   endif;
 
-    $job = get_jobs();
-    $new_content .= '<br><br><br>';
-    $metas = public_agent_get_metas();
-    foreach($metas as $meta)
-    {
-      if (  $meta['slug'] == 'public_agent_email' ) continue;
-      if (  $meta['slug'] == 'public_agent_facebook' ) continue;
-      if (  $meta['slug'] == 'public_agent_twitter' ) continue;
-      //if (  $meta['slug'] == 'public_agent_whatsapp' ) continue;
-      if (  $meta['slug'] == 'public_agent_phone' ) continue;
-      if (get_post_meta( get_the_ID(), $meta['slug'] , true) != "") {
-        $new_content .= '<p>';
-        $new_content .= $meta['label'];
-        $new_content .= ': ';
-        $new_content .= get_post_meta( get_the_ID(), $meta['slug'] , true) . "</p>";
-      }
+  $whatsapp = get_post_meta(  get_the_ID(), 'public_agent_whatsapp', true);
 
+  if ( get_post_meta(  get_the_ID(), 'public_agent_whatsapp', true) ) : 
+    $new_content .= '<p><a class="fa fa-whatsapp fa-3x" style="color:green;" target="_brank" href="tel:';
+    $new_content .= $whatsapp;
+    $new_content .= '">';
+    $new_content .= $whatsapp;
+    $new_content .= '</a></p>';
+  endif;
+
+  $metas = public_agent_get_metas();
+  foreach($metas as $meta)
+  {
+    if (  $meta['slug'] == 'public_agent_email' ) continue;
+    if (  $meta['slug'] == 'public_agent_facebook' ) continue;
+    if (  $meta['slug'] == 'public_agent_twitter' ) continue;
+    if (  $meta['slug'] == 'public_agent_whatsapp' ) continue;
+    if (  $meta['slug'] == 'public_agent_phone' ) continue;
+    if (get_post_meta( get_the_ID(), $meta['slug'] , true) != "") {
+      $new_content .= '<p>';
+      $new_content .= $meta['label'];
+      $new_content .= ': ';
+      $new_content .= get_post_meta( get_the_ID(), $meta['slug'] , true) . "</p>";
     }
-    //pre get categories
 
-    $state = wp_get_post_terms( get_the_ID() , 'public_agent_state');
-    $job = wp_get_post_terms( get_the_ID() , 'public_agent_job');
-    $genre = wp_get_post_terms( get_the_ID() , 'public_agent_genre');
-    $party = wp_get_post_terms( get_the_ID() , 'public_agent_party');
-    //$category = wp_get_post_terms( get_the_ID() , 'category')[0];
+  }
 
-    if ($state)
-      $new_content .= "<p>Estado: " . $state[0]->name . "</p>";
-    if ($job)
-      $new_content .= "<p>Cargo: " . $job[0]->name . "</p>";
-    if ($genre)
-      $new_content .= "<p>Gênero: " . $genre[0]->name . "</p>";
-    if ($party)
-      $new_content .= "<p>Partido: " . $party[0]->name . "</p>";
+  //pre get categories
 
-    $new_content .= '</ul>';
+  $state = wp_get_post_terms( get_the_ID() , 'public_agent_state');
+  $job = wp_get_post_terms( get_the_ID() , 'public_agent_job');
+  $genre = wp_get_post_terms( get_the_ID() , 'public_agent_genre');
+  $party = wp_get_post_terms( get_the_ID() , 'public_agent_party');
+  //$category = wp_get_post_terms( get_the_ID() , 'category')[0];
 
-    return $content . $new_content;
+  if ($state)
+    $new_content .= "<p>Estado: " . $state[0]->name . "</p>";
+  if ($job)
+    $new_content .= "<p>Cargo: " . $job[0]->name . "</p>";
+  if ($genre)
+    $new_content .= "<p>Gênero: " . $genre[0]->name . "</p>";
+  if ($party)
+    $new_content .= "<p>Partido: " . $party[0]->name . "</p>";
+
+  $new_content .= '</ul>';
+
+  return $content . $new_content;
 }
 
 add_filter("the_content", "public_agent_the_meta");
