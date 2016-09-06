@@ -47,6 +47,7 @@ function create_public_agent()
     'hierarchical'       => false,
     'menu_position'      => null,
     'supports'           => array( 'title', 'author', 'editor', 'thumbnail', 'excerpt', 'comments', 'revisions', 'custom-fields' ),
+    //'supports'           => array( 'title', 'author', 'thumbnail', 'excerpt', 'comments', 'revisions', 'custom-fields' ),
     'taxonomies'         => array( 'category' ),
     'menu_icon'          =>  'dashicons-businessman',
   );
@@ -54,29 +55,98 @@ function create_public_agent()
   register_post_type( 'public_agent', apply_filters( 'et_public_agent_posttype_args', $args ) );
 
 
-        $labels = array(
-                'name'              => esc_html__( 'Tags de Agente Público', 'et_builder' ),
-                'singular_name'     => esc_html__( 'Tag de Agente Público', 'et_builder' ),
-                'search_items'      => esc_html__( 'Buscar Tags', 'et_builder' ),
-                'all_items'         => esc_html__( 'Todas as Tags', 'et_builder' ),
-                'parent_item'       => esc_html__( 'Tag Pai', 'et_builder' ),
-                'parent_item_colon' => esc_html__( 'Tag Pai:', 'et_builder' ),
-                'edit_item'         => esc_html__( 'Editar Tag', 'et_builder' ),
-                'update_item'       => esc_html__( 'Atualizar Tag', 'et_builder' ),
-                'add_new_item'      => esc_html__( 'Adicionar Nova Tag', 'et_builder' ),
-                'new_item_name'     => esc_html__( 'Novo nome de Tag', 'et_builder' ),
-                'menu_name'         => esc_html__( 'Tags', 'et_builder' ),
-        );
+  $labels = array(
+          'name'              => esc_html__( 'Estados', 'et_builder' ),
+          'singular_name'     => esc_html__( 'Estado', 'et_builder' ),
+          'search_items'      => esc_html__( 'Buscar Estados', 'et_builder' ),
+          'all_items'         => esc_html__( 'Todas os Estados', 'et_builder' ),
+          'parent_item'       => esc_html__( 'Estado Pai', 'et_builder' ),
+          'parent_item_colon' => esc_html__( 'Estado Pai:', 'et_builder' ),
+          'edit_item'         => esc_html__( 'Editar Estado', 'et_builder' ),
+          'update_item'       => esc_html__( 'Atualizar Estado', 'et_builder' ),
+          'add_new_item'      => esc_html__( 'Adicionar Novo Estado', 'et_builder' ),
+          'new_item_name'     => esc_html__( 'Novo nome do Estado', 'et_builder' ),
+          'menu_name'         => esc_html__( 'Estados', 'et_builder' ),
+  );
 
-        register_taxonomy( 'public_agent_tag', array( 'public_agent' ), array(
-                'hierarchical'      => false,
-                'labels'            => $labels,
-                'show_ui'           => true,
-                'show_admin_column' => true,
-                'query_var'         => true,
-        ) );
+  register_taxonomy( 'public_agent_state', array( 'public_agent' ), array(
+          'hierarchical'      => true,
+          'labels'            => $labels,
+          'show_ui'           => true,
+          'show_admin_column' => true,
+          'query_var'         => true,
+    )
+  );
+
+  $labels = array(
+          'name'              => esc_html__( 'Partidos', 'et_builder' ),
+          'singular_name'     => esc_html__( 'Partido', 'et_builder' ),
+          'search_items'      => esc_html__( 'Buscar Partidos', 'et_builder' ),
+          'all_items'         => esc_html__( 'Todas os Partidos', 'et_builder' ),
+          'parent_item'       => esc_html__( 'Partido Pai', 'et_builder' ),
+          'parent_item_colon' => esc_html__( 'Partido Pai:', 'et_builder' ),
+          'edit_item'         => esc_html__( 'Editar Partido', 'et_builder' ),
+          'update_item'       => esc_html__( 'Atualizar Partido', 'et_builder' ),
+          'add_new_item'      => esc_html__( 'Adicionar Novo Partido', 'et_builder' ),
+          'new_item_name'     => esc_html__( 'Novo nome do Partido', 'et_builder' ),
+          'menu_name'         => esc_html__( 'Partidos', 'et_builder' ),
+  );
+
+  register_taxonomy( 'public_agent_party', array( 'public_agent' ), array(
+          'hierarchical'      => true,
+          'labels'            => $labels,
+          'show_ui'           => true,
+          'show_admin_column' => true,
+          'query_var'         => true,
+    )
+  );
+
+  $labels = array(
+          'name'              => esc_html__( 'Cargos', 'et_builder' ),
+          'singular_name'     => esc_html__( 'Cargo', 'et_builder' ),
+          'search_items'      => esc_html__( 'Buscar Cargos', 'et_builder' ),
+          'all_items'         => esc_html__( 'Todas os Cargos', 'et_builder' ),
+          'parent_item'       => esc_html__( 'Cargo Pai', 'et_builder' ),
+          'parent_item_colon' => esc_html__( 'Cargo Pai:', 'et_builder' ),
+          'edit_item'         => esc_html__( 'Editar Cargo', 'et_builder' ),
+          'update_item'       => esc_html__( 'Atualizar Cargo', 'et_builder' ),
+          'add_new_item'      => esc_html__( 'Adicionar Novo Cargo', 'et_builder' ),
+          'new_item_name'     => esc_html__( 'Novo nome do Cargo', 'et_builder' ),
+          'menu_name'         => esc_html__( 'Cargos', 'et_builder' ),
+  );
+
+  register_taxonomy( 'public_agent_job', array( 'public_agent' ), array(
+          'hierarchical'      => true,
+          'labels'            => $labels,
+          'show_ui'           => true,
+          'show_admin_column' => true,
+          'query_var'         => true,
+    )
+  );
+
+    $labels = array(
+          'name'              => esc_html__( 'Gêneros', 'et_builder' ),
+          'singular_name'     => esc_html__( 'Gênero', 'et_builder' ),
+          'search_items'      => esc_html__( 'Buscar Gêneros', 'et_builder' ),
+          'all_items'         => esc_html__( 'Todas os Gêneros', 'et_builder' ),
+          'parent_item'       => esc_html__( 'Gênero Pai', 'et_builder' ),
+          'parent_item_colon' => esc_html__( 'Gênero Pai:', 'et_builder' ),
+          'edit_item'         => esc_html__( 'Editar Gênero', 'et_builder' ),
+          'update_item'       => esc_html__( 'Atualizar Gênero', 'et_builder' ),
+          'add_new_item'      => esc_html__( 'Adicionar Novo Gênero', 'et_builder' ),
+          'new_item_name'     => esc_html__( 'Novo nome do Gênero', 'et_builder' ),
+          'menu_name'         => esc_html__( 'Gêneros', 'et_builder' ),
+  );
+
+  register_taxonomy( 'public_agent_genre', array( 'public_agent' ), array(
+          'hierarchical'      => true,
+          'labels'            => $labels,
+          'show_ui'           => true,
+          'show_admin_column' => true,
+          'query_var'         => true,
+    )
+  );
 }
-
 
 function public_agent_get_metas()
 {
@@ -102,64 +172,64 @@ function public_agent_get_metas()
     $metas[] = array ( 'label' => 'Telefone', 'slug'=>'public_agent_phone' ,'info' => __('Nenhum Telefone Informado', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' ));
   }
 
-  $metas[] = array ( 'label' => __('Estado','makepressure'), 'slug'=>'public_agent_state' ,'info' =>  __('Nenhum Estado Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
-      array ( 'value' => '' , 'content' => 'Selecione' ),
-      array ( 'value' => 'AC' , 'content' => 'Acre' ),
-      array ( 'value' => 'AL' , 'content' => 'Alagoas' ),
-      array ( 'value' => 'AP' , 'content' => 'Amapa' ),
-      array ( 'value' => 'AM' , 'content' => 'Amazonas' ),
-      array ( 'value' => 'BA' , 'content' => 'Bahia' ),
-      array ( 'value' => 'CE' , 'content' => 'Ceara' ),
-      array ( 'value' => 'DF' , 'content' => 'Distrito Federal' ),
-      array ( 'value' => 'ES' , 'content' => 'Espirito Santo' ),
-      array ( 'value' => 'GO' , 'content' => 'Goias' ),
-      array ( 'value' => 'MA' , 'content' => 'Maranhao' ),
-      array ( 'value' => 'MS' , 'content' => 'Mato Grosso do Sul' ),
-      array ( 'value' => 'MT' , 'content' => 'Mato Grosso' ),
-      array ( 'value' => 'MG' , 'content' => 'Minas Gerais' ),
-      array ( 'value' => 'PA' , 'content' => 'Para' ),
-      array ( 'value' => 'PB' , 'content' => 'Paraiba' ),
-      array ( 'value' => 'PR' , 'content' => 'Parana' ),
-      array ( 'value' => 'PE' , 'content' => 'Pernambuco' ),
-      array ( 'value' => 'PI' , 'content' => 'Piaui' ),
-      array ( 'value' => 'RJ' , 'content' => 'Rio de Janeiro' ),
-      array ( 'value' => 'RN' , 'content' => 'Rio Grande do Norte' ),
-      array ( 'value' => 'RS' , 'content' => 'Rio Grande do Sul' ),
-      array ( 'value' => 'RO' , 'content' => 'Rondonia' ),
-      array ( 'value' => 'RR' , 'content' => 'Roraima' ),
-      array ( 'value' => 'SC' , 'content' => 'Santa Catarina' ),
-      array ( 'value' => 'SP' , 'content' => 'Sao Paulo' ),
-      array ( 'value' => 'SE' , 'content' => 'Sergipe' ),
-      array ( 'value' => 'TO' , 'content' => 'Tocantins' )
-      )
-    )
-  );
+ // $metas[] = array ( 'label' => __('Estado','makepressure'), 'slug'=>'public_agent_state' ,'info' =>  __('Nenhum Estado Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
+     // array ( 'value' => '' , 'content' => 'Selecione' ),
+     // array ( 'value' => 'AC' , 'content' => 'Acre' ),
+     // array ( 'value' => 'AL' , 'content' => 'Alagoas' ),
+     // array ( 'value' => 'AP' , 'content' => 'Amapa' ),
+     // array ( 'value' => 'AM' , 'content' => 'Amazonas' ),
+     // array ( 'value' => 'BA' , 'content' => 'Bahia' ),
+     // array ( 'value' => 'CE' , 'content' => 'Ceara' ),
+     // array ( 'value' => 'DF' , 'content' => 'Distrito Federal' ),
+     // array ( 'value' => 'ES' , 'content' => 'Espirito Santo' ),
+     // array ( 'value' => 'GO' , 'content' => 'Goias' ),
+     // array ( 'value' => 'MA' , 'content' => 'Maranhao' ),
+     // array ( 'value' => 'MS' , 'content' => 'Mato Grosso do Sul' ),
+     // array ( 'value' => 'MT' , 'content' => 'Mato Grosso' ),
+     // array ( 'value' => 'MG' , 'content' => 'Minas Gerais' ),
+     // array ( 'value' => 'PA' , 'content' => 'Para' ),
+     // array ( 'value' => 'PB' , 'content' => 'Paraiba' ),
+     // array ( 'value' => 'PR' , 'content' => 'Parana' ),
+     // array ( 'value' => 'PE' , 'content' => 'Pernambuco' ),
+     // array ( 'value' => 'PI' , 'content' => 'Piaui' ),
+     // array ( 'value' => 'RJ' , 'content' => 'Rio de Janeiro' ),
+     // array ( 'value' => 'RN' , 'content' => 'Rio Grande do Norte' ),
+     // array ( 'value' => 'RS' , 'content' => 'Rio Grande do Sul' ),
+     // array ( 'value' => 'RO' , 'content' => 'Rondonia' ),
+     // array ( 'value' => 'RR' , 'content' => 'Roraima' ),
+     // array ( 'value' => 'SC' , 'content' => 'Santa Catarina' ),
+     // array ( 'value' => 'SP' , 'content' => 'Sao Paulo' ),
+     // array ( 'value' => 'SE' , 'content' => 'Sergipe' ),
+     // array ( 'value' => 'TO' , 'content' => 'Tocantins' )
+     // )
+    //)
+  //);
 
-  $metas[] = array ( 'label' => __('Partido', 'makepressure'), 'slug'=>'public_agent_partido' ,'info' =>  __('Nenhum Partido Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => get_option('public_agents_partidos_array')));
+  //$metas[] = array ( 'label' => __('Partido', 'makepressure'), 'slug'=>'public_agent_partido' ,'info' =>  __('Nenhum Partido Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => get_option('public_agents_partidos_array')));
   
-  $metas[] = array ( 'label' => __('Cargo Politico', 'makepressure'), 'slug'=>'public_agent_cargo' ,'info' =>  __('Nenhum Cargo Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
-                    array ( 'value' => '' , 'content' => __('Selecione','makepressure') ),
-                    array ( 'value' => 'presidente', 'content' => __('Presidentx', 'makepressure') ) ,
-                    array ( 'value' => 'vice_presidente', 'content' => __('Vice-Presidentx', 'makepressure' ) ) ,
-                    array ( 'value' => 'Ministro', 'content' => __('Ministrx','makepressure') ) ,
-                    array ( 'value' => 'secretario_federal', 'content' => __('Secretarix Federal','makepressure') ) ,
-                    array ( 'value' => 'deputado_federal', 'content' => __('Deputadx Federal', 'makepressure') ) ,
-                    array ( 'value' => 'senador', 'content' => __('Senadorx','makepressure') ) ,
-                    array ( 'value' => 'governador', 'content' => __('Governadorx','makepressure') ) ,
-                    array ( 'value' => 'vice_governador', 'content' => __( 'Vice-Governadorx', 'makepressure') ) ,
-                    array ( 'value' => 'deputado_estadual', 'content' => __('Deputadx Estadual', 'makepressure') ) ,
-                    array ( 'value' => 'secretario_estadual', 'content' => __('Secretarix Estadual','makepressure') ) ,
-                    array ( 'value' => 'prefeito', 'content' => __('Prefeitx', 'makepressure') ), 
-                    array ( 'value' => 'vice_prefeito', 'content' => __('Vice-Prefeitx', 'makepressure') ), 
-                    array ( 'value' => 'vereador', 'content' => __('Vereadorx', 'makepressure') ) ,
-                    array ( 'value' => 'secretario_municipal', 'content' => __('Secretarix Municipal','makepressure') ) ,
-                  )
-                )
-            );
-  $metas[] = array ( 'label' => 'Gênero', 'slug'=>'public_agent_genero' ,'info' =>  __('Nenhuma gênero Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
-                    array ( 'value' => '' , 'content' => 'Selecione' ),
-                    array ( 'value' => 'Feminino' , 'content' => __('Feminino', 'makepressure') ),
-                    array ( 'value' => 'Masculino' , 'content' => __('Masculino', 'makepressure') ))));
+  //$metas[] = array ( 'label' => __('Cargo Politico', 'makepressure'), 'slug'=>'public_agent_cargo' ,'info' =>  __('Nenhum Cargo Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
+                    //array ( 'value' => '' , 'content' => __('Selecione','makepressure') ),
+                    //array ( 'value' => 'presidente', 'content' => __('Presidentx', 'makepressure') ) ,
+                    //array ( 'value' => 'vice_presidente', 'content' => __('Vice-Presidentx', 'makepressure' ) ) ,
+                    //array ( 'value' => 'Ministro', 'content' => __('Ministrx','makepressure') ) ,
+                    //array ( 'value' => 'secretario_federal', 'content' => __('Secretarix Federal','makepressure') ) ,
+                    //array ( 'value' => 'deputado_federal', 'content' => __('Deputadx Federal', 'makepressure') ) ,
+                    //array ( 'value' => 'senador', 'content' => __('Senadorx','makepressure') ) ,
+                    //array ( 'value' => 'governador', 'content' => __('Governadorx','makepressure') ) ,
+                    //array ( 'value' => 'vice_governador', 'content' => __( 'Vice-Governadorx', 'makepressure') ) ,
+                    //array ( 'value' => 'deputado_estadual', 'content' => __('Deputadx Estadual', 'makepressure') ) ,
+                    //array ( 'value' => 'secretario_estadual', 'content' => __('Secretarix Estadual','makepressure') ) ,
+                    //array ( 'value' => 'prefeito', 'content' => __('Prefeitx', 'makepressure') ), 
+                    //array ( 'value' => 'vice_prefeito', 'content' => __('Vice-Prefeitx', 'makepressure') ), 
+                    //array ( 'value' => 'vereador', 'content' => __('Vereadorx', 'makepressure') ) ,
+                    //array ( 'value' => 'secretario_municipal', 'content' => __('Secretarix Municipal','makepressure') ) ,
+                 // )
+               // )
+            //);
+  //$metas[] = array ( 'label' => 'Gênero', 'slug'=>'public_agent_genero' ,'info' =>  __('Nenhuma gênero Informado', 'makepressure'), 'html' => array ('tag'=> 'select', 'options' => array(
+                    //array ( 'value' => '' , 'content' => 'Selecione' ),
+                    //array ( 'value' => 'Feminino' , 'content' => __('Feminino', 'makepressure') ),
+                    //array ( 'value' => 'Masculino' , 'content' => __('Masculino', 'makepressure') ))));
             //array ( 'label' => __('Declaração de voto', 'makepressure'), 'slug'=>'public_agent_declaracao_voto' ,'info' => __('Nenhuma Declaração de voto Informada ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
             //array ( 'label' => __('Ocorrências Judiciais', 'makepressure'), 'slug'=>'public_agent_ocorrencias' ,'info' => __('Nenhuma Ocorrencia Judicial Informada ', 'makepressure'), 'html' => array ('tag'=> 'textarea', 'rows' => 4 , 'cols' => 50 ) ),
             //array ( 'label' => __('Número de ocorrências', 'makepressure'), 'slug'=>'public_agent_numero_ocorrencias' ,'info' => __('Nenhum Número de Ocorrências Informado ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' )),
@@ -270,12 +340,24 @@ function public_agent_the_meta($content)
       //if (  $meta['slug'] == 'public_agent_whatsapp' ) continue;
       if (  $meta['slug'] == 'public_agent_phone' ) continue;
 
-      $new_content .= '<li><span class="post-meta-key">';
+      $new_content .= '<p>';
       $new_content .= $meta['label'];
-      $new_content .= ': </span>';
-      $new_content .= get_post_meta( get_the_ID(), $meta['slug'] , true);
+      $new_content .= ': ';
+      $new_content .= get_post_meta( get_the_ID(), $meta['slug'] , true) . "</p>";
 
     }
+    //pre get categories
+    $state = wp_get_post_terms( get_the_ID() , 'public_agent_state')[0];
+    $job = wp_get_post_terms( get_the_ID() , 'public_agent_job')[0];
+    $genre = wp_get_post_terms( get_the_ID() , 'public_agent_genre')[0];
+    $party = wp_get_post_terms( get_the_ID() , 'public_agent_party')[0];
+    //$category = wp_get_post_terms( get_the_ID() , 'category')[0];
+    
+    $new_content .= "<p>Estado: " . $state->name . "</p>";
+    $new_content .= "<p>Cargo: " . $job->name . "</p>";
+    $new_content .= "<p>Gênero: " . $genre->name . "</p>";
+    $new_content .= "<p>Partido: " . $party->name . "</p>";
+
     $new_content .= '</ul>';
 
     return $content . $new_content;
@@ -360,9 +442,19 @@ function display_public_agent_meta_box($object, $box)
         </p>
         <?php
     }
-  } 
+  }
 ?>
-    <input type="hidden" name="makepressure_meta_box_nonce" value="<?php echo wp_create_nonce(plugin_basename(__FILE__)); ?>"/>
+
+  <!--h2><?php _e( 'Estado:' ); ?></h2>
+  <?php wp_dropdown_categories( 'show_count=1&hierarchical=1&taxonomy=public_agent_state&hide_empty=0&name=state' ); ?>
+  <h2><?php _e( 'Gênero:' ); ?></h2>
+  <?php wp_dropdown_categories( 'show_count=1&hierarchical=1&taxonomy=public_agent_genre&hide_empty=0&name=genre' ); ?>
+  <h2><?php _e( 'Cargo:' ); ?></h2>
+  <?php wp_dropdown_categories( 'show_count=1&hierarchical=1&taxonomy=public_agent_job&hide_empty=0&name=job' ); ?>
+  <h2><?php _e( 'Partido:' ); ?></h2>
+  <?php wp_dropdown_categories( 'show_count=1&hierarchical=1&taxonomy=public_agent_party&hide_empty=0&name=party' ); ?>
+  <input type="hidden" name="makepressure_meta_box_nonce" value="<?php echo wp_create_nonce(plugin_basename(__FILE__)); ?>"/-->
+
 <?php }
 
 add_action('save_post', 'save_public_agent_meta_box', 10, 2);
@@ -436,7 +528,7 @@ function public_agent_rewrite_rule() {
       '^busca',
       'index.php?busca',
       'top'
-      );
+  );
 }
 add_action('init','public_agent_rewrite_rule');
 
@@ -824,6 +916,38 @@ function makepressure_activation()
   update_option( "makepressure_twitter_show", '1' );
   update_option( "makepressure_whatsapp_show", '1' );
   update_option( "makepressure_phone_show", '1' );
+
+  //add new category
+
+  //add terms to category
+
+  $states = array( array( 'Acre', 'AC' ), array( 'Alagoas', 'AL' ), array( 'Amapa', 'AP' ), array( 'Amazonas', 'AM' ), array( 'Bahia', 'BA' ), array( 'Ceara', 'CE' ), array( 'Distrito Federal', 'DF' ), array( 'Espirito Santo', 'ES' ), array( 'Goias', 'GO' ), array( 'Maranhao', 'MA' ), array( 'Mato Grosso do Sul', 'MS' ), array( 'Mato Grosso', 'MT' ), array( 'Minas Gerais', 'MG' ), array( 'Para', 'PA' ), array( 'Paraiba', 'PB' ), array( 'Parana', 'PR' ), array( 'Pernambuco', 'PE' ), array( 'Piaui', 'PI' ), array( 'Rio de Janeiro', 'RJ' ), array( 'Rio Grande do Norte', 'RN' ), array( 'Rio Grande do Sul', 'RS' ), array( 'Rondonia', 'RO' ), array( 'Roraima', 'RR' ), array( 'Santa Catarina', 'SC' ), array( 'Sao Paulo', 'SP' ), array( 'Sergipe', 'SE' ), array( 'Tocantins', 'TO' ) );
+
+  foreach ($states as $state) {
+    $public_agent_cat = array('cat_name' => $state[0], 'category_description' => '', 'category_nicename' => $state[1], 'category_parent' => "", 'taxonomy' => 'public_agent_state');
+    $public_agent_cat_id = wp_insert_category($public_agent_cat);
+  }
+
+   $parties =  array( array ( 'Partido Do Movimento Democrático Brasileiro', 'PMDB' ), array ( 'Partido Do Movimento Democrático Brasileiro', 'PTB' ), array ( 'Partido Democrático Trabalhista', 'PDT' ), array ( 'Partido Dos Trabalhadores', 'PT' ), array ( 'Democratas', 'DEM' ), array ( 'Partido Comunista Do Brasil', 'PCdoB' ), array ( 'Partido Socialista Brasileiro', 'PSB' ), array ( 'Partido Da Social-Democracia Brasileira', 'PSDB' ), array ( 'Partido Trabalhista Cristão', 'PTC' ), array ( 'Partido Social Cristão', 'PSC' ), array ( 'Partido Da Mobilização Nacional', 'PMN' ), array ( 'Partido Republicano Progressista', 'PRP' ), array ( 'Partido Popular Socialista', 'PPS' ), array ( 'Partido Verde', 'PV' ), array ( 'Partido Trabalhista Do Brasil', 'PTdoB' ), array ( 'Partido Progressista', 'PP' ), array ( 'Partido Socialista Dos Trabalhadores Unificado', 'PSTU' ), array ( 'Partido Comunista Brasileiro', 'PCB' ), array ( 'Partido Renovador Trabalhista Brasileiro', 'PRTB' ), array ( 'Partido Humanista Da Solidariedade', 'PHS' ), array ( 'Partido Social Democrata Cristão', 'PSDC' ), array ( 'Partido Da Causa Operária', 'PCO' ), array ( 'Partido Trabalhista Nacional', 'PTN' ), array ( 'Partido Social Liberal', 'PSL' ), array ( 'Partido Republicano Brasileiro', 'PRB' ), array ( 'Partido Socialismo E Liberdade', 'PSOL' ), array ( 'Partido Da República', 'PR' ), array ( 'Partido Social Democrático', 'PSD' ), array ( 'Partido Pátria Livre', 'PPL' ), array ( 'Partido Ecológico Nacional', 'PEN' ), array ( 'Partido Republicano Da Ordem Social', 'PROS' ), array ( 'Solidariedade', 'SD' ), array ( 'Partido Novo', 'NOVO' ), array ( 'Rede Sustentabilidade', 'REDE' ), array ( 'Partido Da Mulher Brasileira' , 'PMB') );
+
+  foreach ($parties as $party) {
+    $public_agent_cat = array('cat_name' => $party[0], 'category_description' => '', 'category_nicename' => $party[1], 'category_parent' => "", 'taxonomy' => 'public_agent_party');
+    $public_agent_cat_id = wp_insert_category($public_agent_cat);
+  }
+  
+  $jobs = array( array( 'Presidentx', 'presidente' ), array( 'Vice-Presidentx', 'vice_presidente' ), array( 'Ministrx', 'Ministro' ), array( 'Secretarix Federal', 'secretario_federal' ), array( 'Deputadx Federal', 'deputado_federal' ), array( 'Senadorx', 'senador' ), array( 'Governadorx', 'governador' ), array( 'Vice-Governadorx', 'vice_governador' ), array( 'Deputadx Estadual', 'deputado_estadual' ), array( 'Secretarix Estadual', 'secretario_estadual' ), array( 'Prefeitx', 'prefeito' ), array( 'Vice-Prefeitx', 'vice_prefeito' ), array( 'Vereadorx', 'vereador' ), array( 'Secretarix Municipal', 'secretario_municipal' ) );
+
+  foreach ($jobs as $job) {
+    $public_agent_cat = array('cat_name' => $job[0], 'category_description' => '', 'category_nicename' => $job[1], 'category_parent' => "", 'taxonomy' => 'public_agent_job');
+    $public_agent_cat_id = wp_insert_category($public_agent_cat);
+  }
+
+  $genres = array( 'Feminino', 'Masculino' );
+
+    foreach ($genres as $genre) {
+    $public_agent_cat = array('cat_name' => $genre, 'category_description' => '', 'category_nicename' => $genre, 'category_parent' => "", 'taxonomy' => 'public_agent_genre');
+    $public_agent_cat_id = wp_insert_category($public_agent_cat);
+  }
 
 }
 
