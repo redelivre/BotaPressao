@@ -146,6 +146,29 @@ function create_public_agent()
           'query_var'         => true,
     )
   );
+
+  $labels = array(
+          'name'              => esc_html__( 'Comissões', 'et_builder' ),
+          'singular_name'     => esc_html__( 'Comissão', 'et_builder' ),
+          'search_items'      => esc_html__( 'Buscar Comissões', 'et_builder' ),
+          'all_items'         => esc_html__( 'Todas os Comissões', 'et_builder' ),
+          'parent_item'       => esc_html__( 'Comissão Pai', 'et_builder' ),
+          'parent_item_colon' => esc_html__( 'Comissão Pai:', 'et_builder' ),
+          'edit_item'         => esc_html__( 'Editar Comissão', 'et_builder' ),
+          'update_item'       => esc_html__( 'Atualizar Comissão', 'et_builder' ),
+          'add_new_item'      => esc_html__( 'Adicionar Novo Comissão', 'et_builder' ),
+          'new_item_name'     => esc_html__( 'Novo nome do Comissão', 'et_builder' ),
+          'menu_name'         => esc_html__( 'Comissões', 'et_builder' ),
+  );
+
+  register_taxonomy( 'public_agent_commission', array( 'public_agent' ), array(
+          'hierarchical'      => true,
+          'labels'            => $labels,
+          'show_ui'           => true,
+          'show_admin_column' => true,
+          'query_var'         => true,
+    )
+  );
 }
 
 function public_agent_get_metas()
@@ -272,6 +295,7 @@ function public_agent_the_meta($content)
   $job = wp_get_post_terms( get_the_ID() , 'public_agent_job');
   $genre = wp_get_post_terms( get_the_ID() , 'public_agent_genre');
   $party = wp_get_post_terms( get_the_ID() , 'public_agent_party');
+  $commissions = wp_get_post_terms( get_the_ID() , 'public_agent_commission');
   //$category = wp_get_post_terms( get_the_ID() , 'category')[0];
 
   if ($state)
@@ -282,8 +306,13 @@ function public_agent_the_meta($content)
     $new_content .= "<p>Gênero: " . $genre[0]->name . "</p>";
   if ($party)
     $new_content .= "<p>Partido: " . $party[0]->name . "</p>";
-
-  $new_content .= '</ul>';
+  if ($commissions){
+    $new_content .= "<p>Comissão: ";
+    foreach ($commissions as $commission) {
+      $new_content .= $commission->name . " ";
+    }
+    $new_content .= "</p>";
+  }
 
   return $content . $new_content;
 }
