@@ -533,7 +533,7 @@ function makepressure_adicionar_deputados(){
   $xml=simplexml_load_string($output) or die("Error: Cannot create object");
 
   echo '<form method="post">';
-  submit_button(__("Importar deputados", "makepressure" ));
+  submit_button(__("Importar deputadxxxxs", "makepressure" ));
   echo '</form>';
 
   foreach ($xml as $deputado) {
@@ -558,6 +558,35 @@ function makepressure_adicionar_deputados(){
         //break;
       }
       else{
+
+        $states = array( array( 'Acre', 'AC' ), array( 'Alagoas', 'AL' ), array( 'Amapa', 'AP' ), array( 'Amazonas', 'AM' ), array( 'Bahia', 'BA' ), array( 'Ceara', 'CE' ), array( 'Distrito Federal', 'DF' ), array( 'Espirito Santo', 'ES' ), array( 'Goias', 'GO' ), array( 'Maranhao', 'MA' ), array( 'Mato Grosso do Sul', 'MS' ), array( 'Mato Grosso', 'MT' ), array( 'Minas Gerais', 'MG' ), array( 'Para', 'PA' ), array( 'Paraiba', 'PB' ), array( 'Parana', 'PR' ), array( 'Pernambuco', 'PE' ), array( 'Piaui', 'PI' ), array( 'Rio de Janeiro', 'RJ' ), array( 'Rio Grande do Norte', 'RN' ), array( 'Rio Grande do Sul', 'RS' ), array( 'Rondonia', 'RO' ), array( 'Roraima', 'RR' ), array( 'Santa Catarina', 'SC' ), array( 'Sao Paulo', 'SP' ), array( 'Sergipe', 'SE' ), array( 'Tocantins', 'TO' ) );
+
+        foreach ($states as $state) {
+          $public_agent_cat = array('cat_name' => $state[0], 'category_description' => '', 'category_nicename' => $state[1], 'category_parent' => "", 'taxonomy' => 'public_agent_state');
+          $public_agent_cat_id = wp_insert_category($public_agent_cat);
+        }
+
+         $parties =  array( array ( 'Partido Do Movimento Democrático Brasileiro', 'PMDB' ), array ( 'Partido Do Movimento Democrático Brasileiro', 'PTB' ), array ( 'Partido Democrático Trabalhista', 'PDT' ), array ( 'Partido Dos Trabalhadores', 'PT' ), array ( 'Democratas', 'DEM' ), array ( 'Partido Comunista Do Brasil', 'PCdoB' ), array ( 'Partido Socialista Brasileiro', 'PSB' ), array ( 'Partido Da Social-Democracia Brasileira', 'PSDB' ), array ( 'Partido Trabalhista Cristão', 'PTC' ), array ( 'Partido Social Cristão', 'PSC' ), array ( 'Partido Da Mobilização Nacional', 'PMN' ), array ( 'Partido Republicano Progressista', 'PRP' ), array ( 'Partido Popular Socialista', 'PPS' ), array ( 'Partido Verde', 'PV' ), array ( 'Partido Trabalhista Do Brasil', 'PTdoB' ), array ( 'Partido Progressista', 'PP' ), array ( 'Partido Socialista Dos Trabalhadores Unificado', 'PSTU' ), array ( 'Partido Comunista Brasileiro', 'PCB' ), array ( 'Partido Renovador Trabalhista Brasileiro', 'PRTB' ), array ( 'Partido Humanista Da Solidariedade', 'PHS' ), array ( 'Partido Social Democrata Cristão', 'PSDC' ), array ( 'Partido Da Causa Operária', 'PCO' ), array ( 'Partido Trabalhista Nacional', 'PTN' ), array ( 'Partido Social Liberal', 'PSL' ), array ( 'Partido Republicano Brasileiro', 'PRB' ), array ( 'Partido Socialismo E Liberdade', 'PSOL' ), array ( 'Partido Da República', 'PR' ), array ( 'Partido Social Democrático', 'PSD' ), array ( 'Partido Pátria Livre', 'PPL' ), array ( 'Partido Ecológico Nacional', 'PEN' ), array ( 'Partido Republicano Da Ordem Social', 'PROS' ), array ( 'Solidariedade', 'SD' ), array ( 'Partido Novo', 'NOVO' ), array ( 'Rede Sustentabilidade', 'REDE' ), array ( 'Partido Da Mulher Brasileira' , 'PMB') );
+
+        foreach ($parties as $party) {
+          $public_agent_cat = array('cat_name' => $party[0], 'category_description' => '', 'category_nicename' => $party[1], 'category_parent' => "", 'taxonomy' => 'public_agent_party');
+          $public_agent_cat_id = wp_insert_category($public_agent_cat);
+        }
+        
+        $jobs = array( array( 'Presidentx', 'presidente' ), array( 'Vice-Presidentx', 'vice_presidente' ), array( 'Ministrx', 'Ministro' ), array( 'Secretarix Federal', 'secretario_federal' ), array( 'Deputadx Federal', 'deputado_federal' ), array( 'Senadorx', 'senador' ), array( 'Governadorx', 'governador' ), array( 'Vice-Governadorx', 'vice_governador' ), array( 'Deputadx Estadual', 'deputado_estadual' ), array( 'Secretarix Estadual', 'secretario_estadual' ), array( 'Prefeitx', 'prefeito' ), array( 'Vice-Prefeitx', 'vice_prefeito' ), array( 'Vereadorx', 'vereador' ), array( 'Secretarix Municipal', 'secretario_municipal' ) );
+
+        foreach ($jobs as $job) {
+          $public_agent_cat = array('cat_name' => $job[0], 'category_description' => '', 'category_nicename' => $job[1], 'category_parent' => "", 'taxonomy' => 'public_agent_job');
+          $public_agent_cat_id = wp_insert_category($public_agent_cat);
+        }
+
+        $genres = array( 'Feminino', 'Masculino' );
+
+        foreach ($genres as $genre) {
+          $public_agent_cat = array('cat_name' => $genre, 'category_description' => '', 'category_nicename' => $genre, 'category_parent' => "", 'taxonomy' => 'public_agent_genre');
+          $public_agent_cat_id = wp_insert_category($public_agent_cat);
+        }
+
         update_post_meta($response, 'public_agent_email' , (string) $deputado->email);
         update_post_meta($response, 'public_agent_phone' , (string) $deputado->fone);
 
