@@ -645,6 +645,7 @@ function makepressure_adicionar_deputados(){
     echo "</div>";
 
     echo '<br>';
+    break;
   }
 }
 
