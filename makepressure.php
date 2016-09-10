@@ -506,11 +506,113 @@ function public_agent_nav_menu_item($items) {
 add_filter( 'wp_nav_menu_items', 'public_agent_nav_menu_item' );
 
 
-add_action('init','public_agents_menu');
+add_action('admin_menu','public_agents_menu');
 
 function public_agents_menu()
 {
   add_menu_page( __('Bota Pressão','makepressure'), __('Bota Pressão','makepressure'), 'manage_options', 'makepressure_menu', 'makepressure_settings', 'dashicons-megaphone', 100);
+  add_submenu_page( 'makepressure_menu', __('Adicionar Deputados', 'makepressure'), __('Adicionar Deputados', 'makepressure'), 'manage_options', 'makepressure-adicionar-deputados', 'makepressure_adicionar_deputados');
+}
+
+
+function makepressure_adicionar_deputados(){
+  $Url="http://www.camara.leg.br/SitCamaraWS/Deputados.asmx/ObterDeputados";  
+  if (!function_exists('curl_init')){
+      die('Sorry cURL is not installed!');
+  } 
+     $ch = curl_init();
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_URL, $Url);
+  curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
+  $output = curl_exec($ch);
+  $resultCode = curl_getinfo($ch, CURLINFO_HTTP_CODE)
+  ;// Close the cURL resource, and free system resources
+  curl_close($ch);
+
+
+  $xml=simplexml_load_string($output) or die("Error: Cannot create object");
+
+  echo '<form method="post">';
+  submit_button(__("Importar deputados", "makepressure" ));
+  echo '</form>';
+
+  foreach ($xml as $deputado) {
+
+    if($_POST)
+    if ($_POST['submit'] == "Importar deputados") {
+      $postarr = array(
+          'post_title' => (string) $deputado->nomeParlamentar,
+          'post_type' => 'public_agent',
+          'post_status' => 'publish',
+          'meta_input' => array(
+              'public_agent_email' => (string) $deputado->email,
+              'public_agent_phone' => (string) $deputado->fone,
+            )
+
+        );
+      //post id
+      $response = wp_insert_post( $postarr, true );
+
+      if (is_wp_error($response) || $response == 0) {
+        var_dump($response);
+        //break;
+      }
+      else{
+        update_post_meta($response, 'public_agent_email' , (string) $deputado->email);
+        update_post_meta($response, 'public_agent_phone' , (string) $deputado->fone);
+
+        wp_set_post_terms( $response, get_term_by( 'slug',(string) $deputado->uf, 'public_agent_state' )->term_id, 'public_agent_state' );
+        wp_set_post_terms( $response, get_term_by( 'slug',(string) $deputado->partido, 'public_agent_party' )->term_id, 'public_agent_party' );
+        wp_set_post_terms( $response, get_term_by( 'slug',(string) $deputado->sexo, 'public_agent_genre' )->term_id , 'public_agent_genre' );        
+        wp_set_post_terms( $response, 256, 'public_agent_job' );
+
+        // example image
+        $image = (string) $deputado->urlFoto;
+
+        // magic sideload image returns an HTML image, not an ID
+        $media = media_sideload_image($image, $response);
+
+        // therefore we must find it so we can set it as featured ID
+        if(!empty($media) && !is_wp_error($media)){
+            $args = array(
+                'post_type' => 'attachment',
+                'posts_per_page' => -1,
+                'post_status' => 'any',
+                'post_parent' => $response
+            );
+
+            // reference new image to set as featured
+            $attachments = get_posts($args);
+
+            if(isset($attachments) && is_array($attachments)){
+                foreach($attachments as $attachment){
+                    // grab source of full size images (so no 300x150 nonsense in path)
+                    $image = wp_get_attachment_image_src($attachment->ID, 'full');
+                    // determine if in the $media image we created, the string of the URL exists
+                    if(strpos($media, $image[0]) !== false){
+                        // if so, we found our image. set it as thumbnail
+                        set_post_thumbnail($response, $attachment->ID);
+                        // only want one image
+                    }
+                }
+            }
+        }
+      }
+
+    }
+
+    echo "<div>";
+    echo '<img src="' . $deputado->urlFoto . '" /><br>';
+    echo $deputado->nomeParlamentar . "<br>";
+    echo $deputado->partido . "<br>";
+    echo $deputado->uf . "<br>";
+    echo $deputado->sexo . "<br>";
+    echo $deputado->email . "<br>";
+    echo "061 " . $deputado->fone . "<br>";
+    echo "</div>";
+
+    echo '<br>';
+  }
 }
 
 function makepressure_settings()
@@ -519,18 +621,6 @@ function makepressure_settings()
   <h1>Página de Configuração do Bota Pressão</h1>
   <form method="post" action="admin-post.php" >
   <input type="hidden" name="action" value="update_options">
-  <!--div id="selecao_public_agents">
-    <p>Qual o grupo instancia que deve ser precionado?</p>
-    <textarea placeholder="Entre com a lista de identificadores dos Agentes Públicos" ></textarea>
-  </div> 
-  <div id="descricao">
-    <input type="text" name="titulo_pressao" id="titulo_pressao" placeholder="Qual o titúlo da sua pressão?"></input>
-    <br>
-    <textarea name="descricao_pressao" id="descricao_pressao" placeholder="Descreva sua pressão"></textarea>
-  </div>
-  <div>
-    redes e links e ...
-  </div-->
   <div id="ferramentas">
     <p>Marque quais as ferramentas de pressão sobre cada agente público</p>
     <p>
