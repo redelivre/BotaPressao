@@ -175,7 +175,7 @@ function public_agent_get_metas()
 {
   $metas = array();
 
-  if ( get_option('makepressure_email_show') ) {
+  /*if ( get_option('makepressure_email_show') ) {
     $metas[] = array ( 'label' => 'Email', 'slug'=>'public_agent_email' ,'info' => __('Nenhum Email Informado ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' ));
   }
 
@@ -193,7 +193,7 @@ function public_agent_get_metas()
   
   if ( get_option('makepressure_phone_show') ) {
     $metas[] = array ( 'label' => 'Telefone', 'slug'=>'public_agent_phone' ,'info' => __('Nenhum Telefone Informado', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' ));
-  }
+  }*/
 
   return $metas;
 
@@ -511,7 +511,7 @@ add_action('admin_menu','public_agents_menu');
 function public_agents_menu()
 {
   add_menu_page( __('Bota Pressão','makepressure'), __('Bota Pressão','makepressure'), 'manage_options', 'makepressure_menu', 'makepressure_settings', 'dashicons-megaphone', 100);
-  add_submenu_page( 'makepressure_menu', __('Adicionar Deputados', 'makepressure'), __('Adicionar Deputados', 'makepressure'), 'manage_options', 'makepressure-adicionar-deputados', 'makepressure_adicionar_deputados');
+  add_submenu_page( 'makepressure_menu', __('Adicionar Deputados Federais', 'makepressure'), __('Adicionar Deputados Federais', 'makepressure'), 'manage_options', 'makepressure-adicionar-deputados', 'makepressure_adicionar_deputados');
 }
 
 
@@ -764,7 +764,7 @@ function makepressure_activation()
 
   $genres = array( 'Feminino', 'Masculino' );
 
-    foreach ($genres as $genre) {
+  foreach ($genres as $genre) {
     $public_agent_cat = array('cat_name' => $genre, 'category_description' => '', 'category_nicename' => $genre, 'category_parent' => "", 'taxonomy' => 'public_agent_genre');
     $public_agent_cat_id = wp_insert_category($public_agent_cat);
   }
