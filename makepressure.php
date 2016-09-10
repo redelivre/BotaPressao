@@ -533,7 +533,7 @@ function makepressure_adicionar_deputados(){
   $xml=simplexml_load_string($output) or die("Error: Cannot create object");
 
   echo '<form method="post">';
-  submit_button(__("Importar deputadxxxxs", "makepressure" ));
+  submit_button(__("Importar deputados", "makepressure" ));
   echo '</form>';
 
   foreach ($xml as $deputado) {
