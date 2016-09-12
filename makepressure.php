@@ -1196,7 +1196,7 @@ function makepressure_settings()
     <!-- TODO -->
     <p>
       <label>Inserir mensagem padrão para email:</label><br>
-      <!--input id="email_subject" name="email_subject" type="text" placeholder="Adicionar titulo da mensagem" value="<?php echo get_option('makepressure_email_title') ? get_option('makepressure_email_title'):""; ?>" /><br-->
+      <input id="email_subject" name="email_subject" type="text" placeholder="Adicionar titulo da mensagem" value="<?php echo get_option('makepressure_email_title') ? get_option('makepressure_email_title'):""; ?>" /><br>
       <textarea cols="50" rows="7" id="email_body" name="email_body" placeholder="Adicionar o corpo da mensagem"><?php echo get_option('makepressure_email_body') ? get_option('makepressure_email_body'):""; ?></textarea><br>
       * Favor utilizar %0A%0A para enviar enter nas url's.
       <!--textarea name="more_emails" placeholder="Adicionar + email's na mensagem, separados por virgula"><?php echo get_option('makepressure_more_emails') ? get_option('makepressure_more_emailsmails'):""; ?></textarea><br-->
