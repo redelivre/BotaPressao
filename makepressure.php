@@ -175,7 +175,7 @@ function public_agent_get_metas()
 {
   $metas = array();
 
-  /*if ( get_option('makepressure_email_show') ) {
+  if ( get_option('makepressure_email_show') ) {
     $metas[] = array ( 'label' => 'Email', 'slug'=>'public_agent_email' ,'info' => __('Nenhum Email Informado ', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' ));
   }
 
@@ -193,7 +193,7 @@ function public_agent_get_metas()
   
   if ( get_option('makepressure_phone_show') ) {
     $metas[] = array ( 'label' => 'Telefone', 'slug'=>'public_agent_phone' ,'info' => __('Nenhum Telefone Informado', 'makepressure') , 'html' => array ('tag'=> 'input', 'type' => 'text' ));
-  }*/
+  }
 
   return $metas;
 
@@ -437,7 +437,10 @@ function save_public_agent_meta_box($post_id, $post)
 
 //insert collumns on administration Public Agents page
 
-add_filter('manage_public_agent_posts_columns', 'public_agent_filter_columns');
+
+// XXXX conteudo desabilitado para deixar a página de de todos os agentes publicos mais leve (/wp-admin/edit.php?post_type=public_agent)
+
+//add_filter('manage_public_agent_posts_columns', 'public_agent_filter_columns');
 
 function public_agent_filter_columns($columns)
 {
@@ -453,7 +456,7 @@ function public_agent_filter_columns($columns)
   return $columns;
 }
 
-add_action('manage_posts_custom_column', 'public_agent_custom_columns', 10, 2);
+//add_action('manage_posts_custom_column', 'public_agent_custom_columns', 10, 2);
 function public_agent_custom_columns($column_id, $post_id)
 {
   //run a switch statement for all of the custom columns created
