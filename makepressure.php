@@ -8,6 +8,7 @@
    Author URI: cabelotaina
  */
 
+
 defined('ABSPATH') or die('No script kiddies please!');
 define( 'MAKE_PRESSURE_PATH', plugin_dir_path( __FILE__ ) );
 
@@ -53,7 +54,6 @@ function create_public_agent()
   );
 
   register_post_type( 'public_agent', apply_filters( 'et_public_agent_posttype_args', $args ) );
-
 
   $labels = array(
           'name'              => esc_html__( 'Estados', 'et_builder' ),
@@ -1306,6 +1306,191 @@ function wp_divi_delibera_enqueue_style() {
 }
 
 add_action( 'wp_enqueue_scripts', 'wp_divi_delibera_enqueue_style' );
+
+// counter email
+if(is_admin()){
+  add_action( 'wp_ajax_makepressure_email', 'makepressure_email_callback' );
+  add_action( 'wp_ajax_nopriv_makepressure_email', 'makepressure_email_callback' );  
+}
+function makepressure_email_callback() {
+
+    if ( isset( $_POST['nonce'] ) &&  isset( $_POST['post_id'] ) && wp_verify_nonce( $_POST['nonce'], 'makepressure_email') ) {
+
+        $count = get_post_meta( $_POST['post_id'], 'makepressure_email_counter', true );
+        update_post_meta( $_POST['post_id'], 'makepressure_email_counter', ( $count === '' ? 1 : $count + 1 ) );
+    }
+    wp_die();
+}
+
+
+add_action( 'wp_head', 'makepressure_email_click_head' );
+function makepressure_email_click_head() {
+    global $post;
+
+    if( isset( $post->ID ) ) {
+?>
+    <script type="text/javascript" >
+    jQuery(function ($) {
+        var ajax_options = {
+            action: 'makepressure_email',
+            nonce: '<?php echo wp_create_nonce( 'makepressure_email'); ?>',
+            ajaxurl: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
+            post_id: ''
+        };
+
+        $( '.makepressure_email' ).on( 'click', function() {
+            var self = $( this );
+            ajax_options.post_id = self.attr( 'id' );
+            $.post( ajax_options.ajaxurl, ajax_options, function() {
+                window.location.href = self.attr( "href" );
+            });
+            return false;
+        });
+    });
+    </script>
+<?php
+    }
+}
+
+// counter facebook
+if(is_admin()){
+  add_action( 'wp_ajax_makepressure_facebook', 'makepressure_facebook_callback' );
+  add_action( 'wp_ajax_nopriv_makepressure_facebook', 'makepressure_facebook_callback' );  
+}
+function makepressure_facebook_callback() {
+
+    if ( isset( $_POST['nonce'] ) &&  isset( $_POST['post_id'] ) && wp_verify_nonce( $_POST['nonce'], 'makepressure_facebook') ) {
+
+        $count = get_post_meta( $_POST['post_id'], 'makepressure_facebook_counter', true );
+        update_post_meta( $_POST['post_id'], 'makepressure_facebook_counter', ( $count === '' ? 1 : $count + 1 ) );
+    }
+    wp_die();
+}
+
+
+add_action( 'wp_head', 'makepressure_facebook_click_head' );
+function makepressure_facebook_click_head() {
+    global $post;
+
+    if( isset( $post->ID ) ) {
+?>
+    <script type="text/javascript" >
+    jQuery(function ($) {
+        var ajax_options = {
+            action: 'makepressure_facebook',
+            nonce: '<?php echo wp_create_nonce( 'makepressure_facebook'); ?>',
+            ajaxurl: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
+            post_id: ''
+        };
+
+        $( '.makepressure_facebook' ).on( 'click', function() {
+            var self = $( this );
+            ajax_options.post_id = self.attr( 'id' );
+            $.post( ajax_options.ajaxurl, ajax_options, function() {
+                window.location.href = self.attr( "href" );
+            });
+            return false;
+        });
+    });
+    </script>
+<?php
+    }
+}
+
+// counter twitter
+if(is_admin()){
+  add_action( 'wp_ajax_makepressure_twitter', 'makepressure_twitter_callback' );
+  add_action( 'wp_ajax_nopriv_makepressure_twitter', 'makepressure_twitter_callback' );  
+}
+function makepressure_twitter_callback() {
+
+    if ( isset( $_POST['nonce'] ) &&  isset( $_POST['post_id'] ) && wp_verify_nonce( $_POST['nonce'], 'makepressure_twitter') ) {
+
+        $count = get_post_meta( $_POST['post_id'], 'makepressure_twitter_counter', true );
+        update_post_meta( $_POST['post_id'], 'makepressure_twitter_counter', ( $count === '' ? 1 : $count + 1 ) );
+    }
+    wp_die();
+}
+
+
+add_action( 'wp_head', 'makepressure_twitter_click_head' );
+function makepressure_twitter_click_head() {
+    global $post;
+
+    if( isset( $post->ID ) ) {
+?>
+    <script type="text/javascript" >
+    jQuery(function ($) {
+        var ajax_options = {
+            action: 'makepressure_twitter',
+            nonce: '<?php echo wp_create_nonce( 'makepressure_twitter'); ?>',
+            ajaxurl: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
+            post_id: ''
+        };
+
+        $( '.makepressure_twitter' ).on( 'click', function() {
+            var self = $( this );
+            ajax_options.post_id = self.attr( 'id' );
+            $.post( ajax_options.ajaxurl, ajax_options, function() {
+                window.location.href = self.attr( "href" );
+            });
+            return false;
+        });
+    });
+    </script>
+<?php
+    }
+}
+
+// counter superpressure
+if(is_admin()){
+  add_action( 'wp_ajax_makepressure_superpressure', 'makepressure_superpressure_callback' );
+  add_action( 'wp_ajax_nopriv_makepressure_superpressure', 'makepressure_superpressure_callback' );  
+}
+function makepressure_superpressure_callback() {
+
+    if ( isset( $_POST['nonce'] ) &&  isset( $_POST['css_id'] ) && wp_verify_nonce( $_POST['nonce'], 'makepressure_superpressure') ) {
+
+        $count = get_option( $_POST['css_id'] );
+        update_option( $_POST['css_id'], ( $count ? $count + 1 : 1 ) );
+    }
+    wp_die();
+}
+
+
+add_action( 'wp_head', 'makepressure_superpressure_click_head' );
+function makepressure_superpressure_click_head() {
+    global $post;
+
+    if( isset( $post->ID ) ) {
+?>
+    <script type="text/javascript" >
+    jQuery(function ($) {
+        var ajax_options = {
+            action: 'makepressure_superpressure',
+            nonce: '<?php echo wp_create_nonce( 'makepressure_superpressure'); ?>',
+            ajaxurl: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
+            css_id: ''
+        };
+
+        $( '.makepressure_superpressure' ).on( 'click', function() {
+            var self = $( this );
+            ajax_options.css_id = self.attr( 'id' );
+            $.post( ajax_options.ajaxurl, ajax_options, function() {
+                window.location.href = self.attr( "href" );
+            });
+            return false;
+        });
+    });
+    </script>
+<?php
+    }
+}
+
+add_action('init', 'makepressure_addscripts');
+function makepressure_addscripts(){
+  wp_enqueue_script( "chartjs", plugin_dir_url(__FILE__)."/node_modules/chart.js/dist/Chart.min.js");
+}
 
 require_once dirname(__FILE__)."/options.php"; 
 
