@@ -1492,6 +1492,86 @@ function makepressure_addscripts(){
   wp_enqueue_script( "chartjs", plugin_dir_url(__FILE__)."/node_modules/chart.js/dist/Chart.min.js");
 }
 
+function makepressure_statistics() {
+  add_rewrite_tag( '%stat%', '([^&]+)' );
+  add_rewrite_tag( '%category%', '([^&]+)' );
+  add_rewrite_rule( 'stats/([^&]+)/([^&]+)?', 'index.php?stat=$matches[1]&category=$matches[2]', 'top' );
+}
+
+add_action( 'init', 'makepressure_statistics' );
+
+function makepressure_statistics_endpoint_data() {
+
+  global $wp_query;
+
+  $tag = $wp_query->get( 'stat' );
+  $category = $wp_query->get( 'category' );
+
+  if ( $tag == 'states' ) {
+    $states_count = array();
+  
+    $cat_terms = get_terms(
+      $category,
+      array(
+       'hide_empty'    => false,
+       'orderby'       => 'name',
+       'order'         => 'ASC',
+       'number'        => 200 //specify yours
+      )
+    );
+
+    foreach($cat_terms as $term){
+      $email_sum = 0;
+      $twitter_sum = 0;
+      $facebook_sum = 0;
+
+      $args = array(
+        'post_type'             => 'public_agent',
+        'nopaging'              => true, //specify yours
+        'post_status'           => 'publish',
+        'tax_query'             => array(
+          array(
+            'taxonomy' => $category,
+            'field'    => 'id',
+            'terms'    => $term->term_id,
+          ),
+        )
+      );
+      $posts = new WP_Query( $args );
+
+      if( $posts->have_posts() ) :
+        while( $posts->have_posts() ) : $posts->the_post();
+        $email = get_post_meta( get_the_ID(), 'makepressure_email_counter' )?get_post_meta( get_the_ID(), 'makepressure_email_counter' ):"";
+        $twitter = get_post_meta( get_the_ID(), 'makepressure_twitter_counter' )?get_post_meta( get_the_ID(), 'makepressure_twitter_counter' ):"";
+        $facebook = get_post_meta( get_the_ID(), 'makepressure_facebook_counter' )?get_post_meta( get_the_ID(), 'makepressure_facebook_counter' ):"";
+        if (is_array($email))
+          $email_sum +=  (int)$email[0];
+        if(is_array($twitter))
+          $twitter_sum +=  (int)$twitter[0];
+        if(is_array($facebook))
+          $facebook_sum +=  (int)$facebook[0];
+
+        endwhile;
+      endif;
+      wp_reset_postdata(); //important
+      $count[$term->name] = array ( 
+        'email'     => ($email_sum != ""?$email_sum:0),
+        'twitter'   => ($twitter_sum =! ""?$twitter_sum:0),
+        'facebook'  => ($facebook_sum =! ""?$facebook_sum:0)
+      );
+    }
+
+
+    wp_send_json( $count );
+  }
+
+
+  return;
+}
+
+add_action( 'template_redirect', 'makepressure_statistics_endpoint_data' );
+
+
 require_once dirname(__FILE__)."/options.php"; 
 
 ?>
