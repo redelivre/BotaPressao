@@ -1569,6 +1569,11 @@ function makepressure_statistics_endpoint_data() {
   return;
 }
 
+function makepressure_add_cors_http_header(){
+    header("Access-Control-Allow-Origin: *");
+}
+add_action('init','makepressure_add_cors_http_header');
+
 add_action( 'template_redirect', 'makepressure_statistics_endpoint_data' );
 
 
