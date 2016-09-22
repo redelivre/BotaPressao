@@ -221,7 +221,7 @@ function public_agent_the_meta($content)
   $twitter_hashtag = get_option( 'makepressure_twitter_hashtag' );
 
   if ( get_post_meta(  get_the_ID(), 'public_agent_email', true) ) : 
-    $new_content =  '<a class="fa fa-envelope fa-3x" style="margin:10px;color:green;" href="mailto:';
+    $new_content =  '<a id="' . get_the_ID() . '" class="fa fa-envelope fa-3x makepressure_email" style="margin:10px;color:green;" href="mailto:';
     $new_content .= $email . $more_emails;
     //$new_content .= '?subject=Excelentissimo' . $email_subject . $space;
     $new_content .= '?subject=Excelentissimo' . $space;
@@ -238,7 +238,7 @@ function public_agent_the_meta($content)
   $twitter = get_post_meta(  get_the_ID(), 'public_agent_twitter', true);
   
   if ( get_post_meta(  get_the_ID(), 'public_agent_twitter', true) ) :
-    $new_content .= '<a class="fa fa-twitter fa-3x" style="margin:10px;color:#1dcaff;"  href="intent/tweet?text=@';
+    $new_content .= '<a id="' . get_the_ID() . '" class="fa fa-twitter fa-3x makepressure_twitter" style="margin:10px;color:#1dcaff;"  href="https://twitter.com/intent/tweet?text=@';
     $new_content .= $twitter . $twitter_text;
     $new_content .= '&url=' . $twitter_url;
     $new_content .= '&hashtags=' . $twitter_hashtag . '" class="twitter-mention-button" data-show-count="false"></a>';
@@ -247,7 +247,7 @@ function public_agent_the_meta($content)
   $facebook = get_post_meta(  get_the_ID(), 'public_agent_facebook', true);
 
   if ( get_post_meta(  get_the_ID(), 'public_agent_facebook', true) ) : 
-    $new_content .= '<a class="fa fa-facebook-official fa-3x" style="margin:10px;color:#3b5998;" target="_brank" href="';
+    $new_content .= '<a id="' . get_the_ID() . '" class="fa fa-facebook-official fa-3x makepressure_facebook" style="margin:10px;color:#3b5998;" target="_brank" href="';
     $new_content .= $facebook;
     $new_content .= '"></a><br><br>';
   endif;
@@ -313,6 +313,31 @@ function public_agent_the_meta($content)
     }
     $new_content .= "</p>";
   }
+
+  $email = is_array(get_post_meta( get_the_ID(), 'makepressure_email_counter' ))?get_post_meta( get_the_ID(), 'makepressure_email_counter' )[0]:0;
+  $twitter = is_array(get_post_meta( get_the_ID(), 'makepressure_twitter_counter' ))?get_post_meta( get_the_ID(), 'makepressure_twitter_counter' )[0]:0;
+  $facebook = is_array(get_post_meta( get_the_ID(), 'makepressure_facebook_counter' ))?get_post_meta( get_the_ID(), 'makepressure_facebook_counter' )[0]:0;
+
+  $new_content .= '<script type="text/javascript" >
+        jQuery(function ($) {
+            var ctx = document.getElementById("makepressure");
+            var myChart = new Chart(ctx, {
+                type: "polarArea",
+                data: {
+                    labels: ["Email", "Twitter", "Facebook"],
+                    datasets: [{
+                        label: "Número de cliques para cada botão:",
+                        data:  [' . $email . ', ' . $twitter . ', ' . $facebook . '],
+                        backgroundColor: ["rgba(75, 192, 192, 0.2)", "rgba(255, 99, 132, 0.2)", "rgba(255, 206, 86, 0.2)"],
+                        borderColor: ["rgba(75, 192, 192, 1)", "rgba(255,99,132,1)","rgba(255, 206, 86, 1)"] ,
+                        borderWidth: 1
+                    }],                    
+                } 
+            });
+
+          });
+  </script>';
+  $new_content .= '<canvas height="500px" width="1080" id="makepressure" style="display: block; width: 1080px; height: 500px;"></canvas>';
 
   return $content . $new_content;
 }
