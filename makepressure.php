@@ -314,9 +314,12 @@ function public_agent_the_meta($content)
     $new_content .= "</p>";
   }
 
-  $email = is_array(get_post_meta( get_the_ID(), 'makepressure_email_counter' ))?get_post_meta( get_the_ID(), 'makepressure_email_counter' )[0]:0;
-  $twitter = is_array(get_post_meta( get_the_ID(), 'makepressure_twitter_counter' ))?get_post_meta( get_the_ID(), 'makepressure_twitter_counter' )[0]:0;
-  $facebook = is_array(get_post_meta( get_the_ID(), 'makepressure_facebook_counter' ))?get_post_meta( get_the_ID(), 'makepressure_facebook_counter' )[0]:0;
+  $email = get_post_meta( get_the_ID(), 'makepressure_email_counter' )?get_post_meta( get_the_ID(), 'makepressure_email_counter' ):0;
+  $email = is_array($email)?$email[0]:0;
+  $twitter = get_post_meta( get_the_ID(), 'makepressure_twitter_counter' )?get_post_meta( get_the_ID(), 'makepressure_twitter_counter' ):0;
+  $twitter = is_array($twitter)?$twitter[0]:0;
+  $facebook = get_post_meta( get_the_ID(), 'makepressure_facebook_counter' )?get_post_meta( get_the_ID(), 'makepressure_facebook_counter' ):0;
+  $facebook = is_array($facebook)?$facebook[0]:0;
 
   $new_content .= '<script type="text/javascript" >
         jQuery(function ($) {
