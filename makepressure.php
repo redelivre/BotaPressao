@@ -299,17 +299,17 @@ function public_agent_the_meta($content)
   //$category = wp_get_post_terms( get_the_ID() , 'category')[0];
 
   if ($state)
-    $new_content .= "<p>Estado: " . $state[0]->name . "</p>";
+    $new_content .= '<p>Estado: <a href="' . get_category_link( $state[0]->term_id ) . '">' . $state[0]->name . '</a></p>';
   if ($job)
-    $new_content .= "<p>Cargo: " . $job[0]->name . "</p>";
+    $new_content .= '<p>Cargo: <a href="' . get_category_link( $job[0]->term_id ) . '">' . $job[0]->name . '</a></p>';
   if ($genre)
-    $new_content .= "<p>Gênero: " . $genre[0]->name . "</p>";
+    $new_content .= '<p>Gênero: <a href="' . get_category_link( $genre[0]->term_id ) . '">' . $genre[0]->name . '</a></p>';
   if ($party)
-    $new_content .= "<p>Partido: " . $party[0]->name . "</p>";
+    $new_content .= '<p>Partido: <a href="' . get_category_link( $party[0]->term_id ) . '">' . $party[0]->name . '</a></p>';
   if ($commissions){
-    $new_content .= "<p>Comissão: ";
+    $new_content .= "<p>Comissões: ";
     foreach ($commissions as $commission) {
-      $new_content .= $commission->name . " ";
+      $new_content .= '<a href="'. get_category_link( $commission->term_id ) . '">' . $commission->name . "</a> ";
     }
     $new_content .= "</p>";
   }
