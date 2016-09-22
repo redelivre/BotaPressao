@@ -2,10 +2,10 @@
 /*
    Plugin Name: Bota Pressão
    Plugin URI: http://redelivre.org.br
-   Description: Plugin for manager and pressure a Public Agents
+   Description: Plugin for manager and pressure Public Agent's
    Author: Maurilio Atila
    Version: 0.1
-   Author URI: cabelotaina
+   Author URI: https://github.com/cabelotaina/
  */
 
 
