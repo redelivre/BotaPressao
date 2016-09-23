@@ -493,16 +493,6 @@ function public_agent_rewrite_catch() {
 }
 add_action( 'template_redirect', 'public_agent_rewrite_catch' );
 
-// Filter wp_nav_menu() to add additional links and other output
-function public_agent_nav_menu_item($items) {
-  $public_agents_link = '<li class="search_people"><a href="' . home_url( '/busca' ) . '">' . __('Busca' , 'public_agent') . '</a></li>';
-  // add the home link to the end of the menu
-  $items = $items . $public_agents_link;
-  return $items;
-}
-add_filter( 'wp_nav_menu_items', 'public_agent_nav_menu_item' );
-
-
 add_action('admin_menu','public_agents_menu');
 
 function public_agents_menu()
