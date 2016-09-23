@@ -519,6 +519,7 @@ function makepressure_adicionar_redes(){
 
   if($_POST)
     if ($_POST['submit'] == "Adicionar Redes") {
+      set_time_limit(0);
       $aux = array(
         array( "facebook" => "https://www.facebook.com/cesarmessiaspsb/","twitter" => "","instagram" => "","e-mail" => "dep.cesarmessias","formacao" => "Pecuarista" ),
         array( "facebook" => "https://www.facebook.com/angelim.acre","twitter" => "RaimundoAngelim","instagram" => "","e-mail" => "dep.angelim","formacao" => "Economista" ),
@@ -1035,8 +1036,6 @@ function makepressure_adicionar_redes(){
         array( "facebook" => "https://www.facebook.com/dep.lazaro/","twitter" => "lazarobotelho","instagram" => "","e-mail" => "dep.lazarobotelho","formacao" => "Empresário, Pecuarista" ),
       );
 
-      //var_dump($aux[0]);
-
       foreach ($aux as $deputado) {
         $args = array(
           'post_type' => 'public_agent',
@@ -1094,6 +1093,7 @@ function makepressure_adicionar_deputados(){
 
     if($_POST)
     if ($_POST['submit'] == "Importar deputados") {
+      set_time_limit(0);
       $postarr = array(
           'post_title' => (string) $deputado->nomeParlamentar,
           'post_type' => 'public_agent',
@@ -1108,14 +1108,13 @@ function makepressure_adicionar_deputados(){
       $response = wp_insert_post( $postarr, true );
 
       if (is_wp_error($response) || $response == 0) {
-        var_dump($response);
-        //break;
+        break;
       }
       else{
 
         update_post_meta($response, 'public_agent_email' , (string) $deputado->email);
         update_post_meta($response, 'public_agent_phone' , (string) $deputado->fone);
-
+        wp_set_post_terms( $response, get_term_by( 'slug',"deputado_federal", 'public_agent_job' )->term_id, 'public_agent_job' );
         wp_set_post_terms( $response, get_term_by( 'slug',(string) $deputado->uf, 'public_agent_state' )->term_id, 'public_agent_state' );
         wp_set_post_terms( $response, get_term_by( 'slug',(string) $deputado->partido, 'public_agent_party' )->term_id, 'public_agent_party' );
         wp_set_post_terms( $response, get_term_by( 'slug',(string) $deputado->sexo, 'public_agent_genre' )->term_id , 'public_agent_genre' );        
