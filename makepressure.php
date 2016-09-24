@@ -49,7 +49,7 @@ function create_public_agent()
     'menu_position'      => null,
     'supports'           => array( 'title', 'author', 'editor', 'thumbnail', 'excerpt', 'comments', 'revisions', 'custom-fields' ),
     //'supports'           => array( 'title', 'author', 'thumbnail', 'excerpt', 'comments', 'revisions', 'custom-fields' ),
-    'taxonomies'         => array( 'category' ),
+    //'taxonomies'         => array( 'category' ),
     'menu_icon'          =>  'dashicons-businessman',
   );
 
@@ -358,7 +358,7 @@ function public_agent_change_post_placeholder($title)
 
 add_filter('enter_title_here', 'public_agent_change_post_placeholder');
 
-add_action('pre_get_posts', 'add_public_agent_to_query');
+//add_action('pre_get_posts', 'add_public_agent_to_query');
 
 function add_public_agent_to_query($query)
 {
