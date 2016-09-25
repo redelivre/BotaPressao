@@ -364,19 +364,8 @@ function public_agent_change_post_placeholder($title)
   }
   return $title;
 }
-
 add_filter('enter_title_here', 'public_agent_change_post_placeholder');
 
-//add_action('pre_get_posts', 'add_public_agent_to_query');
-
-function add_public_agent_to_query($query)
-{
-  if (is_home() && $query->is_main_query())
-    $query->set('post_type', array('post', 'page', 'public_agent'));
-  return $query;
-}
-
-add_action('admin_menu', 'public_agent_meta_box');
 
 function public_agent_meta_box()
 {
@@ -446,9 +435,10 @@ function display_public_agent_meta_box($object, $box)
   <?php wp_dropdown_categories( 'show_count=1&hierarchical=1&taxonomy=public_agent_party&hide_empty=0&name=party' ); ?>
   <input type="hidden" name="makepressure_meta_box_nonce" value="<?php echo wp_create_nonce(plugin_basename(__FILE__)); ?>"/-->
 
-<?php }
+  <?php 
+}
+add_action('admin_menu', 'public_agent_meta_box');
 
-add_action('save_post', 'save_public_agent_meta_box', 10, 2);
 function save_public_agent_meta_box($post_id, $post)
 {
   if (!current_user_can('edit_post', $post_id))
@@ -471,36 +461,7 @@ function save_public_agent_meta_box($post_id, $post)
     }
   }
 }
-
-//insert collumns on administration Public Agents page
-
-// pages and search system
-function public_agent_rewrite_add_var( $vars ) {
-  $vars[] = 'busca';
-  return $vars;
-}
-add_filter( 'query_vars', 'public_agent_rewrite_add_var' );
-
-// Create the rewrites
-function public_agent_rewrite_rule() {
-  add_rewrite_tag( '%busca%', '([^&]+)' );
-  add_rewrite_rule(
-      '^busca',
-      'index.php?busca',
-      'top'
-  );
-}
-add_action('init','public_agent_rewrite_rule');
-
-// Catch the URL and redirect it to a template file
-function public_agent_rewrite_catch() {
-  global $wp_query;
-  if ( array_key_exists( 'busca', $wp_query->query_vars ) ) {
-    include ( MAKE_PRESSURE_PATH . 'people_list.php');
-    exit;
-  }
-}
-add_action( 'template_redirect', 'public_agent_rewrite_catch' );
+add_action('save_post', 'save_public_agent_meta_box', 10, 2);
 
 add_action('admin_menu','public_agents_menu');
 
@@ -2571,8 +2532,7 @@ function makepressure_adicionar_deputados(){
         wp_set_post_terms( $response, get_term_by( 'slug',"deputado_federal", 'public_agent_job' )->term_id, 'public_agent_job' );
         wp_set_post_terms( $response, get_term_by( 'slug',(string) $deputado->uf, 'public_agent_state' )->term_id, 'public_agent_state' );
         wp_set_post_terms( $response, get_term_by( 'slug',(string) $deputado->partido, 'public_agent_party' )->term_id, 'public_agent_party' );
-        wp_set_post_terms( $response, get_term_by( 'slug',(string) $deputado->sexo, 'public_agent_genre' )->term_id , 'public_agent_genre' );        
-        wp_set_post_terms( $response, get_term_by( 'slug', 'deputado_federal', 'public_agent_job'), 'public_agent_job' );
+        wp_set_post_terms( $response, get_term_by( 'slug',(string) $deputado->sexo, 'public_agent_genre' )->term_id , 'public_agent_genre' );
 
         // example image
         $image = (string) $deputado->urlFoto;
@@ -2979,7 +2939,7 @@ function makepressure_statistics() {
   add_rewrite_rule( 'stats/([^&]+)/([^&]+)?', 'index.php?stat=$matches[1]&category=$matches[2]', 'top' );
 }
 
-add_action( 'init', 'makepressure_statistics' );
+//add_action( 'init', 'makepressure_statistics' );
 
 function makepressure_statistics_endpoint_data() {
 
@@ -3060,4 +3020,36 @@ add_action( 'template_redirect', 'makepressure_statistics_endpoint_data' );
 
 require_once dirname(__FILE__)."/options.php"; 
 
-?>
+// old functions
+
+/*
+//insert collumns on administration Public Agents page
+
+// pages and search system
+function public_agent_rewrite_add_var( $vars ) {
+  $vars[] = 'busca';
+  return $vars;
+}
+add_filter( 'query_vars', 'public_agent_rewrite_add_var' );
+
+// Create the rewrites
+function public_agent_rewrite_rule() {
+  add_rewrite_tag( '%busca%', '([^&]+)' );
+  add_rewrite_rule(
+      '^busca',
+      'index.php?busca',
+      'top'
+  );
+}
+add_action('init','public_agent_rewrite_rule');
+
+// Catch the URL and redirect it to a template file
+function public_agent_rewrite_catch() {
+  global $wp_query;
+  if ( array_key_exists( 'busca', $wp_query->query_vars ) ) {
+    include ( MAKE_PRESSURE_PATH . 'people_list.php');
+    exit;
+  }
+}
+add_action( 'template_redirect', 'public_agent_rewrite_catch' );
+*/
