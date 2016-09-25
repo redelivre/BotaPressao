@@ -224,11 +224,16 @@ function public_agent_the_meta($content)
     $new_content =  '<a id="' . get_the_ID() . '" class="fa fa-envelope fa-3x makepressure_email" style="margin:10px;color:green;" href="mailto:';
     $new_content .= $email . $more_emails;
     //$new_content .= '?subject=Excelentissimo' . $email_subject . $space;
-    $new_content .= '?subject=Excelentissimo' . $space;
+    $genre = wp_get_post_terms( get_the_ID() , 'public_agent_genre');
+    if (is_array($genre)) {
+      $genre = $genre[0];
+      $genre_slug = $genre->slug;
+    }
+    $new_content .= '?subject=Excelentissim' . ($genre_slug=='feminino'?'a':'o') . $space;
     $new_content .= $cargo_valid;
     $new_content .= $space;
     $new_content .= get_the_title(); 
-    $new_content .= '&body=Excelentissimo' .$space;
+    $new_content .= '&body=Excelentissim' . ($genre_slug=='feminino'?'a':'o') . $space;
     $new_content .= $cargo_valid . $space;
     $new_content .= get_the_title() . ", %0A%0A";
     $new_content .= $email_body;
