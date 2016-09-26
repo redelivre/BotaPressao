@@ -2928,36 +2928,34 @@ function makepressure_superpressure_click_head() {
     }
 }
 
-add_action('init', 'makepressure_addscripts');
+
 function makepressure_addscripts(){
   wp_enqueue_script( "chartjs", plugin_dir_url(__FILE__)."/node_modules/chart.js/dist/Chart.min.js");
 }
+add_action('init', 'makepressure_addscripts');
 
 function makepressure_statistics() {
   add_rewrite_tag( '%stat%', '([^&]+)' );
-  add_rewrite_tag( '%category%', '([^&]+)' );
-  add_rewrite_rule( 'stats/([^&]+)/([^&]+)?', 'index.php?stat=$matches[1]&category=$matches[2]', 'top' );
+  add_rewrite_rule( 'stats/([^&]+)/?', 'index.php?stat=$matches[1]', 'top' );
 }
-
-//add_action( 'init', 'makepressure_statistics' );
+add_action( 'init', 'makepressure_statistics' );
 
 function makepressure_statistics_endpoint_data() {
 
   global $wp_query;
 
   $tag = $wp_query->get( 'stat' );
-  $category = $wp_query->get( 'category' );
 
-  if ( $tag == 'states' ) {
+  if ( $tag == 'public_agent_state' || $tag == 'public_agent_genre' || $tag == 'public_agent_party' ) {
     $states_count = array();
   
     $cat_terms = get_terms(
-      $category,
+      $tag,
       array(
        'hide_empty'    => false,
        'orderby'       => 'name',
        'order'         => 'ASC',
-       'number'        => 200 //specify yours
+       'number'        => 200
       )
     );
 
@@ -2968,11 +2966,11 @@ function makepressure_statistics_endpoint_data() {
 
       $args = array(
         'post_type'             => 'public_agent',
-        'nopaging'              => true, //specify yours
+        'nopaging'              => true, 
         'post_status'           => 'publish',
         'tax_query'             => array(
           array(
-            'taxonomy' => $category,
+            'taxonomy' => $tag,
             'field'    => 'id',
             'terms'    => $term->term_id,
           ),
