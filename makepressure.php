@@ -202,158 +202,158 @@ function public_agent_get_metas()
 
 function public_agent_the_meta($content)
 {
+  if ( is_singular( 'public_agent' ) && !is_search() && is_single() ) {
+    $new_content = "";
 
-  if (get_post_type() != "public_agent") return $content;
-  
-  $new_content = "";
+    $email = get_post_meta(  get_the_ID(), "public_agent_email", true);
+    $cargo = get_post_meta(  get_the_ID(), "public_agent_cargo", true);
+    $cargo_valid = isset($cargo) ? get_post_meta(  get_the_ID(), 'public_agent_cargo', true) : "";
+    $space = '%20';
+    
+    $email_subject = get_option( 'makepressure_email_title' );
+    $email_body = get_option( 'makepressure_email_body' );
+    $more_emails = get_option( 'makepressure_more_emails' );
 
-  $email = get_post_meta(  get_the_ID(), "public_agent_email", true);
-  $cargo = get_post_meta(  get_the_ID(), "public_agent_cargo", true);
-  $cargo_valid = isset($cargo) ? get_post_meta(  get_the_ID(), 'public_agent_cargo', true) : "";
-  $space = '%20';
-  
-  $email_subject = get_option( 'makepressure_email_title' );
-  $email_body = get_option( 'makepressure_email_body' );
-  $more_emails = get_option( 'makepressure_more_emails' );
+    $twitter_text = get_option( 'makepressure_twitter_text' );
+    $twitter_url = get_option( 'makepressure_twitter_url' );
+    $twitter_hashtag = get_option( 'makepressure_twitter_hashtag' );
 
-  $twitter_text = get_option( 'makepressure_twitter_text' );
-  $twitter_url = get_option( 'makepressure_twitter_url' );
-  $twitter_hashtag = get_option( 'makepressure_twitter_hashtag' );
+    if ( get_post_meta(  get_the_ID(), 'public_agent_email', true) ) : 
+      $new_content =  '<a id="' . get_the_ID() . '" class="fa fa-envelope fa-3x makepressure_email" style="margin:10px;color:green;" href="mailto:';
+      $new_content .= $email . $more_emails;
+      //$new_content .= '?subject=Excelentissimo' . $email_subject . $space;
+      $genre = wp_get_post_terms( get_the_ID() , 'public_agent_genre');
+      if (is_array($genre)) {
+        $genre = $genre[0];
+        $genre_slug = $genre->slug;
+      }
+      $new_content .= '?subject=Excelentissim' . ($genre_slug=='feminino'?'a':'o') . $space;
+      $new_content .= $cargo_valid;
+      $new_content .= $space;
+      $new_content .= get_the_title(); 
+      $new_content .= '&body=Excelentissim' . ($genre_slug=='feminino'?'a':'o') . $space;
+      $new_content .= $cargo_valid . $space;
+      $new_content .= get_the_title() . ", %0A%0A";
+      $new_content .= $email_body;
+      $new_content .= '"></a>';
+    endif;
 
-  if ( get_post_meta(  get_the_ID(), 'public_agent_email', true) ) : 
-    $new_content =  '<a id="' . get_the_ID() . '" class="fa fa-envelope fa-3x makepressure_email" style="margin:10px;color:green;" href="mailto:';
-    $new_content .= $email . $more_emails;
-    //$new_content .= '?subject=Excelentissimo' . $email_subject . $space;
+    $twitter = get_post_meta(  get_the_ID(), 'public_agent_twitter', true);
+    
+    if ( get_post_meta(  get_the_ID(), 'public_agent_twitter', true) ) :
+      $new_content .= '<a id="' . get_the_ID() . '" class="fa fa-twitter fa-3x makepressure_twitter" style="margin:10px;color:#1dcaff;"  href="https://twitter.com/intent/tweet?text=@';
+      $new_content .= $twitter . $twitter_text;
+      $new_content .= '&url=' . $twitter_url;
+      $new_content .= '&hashtags=' . $twitter_hashtag . '" class="twitter-mention-button" data-show-count="false"></a>';
+    endif;
+
+    $facebook = get_post_meta(  get_the_ID(), 'public_agent_facebook', true);
+
+    if ( get_post_meta(  get_the_ID(), 'public_agent_facebook', true) ) : 
+      $new_content .= '<a id="' . get_the_ID() . '" class="fa fa-facebook-official fa-3x makepressure_facebook" style="margin:10px;color:#3b5998;" target="_brank" href="';
+      $new_content .= $facebook;
+      $new_content .= '"></a><br><br>';
+    endif;
+
+    $phone = get_post_meta(  get_the_ID(), 'public_agent_phone', true);
+
+    if ( get_post_meta(  get_the_ID(), 'public_agent_phone', true) ) : 
+      $new_content .= '<p><a class="fa fa-phone fa-3x" target="_brank" href="tel:';
+      $new_content .= $phone;
+      $new_content .= '">';
+      $new_content .= $phone;
+      $new_content .= '</a></p>';
+    endif;
+
+    $whatsapp = get_post_meta(  get_the_ID(), 'public_agent_whatsapp', true);
+
+    if ( get_post_meta(  get_the_ID(), 'public_agent_whatsapp', true) ) : 
+      $new_content .= '<p><a class="fa fa-whatsapp fa-3x" style="color:green;" target="_brank" href="tel:';
+      $new_content .= $whatsapp;
+      $new_content .= '">';
+      $new_content .= $whatsapp;
+      $new_content .= '</a></p>';
+    endif;
+
+    $metas = public_agent_get_metas();
+
+    foreach($metas as $meta)
+    {
+      if (  $meta['slug'] == 'public_agent_email' ) continue;
+      if (  $meta['slug'] == 'public_agent_facebook' ) continue;
+      if (  $meta['slug'] == 'public_agent_twitter' ) continue;
+      if (  $meta['slug'] == 'public_agent_whatsapp' ) continue;
+      if (  $meta['slug'] == 'public_agent_phone' ) continue;
+      if (get_post_meta( get_the_ID(), $meta['slug'] , true) != "") {
+        $new_content .= '<p>';
+        $new_content .= $meta['label'];
+        $new_content .= ': ';
+        $new_content .= get_post_meta( get_the_ID(), $meta['slug'] , true) . "</p>";
+      }
+    }
+
+    //pre get categories
+
+    $state = wp_get_post_terms( get_the_ID() , 'public_agent_state');
+    $job = wp_get_post_terms( get_the_ID() , 'public_agent_job');
     $genre = wp_get_post_terms( get_the_ID() , 'public_agent_genre');
-    if (is_array($genre)) {
-      $genre = $genre[0];
-      $genre_slug = $genre->slug;
-    }
-    $new_content .= '?subject=Excelentissim' . ($genre_slug=='feminino'?'a':'o') . $space;
-    $new_content .= $cargo_valid;
-    $new_content .= $space;
-    $new_content .= get_the_title(); 
-    $new_content .= '&body=Excelentissim' . ($genre_slug=='feminino'?'a':'o') . $space;
-    $new_content .= $cargo_valid . $space;
-    $new_content .= get_the_title() . ", %0A%0A";
-    $new_content .= $email_body;
-    $new_content .= '"></a>';
-  endif;
+    $party = wp_get_post_terms( get_the_ID() , 'public_agent_party');
+    $commissions = wp_get_post_terms( get_the_ID() , 'public_agent_commission');
+    //$category = wp_get_post_terms( get_the_ID() , 'category')[0];
 
-  $twitter = get_post_meta(  get_the_ID(), 'public_agent_twitter', true);
-  
-  if ( get_post_meta(  get_the_ID(), 'public_agent_twitter', true) ) :
-    $new_content .= '<a id="' . get_the_ID() . '" class="fa fa-twitter fa-3x makepressure_twitter" style="margin:10px;color:#1dcaff;"  href="https://twitter.com/intent/tweet?text=@';
-    $new_content .= $twitter . $twitter_text;
-    $new_content .= '&url=' . $twitter_url;
-    $new_content .= '&hashtags=' . $twitter_hashtag . '" class="twitter-mention-button" data-show-count="false"></a>';
-  endif;
+    if ($state)
+      $new_content .= '<p>Estado: <a href="' . get_category_link( $state[0]->term_id ) . '">' . $state[0]->name . '</a></p>';
+    if ($job)
+      $new_content .= '<p>Cargo: <a href="' . get_category_link( $job[0]->term_id ) . '">' . $job[0]->name . '</a></p>';
+    if ($genre)
+      $new_content .= '<p>Gênero: <a href="' . get_category_link( $genre[0]->term_id ) . '">' . $genre[0]->name . '</a></p>';
+    if ($party)
+      $new_content .= '<p>Partido: <a href="' . get_category_link( $party[0]->term_id ) . '">' . $party[0]->name . '</a></p>';
+    if ($commissions){
 
-  $facebook = get_post_meta(  get_the_ID(), 'public_agent_facebook', true);
 
-  if ( get_post_meta(  get_the_ID(), 'public_agent_facebook', true) ) : 
-    $new_content .= '<a id="' . get_the_ID() . '" class="fa fa-facebook-official fa-3x makepressure_facebook" style="margin:10px;color:#3b5998;" target="_brank" href="';
-    $new_content .= $facebook;
-    $new_content .= '"></a><br><br>';
-  endif;
-
-  $phone = get_post_meta(  get_the_ID(), 'public_agent_phone', true);
-
-  if ( get_post_meta(  get_the_ID(), 'public_agent_phone', true) ) : 
-    $new_content .= '<p><a class="fa fa-phone fa-3x" target="_brank" href="tel:';
-    $new_content .= $phone;
-    $new_content .= '">';
-    $new_content .= $phone;
-    $new_content .= '</a></p>';
-  endif;
-
-  $whatsapp = get_post_meta(  get_the_ID(), 'public_agent_whatsapp', true);
-
-  if ( get_post_meta(  get_the_ID(), 'public_agent_whatsapp', true) ) : 
-    $new_content .= '<p><a class="fa fa-whatsapp fa-3x" style="color:green;" target="_brank" href="tel:';
-    $new_content .= $whatsapp;
-    $new_content .= '">';
-    $new_content .= $whatsapp;
-    $new_content .= '</a></p>';
-  endif;
-
-  $metas = public_agent_get_metas();
-  foreach($metas as $meta)
-  {
-    if (  $meta['slug'] == 'public_agent_email' ) continue;
-    if (  $meta['slug'] == 'public_agent_facebook' ) continue;
-    if (  $meta['slug'] == 'public_agent_twitter' ) continue;
-    if (  $meta['slug'] == 'public_agent_whatsapp' ) continue;
-    if (  $meta['slug'] == 'public_agent_phone' ) continue;
-    if (get_post_meta( get_the_ID(), $meta['slug'] , true) != "") {
-      $new_content .= '<p>';
-      $new_content .= $meta['label'];
-      $new_content .= ': ';
-      $new_content .= get_post_meta( get_the_ID(), $meta['slug'] , true) . "</p>";
+      $new_content .= "<p>Comissões: ";
+      foreach ($commissions as $commission) {
+        $term_id = get_ancestors( $commission->term_id,'public_agent_commission');
+        $commission_father = get_term_by('id', $term_id[0], 'public_agent_commission');
+        $new_content .= '<a href="'. get_category_link( $commission_father->term_id ) . '">' . $commission_father->name . '</a> (<a href="' . get_category_link($commission->term_id) . '">' . $commission->name . '</a>) ';
+      }
+      $new_content .= "</p>";
     }
 
-  }
+    $email = get_post_meta( get_the_ID(), 'makepressure_email_counter' )?get_post_meta( get_the_ID(), 'makepressure_email_counter' ):0;
+    $email = is_array($email)?$email[0]:0;
+    $twitter = get_post_meta( get_the_ID(), 'makepressure_twitter_counter' )?get_post_meta( get_the_ID(), 'makepressure_twitter_counter' ):0;
+    $twitter = is_array($twitter)?$twitter[0]:0;
+    $facebook = get_post_meta( get_the_ID(), 'makepressure_facebook_counter' )?get_post_meta( get_the_ID(), 'makepressure_facebook_counter' ):0;
+    $facebook = is_array($facebook)?$facebook[0]:0;
 
-  //pre get categories
+    $new_content .= '<script type="text/javascript" >
+          jQuery(function ($) {
+              var ctx = document.getElementById("makepressure");
+              var myChart = new Chart(ctx, {
+                  type: "polarArea",
+                  data: {
+                      labels: ["Email", "Twitter", "Facebook"],
+                      datasets: [{
+                          label: "Número de cliques para cada botão:",
+                          data:  [' . $email . ', ' . $twitter . ', ' . $facebook . '],
+                          backgroundColor: ["rgba(75, 192, 192, 0.2)", "rgba(255, 99, 132, 0.2)", "rgba(255, 206, 86, 0.2)"],
+                          borderColor: ["rgba(75, 192, 192, 1)", "rgba(255,99,132,1)","rgba(255, 206, 86, 1)"] ,
+                          borderWidth: 1
+                      }],                    
+                  } 
+              });
 
-  $state = wp_get_post_terms( get_the_ID() , 'public_agent_state');
-  $job = wp_get_post_terms( get_the_ID() , 'public_agent_job');
-  $genre = wp_get_post_terms( get_the_ID() , 'public_agent_genre');
-  $party = wp_get_post_terms( get_the_ID() , 'public_agent_party');
-  $commissions = wp_get_post_terms( get_the_ID() , 'public_agent_commission');
-  //$category = wp_get_post_terms( get_the_ID() , 'category')[0];
-
-  if ($state)
-    $new_content .= '<p>Estado: <a href="' . get_category_link( $state[0]->term_id ) . '">' . $state[0]->name . '</a></p>';
-  if ($job)
-    $new_content .= '<p>Cargo: <a href="' . get_category_link( $job[0]->term_id ) . '">' . $job[0]->name . '</a></p>';
-  if ($genre)
-    $new_content .= '<p>Gênero: <a href="' . get_category_link( $genre[0]->term_id ) . '">' . $genre[0]->name . '</a></p>';
-  if ($party)
-    $new_content .= '<p>Partido: <a href="' . get_category_link( $party[0]->term_id ) . '">' . $party[0]->name . '</a></p>';
-  if ($commissions){
-
-
-    $new_content .= "<p>Comissões: ";
-    foreach ($commissions as $commission) {
-      $term_id = get_ancestors( $commission->term_id,'public_agent_commission');
-      $commission_father = get_term_by('id', $term_id[0], 'public_agent_commission');
-      $new_content .= '<a href="'. get_category_link( $commission_father->term_id ) . '">' . $commission_father->name . '</a> (<a href="' . get_category_link($commission->term_id) . '">' . $commission->name . '</a>) ';
-    }
-    $new_content .= "</p>";
-  }
-
-  $email = get_post_meta( get_the_ID(), 'makepressure_email_counter' )?get_post_meta( get_the_ID(), 'makepressure_email_counter' ):0;
-  $email = is_array($email)?$email[0]:0;
-  $twitter = get_post_meta( get_the_ID(), 'makepressure_twitter_counter' )?get_post_meta( get_the_ID(), 'makepressure_twitter_counter' ):0;
-  $twitter = is_array($twitter)?$twitter[0]:0;
-  $facebook = get_post_meta( get_the_ID(), 'makepressure_facebook_counter' )?get_post_meta( get_the_ID(), 'makepressure_facebook_counter' ):0;
-  $facebook = is_array($facebook)?$facebook[0]:0;
-
-  $new_content .= '<script type="text/javascript" >
-        jQuery(function ($) {
-            var ctx = document.getElementById("makepressure");
-            var myChart = new Chart(ctx, {
-                type: "polarArea",
-                data: {
-                    labels: ["Email", "Twitter", "Facebook"],
-                    datasets: [{
-                        label: "Número de cliques para cada botão:",
-                        data:  [' . $email . ', ' . $twitter . ', ' . $facebook . '],
-                        backgroundColor: ["rgba(75, 192, 192, 0.2)", "rgba(255, 99, 132, 0.2)", "rgba(255, 206, 86, 0.2)"],
-                        borderColor: ["rgba(75, 192, 192, 1)", "rgba(255,99,132,1)","rgba(255, 206, 86, 1)"] ,
-                        borderWidth: 1
-                    }],                    
-                } 
             });
+    </script>';
+    $new_content .= '<canvas height="500px" width="1080" id="makepressure" style="display: block; width: 1080px; height: 500px;"></canvas>';
 
-          });
-  </script>';
-  $new_content .= '<canvas height="500px" width="1080" id="makepressure" style="display: block; width: 1080px; height: 500px;"></canvas>';
+    return $content . $new_content;
+  }
 
-  return $content . $new_content;
+  return $content;
 }
-
 add_filter("the_content", "public_agent_the_meta");
 
 function public_agent_change_post_placeholder($title)
