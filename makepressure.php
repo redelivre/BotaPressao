@@ -4,7 +4,7 @@
    Plugin URI: http://redelivre.org.br
    Description: Plugin for manager and pressure Public Agent's
    Author: Maurilio Atila
-   Version: 0.1
+   Version: 0.2
    Author URI: https://github.com/cabelotaina/
  */
 
@@ -32,7 +32,6 @@ function create_public_agent()
 
   $args = array(
     'labels'             => $labels,
-    'public'             => true,
     'publicly_queryable' => true,
     'show_ui'            => true,
     'can_export'         => true,
@@ -48,7 +47,6 @@ function create_public_agent()
     'hierarchical'       => false,
     'menu_position'      => null,
     'supports'           => array( 'title', 'author', 'editor', 'thumbnail', 'excerpt', 'comments', 'revisions', 'custom-fields' ),
-    //'supports'           => array( 'title', 'author', 'thumbnail', 'excerpt', 'comments', 'revisions', 'custom-fields' ),
     //'taxonomies'         => array( 'category' ),
     'menu_icon'          =>  'dashicons-businessman',
   );
