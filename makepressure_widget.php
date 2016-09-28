@@ -98,7 +98,7 @@ class MakePressure_Widget extends WP_Widget {
     <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'text' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'text' ) ); ?>" type="text" value="<?php echo esc_attr( $text ); ?>">
     </p>
     <p>
-    <label for="<?php echo esc_attr( $this->get_field_id( 'button_text' ) ); ?>"><?php _e( esc_attr( __('Texto do botão de SUper Pressão','makepressure') . ':' ) ); ?></label> 
+    <label for="<?php echo esc_attr( $this->get_field_id( 'button_text' ) ); ?>"><?php _e( esc_attr( __('Texto do botão de Super Pressão','makepressure') . ':' ) ); ?></label> 
     <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'button_text' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'button_text' ) ); ?>" type="text" value="<?php echo esc_attr( $button_text ); ?>">
     </p>
     <?php 
