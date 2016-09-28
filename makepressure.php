@@ -8,9 +8,12 @@
    Author URI: https://github.com/cabelotaina/
  */
 
-
 defined('ABSPATH') or die('No script kiddies please!');
 define( 'MAKE_PRESSURE_PATH', plugin_dir_path( __FILE__ ) );
+
+include_once "makepressure_widget.php";
+require_once MAKE_PRESSURE_PATH."/options.php"; 
+
 
 add_action('init', 'create_public_agent');
 function create_public_agent()
@@ -3006,15 +3009,18 @@ function makepressure_statistics_endpoint_data() {
   return;
 }
 
+add_action( 'template_redirect', 'makepressure_statistics_endpoint_data' );
+
 function makepressure_add_cors_http_header(){
     header("Access-Control-Allow-Origin: *");
 }
 add_action('init','makepressure_add_cors_http_header');
 
-add_action( 'template_redirect', 'makepressure_statistics_endpoint_data' );
-
-
-require_once dirname(__FILE__)."/options.php"; 
+// register Widget MakePressure
+function makepressure_register_widget() {
+    register_widget( 'makepressure_widget' );
+}
+add_action( 'widgets_init', 'makepressure_register_widget' );
 
 // old functions
 
