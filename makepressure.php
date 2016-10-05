@@ -1,7 +1,7 @@
 <?php
 /*
    Plugin Name: Bota Pressão
-   Plugin URI: http://redelivre.org.br
+   Plugin URI: https://github.com/redelivre/botapressao
    Description: Plugin for manager and pressure Public Agent's
    Author: Maurilio Atila
    Version: 0.2
@@ -12,8 +12,8 @@ defined('ABSPATH') or die('No script kiddies please!');
 define( 'MAKE_PRESSURE_PATH', plugin_dir_path( __FILE__ ) );
 
 include_once "makepressure_widget.php";
-require_once MAKE_PRESSURE_PATH."/options.php"; 
-
+require_once MAKE_PRESSURE_PATH."/options.php";
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'wp-divi'. DIRECTORY_SEPARATOR .'modules.php';
 
 add_action('init', 'create_public_agent');
 function create_public_agent()
@@ -2744,7 +2744,8 @@ function wp_divi_delibera_enqueue_style() {
 
   wp_register_style( 'fontawesome',  plugin_dir_url( __FILE__ ).'css/font-awesome.min.css' );
   wp_enqueue_style( 'fontawesome' );
-
+  wp_register_style( 'divi-makepressure',  plugin_dir_url( __FILE__ ).'includes/wp-divi/ET_Builder_Module_Make_Pressure/frontend/css/ET_Builder_Module_Make_Pressure.css' );
+  wp_enqueue_style( 'divi-makepressure' );
 }
 
 add_action( 'wp_enqueue_scripts', 'wp_divi_delibera_enqueue_style' );
