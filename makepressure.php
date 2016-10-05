@@ -2744,8 +2744,6 @@ function wp_divi_delibera_enqueue_style() {
 
   wp_register_style( 'fontawesome',  plugin_dir_url( __FILE__ ).'css/font-awesome.min.css' );
   wp_enqueue_style( 'fontawesome' );
-  wp_register_style( 'divi-makepressure',  plugin_dir_url( __FILE__ ).'includes/wp-divi/ET_Builder_Module_Make_Pressure/frontend/css/ET_Builder_Module_Make_Pressure.css' );
-  wp_enqueue_style( 'divi-makepressure' );
 }
 
 add_action( 'wp_enqueue_scripts', 'wp_divi_delibera_enqueue_style' );

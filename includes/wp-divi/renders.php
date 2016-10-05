@@ -68,5 +68,6 @@ endif;
 add_action( 'wp_enqueue_scripts', 'wp_divi_makepressure_script' );
 
 function wp_divi_makepressure_script() {
-	wp_enqueue_style('ET_Builder_Module_Make_Pressure', get_stylesheet_directory_uri().'/includes/modules/ET_Builder_Module_Make_Pressure/frontend/css/ET_Builder_Module_Make_Pressure.css');
+  wp_register_style( 'divi-makepressure',  plugin_dir_url( __FILE__ ).'includes/wp-divi/ET_Builder_Module_Make_Pressure/frontend/css/ET_Builder_Module_Make_Pressure.css' );
+  wp_enqueue_style( 'divi-makepressure' );
 }
