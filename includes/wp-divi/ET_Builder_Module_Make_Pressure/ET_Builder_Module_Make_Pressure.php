@@ -2727,7 +2727,7 @@ class ET_Builder_Module_Brazil_Party_map extends ET_Builder_Module {
 		return $output;
 	}
 }
-//new ET_Builder_Module_Brazil_Party_map;
+new ET_Builder_Module_Brazil_Party_map;
 
 class ET_Builder_Module_Statistics extends ET_Builder_Module {
 	function init() {
@@ -2982,11 +2982,14 @@ class ET_Builder_Module_Make_Pressure_Search extends ET_Builder_Module {
 			'max_width',
 			'max_width_tablet',
 			'max_width_phone',
+			'button_text',
 		);
 
 		$this->fields_defaults = array(
 			'background_layout' => array( 'light' ),
+			'background_color'  => array( et_builder_accent_color(), 'add_default_setting' ),
 			'text_orientation'  => array( 'left' ),
+			'button_text' => array( 'Busca' ),
 		);
 
 		$this->main_css_element = '%%order_class%%';
@@ -3008,6 +3011,14 @@ class ET_Builder_Module_Make_Pressure_Search extends ET_Builder_Module {
 			'custom_margin_padding' => array(
 				'css' => array(
 					'important' => 'all',
+				),
+			),
+			'button' => array(
+				'button' => array(
+					'label' => esc_html__( 'Button', 'et_builder' ),
+					'css' => array(
+						'main' => $this->main_css_element,
+					),
 				),
 			),
 		);
@@ -3083,6 +3094,12 @@ class ET_Builder_Module_Make_Pressure_Search extends ET_Builder_Module {
 				'tab_slug'        => 'custom_css',
 				'option_class'    => 'et_pb_custom_css_regular',
 			),
+			'button_text' => array(
+				'label'           => esc_html__( 'Button Text', 'et_builder' ),
+				'type'            => 'text',
+				'option_category' => 'basic_option',
+				'description'     => esc_html__( 'Input your desired button text.', 'et_builder' ),
+			),
 		);
 		return $fields;
 	}
@@ -3095,6 +3112,7 @@ class ET_Builder_Module_Make_Pressure_Search extends ET_Builder_Module {
 		$max_width            = $this->shortcode_atts['max_width'];
 		$max_width_tablet     = $this->shortcode_atts['max_width_tablet'];
 		$max_width_phone      = $this->shortcode_atts['max_width_phone'];
+		$button_text       = $this->shortcode_atts['button_text'];
 
 		$module_class = ET_Builder_Element::add_module_order_class( $module_class, $function_name );
 
@@ -3172,7 +3190,7 @@ class ET_Builder_Module_Make_Pressure_Search extends ET_Builder_Module {
 
 	 		$output .= '<input type="hidden" name="post_type" value="public_agent">';
 	 		$output .= '<p>';
-	 		$output .= '<button>Buscar</button>';
+	 		$output .= '<button class="et_pb_button" style="background-color:#545454; color: white ">' . ('' !== $button_text ? esc_html( $button_text ) : 'Busca') . '</button>';
 	 		$output .= '</p>';
 		$output .= '</form>';
 
