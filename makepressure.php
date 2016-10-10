@@ -470,6 +470,7 @@ function public_agents_menu()
 {
   add_menu_page( __('Bota Pressão','makepressure'), __('Bota Pressão','makepressure'), 'manage_options', 'makepressure_menu', 'makepressure_settings', 'dashicons-megaphone', 100);
   add_submenu_page( 'makepressure_menu', __('Adicionar Deputados Federais', 'makepressure'), __('Adicionar Deputados Federais', 'makepressure'), 'manage_options', 'makepressure-adicionar-deputados', 'makepressure_adicionar_deputados');
+  add_submenu_page( 'makepressure_menu', __('Adicionar Senadores', 'makepressure'), __('Adicionar Senadores', 'makepressure'), 'manage_options', 'makepressure-adicionar-senadores', 'makepressure_adicionar_senadores');
   add_submenu_page( 'makepressure_menu', __('Adicionar Redes Sociais', 'makepressure'), __('Adicionar Redes Sociais', 'makepressure'), 'manage_options', 'makepressure-adicionar-redes', 'makepressure_adicionar_redes');
   add_submenu_page( 'makepressure_menu', __('Adicionar Comissões', 'makepressure'), __('Adicionar Comissões', 'makepressure'), 'manage_options', 'makepressure-adicionar-comissoes', 'makepressure_adicionar_comissoes');
 }
@@ -2493,13 +2494,13 @@ function makepressure_adicionar_deputados(){
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($ch, CURLOPT_URL, $Url);
   curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
-  $output = curl_exec($ch);
+  $data = curl_exec($ch);
   $resultCode = curl_getinfo($ch, CURLINFO_HTTP_CODE)
   ;// Close the cURL resource, and free system resources
   curl_close($ch);
 
 
-  $xml=simplexml_load_string($output) or die("Error: Cannot create object");
+  $xml = simplexml_load_string($data) or die("Error: Cannot create object");
 
   echo '<form method="post">';
   submit_button(__("Importar deputados", "makepressure" ));
@@ -2528,8 +2529,6 @@ function makepressure_adicionar_deputados(){
       }
       else{
 
-        update_post_meta($response, 'public_agent_email' , (string) $deputado->email);
-        update_post_meta($response, 'public_agent_phone' , (string) $deputado->fone);
         wp_set_post_terms( $response, get_term_by( 'slug',"deputado_federal", 'public_agent_job' )->term_id, 'public_agent_job' );
         wp_set_post_terms( $response, get_term_by( 'slug',(string) $deputado->uf, 'public_agent_state' )->term_id, 'public_agent_state' );
         wp_set_post_terms( $response, get_term_by( 'slug',(string) $deputado->partido, 'public_agent_party' )->term_id, 'public_agent_party' );
@@ -2583,6 +2582,102 @@ function makepressure_adicionar_deputados(){
     echo '<br>';
   }
 }
+
+function makepressure_adicionar_senadores(){
+  $url="http://legis.senado.leg.br/dadosabertos/senador/lista/atual";
+  $response_xml_data = file_get_contents($url);
+  if($response_xml_data){
+    echo "Parlamentares lidos com sucesso!";
+  }
+
+  $data = simplexml_load_string($response_xml_data);
+  // debug
+  //echo '<pre>';
+  //print_r($data);
+
+  echo '<form method="post">';
+  submit_button(__("Importar senadores", "makepressure" ));
+  echo '</form>';
+
+  $parlamentares = $data->Parlamentares->Parlamentar;
+  foreach ($parlamentares as $parlamentar) {
+    $senador = $parlamentar->IdentificacaoParlamentar;
+    if($_POST)
+    if ($_POST['submit'] == "Importar senadores") {
+      set_time_limit(0);
+      $postarr = array(
+          'post_title' => (string) $senador->NomeParlamentar,
+          'post_type' => 'public_agent',
+          'post_status' => 'publish',
+          'meta_input' => array(
+              'public_agent_email' => (string) $senador->EmailParlamentar,
+              //'public_agent_phone' => (string) $senador->fone,
+            )
+
+        );
+      //post id
+      $response = wp_insert_post( $postarr, true );
+
+      if (is_wp_error($response) || $response == 0) {
+        echo __( "Erro na criação do agente público representando " ) . $senador->NomeParlamentar;
+        break;
+      }
+      else{
+
+        wp_set_post_terms( $response, get_term_by( 'slug',"senador", 'public_agent_job' )->term_id, 'public_agent_job' );
+        wp_set_post_terms( $response, get_term_by( 'slug',(string) $senador->UfParlamentar, 'public_agent_state' )->term_id, 'public_agent_state' );
+        wp_set_post_terms( $response, get_term_by( 'slug',(string) $senador->SiglaPartidoParlamentar, 'public_agent_party' )->term_id, 'public_agent_party' );
+        wp_set_post_terms( $response, get_term_by( 'slug',(string) $senador->SexoParlamentar, 'public_agent_genre' )->term_id , 'public_agent_genre' );
+
+        // example image
+        $image = (string) $senador->UrlFotoParlamentar;
+
+        // magic sideload image returns an HTML image, not an ID
+        $media = media_sideload_image($image, $response);
+
+        // therefore we must find it so we can set it as featured ID
+        if(!empty($media) && !is_wp_error($media)){
+            $args = array(
+                'post_type' => 'attachment',
+                'posts_per_page' => -1,
+                'post_status' => 'any',
+                'post_parent' => $response
+            );
+
+            // reference new image to set as featured
+            $attachments = get_posts($args);
+
+            if(isset($attachments) && is_array($attachments)){
+                foreach($attachments as $attachment){
+                    // grab source of full size images (so no 300x150 nonsense in path)
+                    $image = wp_get_attachment_image_src($attachment->ID, 'full');
+                    // determine if in the $media image we created, the string of the URL exists
+                    if(strpos($media, $image[0]) !== false){
+                        // if so, we found our image. set it as thumbnail
+                        set_post_thumbnail($response, $attachment->ID);
+                        // only want one image
+                    }
+                }
+            }
+        }
+      }
+
+    }
+
+    echo "<div>";
+    echo '<img src="' . $senador->UrlFotoParlamentar . '" /><br>';
+    echo $senador->NomeParlamentar . "<br>";
+    echo $senador->SiglaPartidoParlamentar . "<br>";
+    echo $senador->UfParlamentar . "<br>";
+    echo $senador->SexoParlamentar . "<br>";
+    echo $senador->EmailParlamentar . "<br>";
+    //echo "061 " . $deputado->fone . "<br>";
+    echo "</div>";
+
+    echo '<br>';
+  }
+}
+
 
 function makepressure_settings()
 { 
@@ -2750,8 +2845,8 @@ add_action( 'wp_enqueue_scripts', 'wp_divi_delibera_enqueue_style' );
 
 // counter email
 if(is_admin()){
-  add_action( 'wp_ajax_makepressure_email', 'makepressure_email_callback' );
-  add_action( 'wp_ajax_nopriv_makepressure_email', 'makepressure_email_callback' );  
+  //add_action( 'wp_ajax_makepressure_email', 'makepressure_email_callback' );
+  //add_action( 'wp_ajax_nopriv_makepressure_email', 'makepressure_email_callback' );  
 }
 function makepressure_email_callback() {
 
@@ -2764,7 +2859,7 @@ function makepressure_email_callback() {
 }
 
 
-add_action( 'wp_head', 'makepressure_email_click_head' );
+//add_action( 'wp_head', 'makepressure_email_click_head' );
 function makepressure_email_click_head() {
     global $post;
 
@@ -2795,8 +2890,8 @@ function makepressure_email_click_head() {
 
 // counter facebook
 if(is_admin()){
-  add_action( 'wp_ajax_makepressure_facebook', 'makepressure_facebook_callback' );
-  add_action( 'wp_ajax_nopriv_makepressure_facebook', 'makepressure_facebook_callback' );  
+  //add_action( 'wp_ajax_makepressure_facebook', 'makepressure_facebook_callback' );
+  //add_action( 'wp_ajax_nopriv_makepressure_facebook', 'makepressure_facebook_callback' );  
 }
 function makepressure_facebook_callback() {
 
@@ -2809,7 +2904,7 @@ function makepressure_facebook_callback() {
 }
 
 
-add_action( 'wp_head', 'makepressure_facebook_click_head' );
+//add_action( 'wp_head', 'makepressure_facebook_click_head' );
 function makepressure_facebook_click_head() {
     global $post;
 
@@ -2840,8 +2935,8 @@ function makepressure_facebook_click_head() {
 
 // counter twitter
 if(is_admin()){
-  add_action( 'wp_ajax_makepressure_twitter', 'makepressure_twitter_callback' );
-  add_action( 'wp_ajax_nopriv_makepressure_twitter', 'makepressure_twitter_callback' );  
+  //add_action( 'wp_ajax_makepressure_twitter', 'makepressure_twitter_callback' );
+  //add_action( 'wp_ajax_nopriv_makepressure_twitter', 'makepressure_twitter_callback' );  
 }
 function makepressure_twitter_callback() {
 
@@ -2854,7 +2949,7 @@ function makepressure_twitter_callback() {
 }
 
 
-add_action( 'wp_head', 'makepressure_twitter_click_head' );
+//add_action( 'wp_head', 'makepressure_twitter_click_head' );
 function makepressure_twitter_click_head() {
     global $post;
 
@@ -2885,8 +2980,8 @@ function makepressure_twitter_click_head() {
 
 // counter superpressure
 if(is_admin()){
-  add_action( 'wp_ajax_makepressure_superpressure', 'makepressure_superpressure_callback' );
-  add_action( 'wp_ajax_nopriv_makepressure_superpressure', 'makepressure_superpressure_callback' );  
+  //add_action( 'wp_ajax_makepressure_superpressure', 'makepressure_superpressure_callback' );
+  //add_action( 'wp_ajax_nopriv_makepressure_superpressure', 'makepressure_superpressure_callback' );  
 }
 function makepressure_superpressure_callback() {
 
@@ -2899,7 +2994,7 @@ function makepressure_superpressure_callback() {
 }
 
 
-add_action( 'wp_head', 'makepressure_superpressure_click_head' );
+//add_action( 'wp_head', 'makepressure_superpressure_click_head' );
 function makepressure_superpressure_click_head() {
     global $post;
 
