@@ -375,18 +375,19 @@ class ET_Builder_Module_Make_Pressure extends ET_Builder_Module {
 				$height = (int) apply_filters( 'et_pb_portfolio_image_height', $height );
 				$classtext = 'on' === $fullwidth ? 'et_pb_post_main_image' : '';
 				$titletext = get_the_title();
-				$thumbnail = get_thumbnail( $width, $height, $classtext, $titletext, $titletext, false, 'Blogimage' );
-				$thumb = $thumbnail['thumb'];
 
-				if ( '' !== $thumb ) : ?>
-					<a href="<?php esc_url( the_permalink() ); ?>">
-					<?php if ( 'on' !== $fullwidth ) : ?>
-						<span>
-					<?php endif; ?>
-					        <a href="<?php the_permalink() ?>">
-							  <?php the_post_thumbnail(array(175,175), array('class' => 'makepressure_post_main_image')); ?>
-							</a>
-					<?php if ( 'on' !== $fullwidth ) :
+	            $cargo = wp_get_post_terms( get_the_ID() , 'public_agent_job' ) ? wp_get_post_terms(  get_the_ID(), 'public_agent_job', true) : '';
+	            $cargo = isset($cargo[0]) ? $cargo[0] : '';
+	            if($cargo):
+	            ?>
+	              <a href="<?php esc_url( the_permalink() ); ?>">
+	                <?php if(has_post_thumbnail()) : ?>
+	                  <?php the_post_thumbnail(array(175,175), array('class' => 'makepressure_' . $cargo->slug . ' makepressure_post_main_image')); ?>
+	                <?php endif; ?>
+	              </a>
+	            <?php
+	            endif; 
+                if ( 'on' !== $fullwidth ) :
 
 							$data_icon = '' !== $hover_icon
 								? sprintf(
@@ -398,9 +399,6 @@ class ET_Builder_Module_Make_Pressure extends ET_Builder_Module {
 						</span>
 					<?php endif; ?>
 					</a>
-			<?php
-				endif;
-			?>
 				<div class="makepressure_label">
 				<?php if ( 'on' === $show_title ) : ?>
 					<h2 class="makepressure_title"><a href="<?php esc_url( the_permalink() ); ?>"><?php the_title(); ?></a></h2>
@@ -920,30 +918,27 @@ class ET_Builder_Module_Filterable_Make_Pressure extends ET_Builder_Module {
 					$height = (int) apply_filters( 'et_pb_portfolio_image_height', $height );
 					$classtext = 'on' === $fullwidth ? 'et_pb_post_main_image' : '';
 					$titletext = get_the_title();
-					$thumbnail = get_thumbnail( $width, $height, $classtext, $titletext, $titletext, false, 'Blogimage' );
-					$thumb = $thumbnail['thumb'];
 
-					if ( '' !== $thumb ) : ?>
-						<a href="<?php esc_url( the_permalink() ); ?>">
-						<?php if ( 'on' !== $fullwidth ) : ?>
-							<span class="et_portfolio_image">
-						<?php endif; ?>
-					      <a href="<?php the_permalink() ?>">
-							  <?php the_post_thumbnail(array(175,175), array('class' => 'makepressure_post_main_image')); ?>
-					      </a>
-						<?php if ( 'on' !== $fullwidth ) :
 
-								$data_icon = '' !== $hover_icon
-									? sprintf(
-										' data-icon="%1$s"',
-										esc_attr( et_pb_process_font_icon( $hover_icon ) )
-									)
-									: '';
-						?>
-							</span>
-						<?php endif; ?>
-						</a>
-				<?php
+
+		            $cargo = wp_get_post_terms( get_the_ID() , 'public_agent_job' ) ? wp_get_post_terms(  get_the_ID(), 'public_agent_job', true) : '';
+		            $cargo = isset($cargo[0]) ? $cargo[0] : '';
+		            if($cargo):
+		            ?>
+		              <a href="<?php esc_url( the_permalink() ); ?>">
+		                <?php if(has_post_thumbnail()) : ?>
+		                  <?php the_post_thumbnail(array(175,175), array('class' => 'makepressure_' . $cargo->slug . ' makepressure_post_main_image')); ?>
+		                <?php endif; ?>
+		              </a>
+		            <?php
+		            endif; 
+					if ( 'on' !== $fullwidth ) :
+						$data_icon = '' !== $hover_icon
+							? sprintf(
+								' data-icon="%1$s"',
+								esc_attr( et_pb_process_font_icon( $hover_icon ) )
+							)
+							: '';
 					endif;
 				?>
 

@@ -112,9 +112,6 @@
     visibility: visible;
 }
 
-.makepressure_post_main_image {
-}
-
 .makepressure_search_button{
 	padding: 10px;
 	margin-left: 20px;
@@ -155,6 +152,10 @@
         position: absolute;
         right: 0px;
     }
+
+    .makepressure_senador {
+    	width: 122px;
+	}
    .makepressure_action{
        position: absolute;
        top: 95px;
