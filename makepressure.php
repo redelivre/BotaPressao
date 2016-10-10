@@ -2591,10 +2591,7 @@ function makepressure_adicionar_senadores(){
   }
 
   $data = simplexml_load_string($response_xml_data);
-  // debug
-  //echo '<pre>';
-  //print_r($data);
-
+  
   echo '<form method="post">';
   submit_button(__("Importar senadores", "makepressure" ));
   echo '</form>';
@@ -2671,7 +2668,7 @@ function makepressure_adicionar_senadores(){
     echo $senador->UfParlamentar . "<br>";
     echo $senador->SexoParlamentar . "<br>";
     echo $senador->EmailParlamentar . "<br>";
-    //echo "061 " . $deputado->fone . "<br>";
+    //echo "061 " . $senador->fone . "<br>";
     echo "</div>";
 
     echo '<br>';

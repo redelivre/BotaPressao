@@ -241,6 +241,7 @@ class ET_Builder_Module_Make_Pressure extends ET_Builder_Module {
 		$args = array(
 			'posts_per_page' => (int) $posts_number,
 			'post_type'      => 'public_agent',
+			'fields'     	 => 'ids',
 		);
 
 		$et_paged = is_front_page() ? get_query_var( 'page' ) : get_query_var( 'paged' );
@@ -362,13 +363,6 @@ class ET_Builder_Module_Make_Pressure extends ET_Builder_Module {
 		if ( have_posts() ) {
 			while ( have_posts() ) {
 				the_post(); ?>
-
-				<?php 
-				  //var_dump($main_post_class); 
-				  //Old post class $main_post_class
-				?>
-
-
 				
 				<div id="post-<?php the_ID(); ?>" <?php post_class( " makepressure_grid makepressure_grid_item" ); ?>>
 
@@ -401,7 +395,6 @@ class ET_Builder_Module_Make_Pressure extends ET_Builder_Module {
 									esc_attr( et_pb_process_font_icon( $hover_icon ) )
 								)
 								: '';
-
 					?>
 						</span>
 					<?php endif; ?>
@@ -420,23 +413,21 @@ class ET_Builder_Module_Make_Pressure extends ET_Builder_Module {
 				  $party = wp_get_post_terms( get_the_ID() , 'public_agent_party');
 				  //$category = wp_get_post_terms( get_the_ID() , 'category')[0];
 				?>
-
-				<?php if ($state): ?>
-				  <strong class="makepressure_upper">
-				    <?php echo $state[0]->slug; ?> /
+				<strong class="makepressure_upper">
+				<?php if ($state[0]->slug): ?>  
+				    <?php echo $state[0]->slug; ?>
 				<?php else: ?>
 				  <br>
 				<?php endif; ?>
 
-				<?php if ($party): ?>
+				<?php if (isset($party[0->slug])): ?>
+				    <?php echo "/"; ?>
 				    <?php echo $party[0]->slug; ?>
-				  </strong>
 				<?php else: ?>
 				  <br>
 				<?php endif; ?>
+				</strong>
 				</div>
-
-
 
 				<?php if ( 'on' === $show_categories ) : ?>
 					<p class="post-meta"><?php //echo get_the_term_list( get_the_ID(), 'category', '', ', ' ); ?></p>
@@ -462,9 +453,9 @@ class ET_Builder_Module_Make_Pressure extends ET_Builder_Module {
 					if ( get_post_meta(  get_the_ID(), 'public_agent_email', true) ) : ?>
 				  	  <a id="<?php echo get_the_ID(); ?>" class="fa fa-3x fa-envelope makepressure_email" href="mailto:<?php print_r(get_post_meta(  get_the_ID(), 'public_agent_email', true)); ?>?subject=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true)?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):""; ?>%20<?php echo get_the_title(); ?>&body=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true) ?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):""; ?>%20<?php echo get_the_title(); ?>,  %0A%0A<?php echo $email_body; ?>" ></a>
 					<?php endif; ?>
-          <?php if ( get_post_meta(  get_the_ID(), 'public_agent_email', true) ) : ?>
-              <a id="<?php echo get_the_ID(); ?>" target="_blank" class="fa fa-3x fa-google makepressure_gmail" href="https://mail.google.com/mail?view=cm&tf=0&to=<?php print_r(get_post_meta(  get_the_ID(), 'public_agent_email', true)); ?>&su=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true)?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):""; ?>%20<?php echo get_the_title(); ?>&body=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true) ?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):""; ?>%20<?php echo get_the_title(); ?>,  %0A%0A<?php echo $email_body; ?>" ></a>
-          <?php endif; ?>
+		            <?php if ( get_post_meta(  get_the_ID(), 'public_agent_email', true) ) : ?>
+		              <a id="<?php echo get_the_ID(); ?>" target="_blank" class="fa fa-3x fa-google makepressure_gmail" href="https://mail.google.com/mail?view=cm&tf=0&to=<?php print_r(get_post_meta(  get_the_ID(), 'public_agent_email', true)); ?>&su=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true)?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):""; ?>%20<?php echo get_the_title(); ?>&body=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true) ?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):""; ?>%20<?php echo get_the_title(); ?>,  %0A%0A<?php echo $email_body; ?>" ></a>
+		            <?php endif; ?>
 					<?php if ( get_post_meta(  get_the_ID(), 'public_agent_twitter', true) ) : ?>
 					  <a id="<?php echo get_the_ID(); ?>" class="fa fa-twitter fa-3x makepressure_twitter" href="https://twitter.com/intent/tweet?text=@<?php echo get_post_meta(  get_the_ID(), 'public_agent_twitter', true ); ?><?php echo $twitter_text; ?>&url=<?php echo $twitter_url; ?>&hashtags=<?php echo $twitter_hashtag; ?>" data-show-count="false"></a>
 					<?php endif; ?>
