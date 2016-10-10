@@ -1667,6 +1667,7 @@ class ET_Builder_Module_Make_Pressure_Button extends ET_Builder_Module {
         $args = array(
 			'post_type'      => 'public_agent',
 			'post_status'    => 'publish',
+			'fields' 		 => 'ids',
 			'posts_per_page' => '600',
 		);
 		
@@ -1948,6 +1949,7 @@ class ET_Builder_Module_Make_Pressure_Gmail_Button extends ET_Builder_Module {
         $args = array(
 			'post_type'      => 'public_agent',
 			'post_status'    => 'publish',
+	        'fields' 		 => 'ids',
 			'posts_per_page' => '600',
 		);
 		
