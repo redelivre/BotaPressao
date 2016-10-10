@@ -2591,7 +2591,7 @@ function makepressure_adicionar_senadores(){
   }
 
   $data = simplexml_load_string($response_xml_data);
-  
+
   echo '<form method="post">';
   submit_button(__("Importar senadores", "makepressure" ));
   echo '</form>';
@@ -3024,13 +3024,14 @@ function makepressure_superpressure_click_head() {
 function makepressure_addscripts(){
   wp_enqueue_script( "chartjs", plugin_dir_url(__FILE__)."/node_modules/chart.js/dist/Chart.min.js");
 }
-add_action('init', 'makepressure_addscripts');
+//add_action('init', 'makepressure_addscripts');
 
 function makepressure_statistics() {
   add_rewrite_tag( '%stat%', '([^&]+)' );
   add_rewrite_rule( 'stats/([^&]+)/?', 'index.php?stat=$matches[1]', 'top' );
 }
-add_action( 'init', 'makepressure_statistics' );
+
+//add_action( 'init', 'makepressure_statistics' );
 
 function makepressure_statistics_endpoint_data() {
 
@@ -3100,18 +3101,18 @@ function makepressure_statistics_endpoint_data() {
   return;
 }
 
-add_action( 'template_redirect', 'makepressure_statistics_endpoint_data' );
+//add_action( 'template_redirect', 'makepressure_statistics_endpoint_data' );
 
 function makepressure_add_cors_http_header(){
     header("Access-Control-Allow-Origin: *");
 }
-add_action('init','makepressure_add_cors_http_header');
+//add_action('init','makepressure_add_cors_http_header');
 
 // register Widget MakePressure
 function makepressure_register_widget() {
     register_widget( 'makepressure_widget' );
 }
-add_action( 'widgets_init', 'makepressure_register_widget' );
+//add_action( 'widgets_init', 'makepressure_register_widget' );
 
 // old functions
 

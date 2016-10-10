@@ -241,7 +241,6 @@ class ET_Builder_Module_Make_Pressure extends ET_Builder_Module {
 		$args = array(
 			'posts_per_page' => (int) $posts_number,
 			'post_type'      => 'public_agent',
-			'fields'     	 => 'ids',
 		);
 
 		$et_paged = is_front_page() ? get_query_var( 'page' ) : get_query_var( 'paged' );
@@ -250,46 +249,46 @@ class ET_Builder_Module_Make_Pressure extends ET_Builder_Module {
 			$paged = $et_paged;
 		}
 
-        $terms_category = "";
-        $terms_states = "";
-        $terms_party = "";
-        $terms_job = "";
-        $terms_genre = "";
-        $terms_commission = "";
+        $terms_category = '';
+        $terms_states = '';
+        $terms_party = '';
+        $terms_job = '';
+        $terms_genre = '';
+        $terms_commission = '';
         $categories = explode( ',', $include_categories );
         foreach ($categories as $category) {
 
-        	$term = get_term($category);
+          $term = get_term($category);
         	
           if (!is_wp_error($term)) {
-            if($term->taxonomy == "category"){
-              $terms_category .= $terms_category ? ", " . $category : $category;
+            if($term->taxonomy === 'category'){
+              $terms_category .= $terms_category ? ', ' . $category : $category;
             }
-            if ($term->taxonomy == "public_agent_state") {
-              $terms_states .= $terms_states ? ", " . $category : $category;
+            if ($term->taxonomy === 'public_agent_state') {
+              $terms_states .= $terms_states ? ', ' . $category : $category;
             }
-            if ($term->taxonomy == "public_agent_job") {
-              $terms_job .= $terms_job ? ", " . $category : $category;
+            if ($term->taxonomy === 'public_agent_job') {
+              $terms_job .= $terms_job ? ', ' . $category : $category;
             }
-            if ($term->taxonomy == "public_agent_genre") {
-              $terms_genre .= $terms_genre ? ", " . $category : $category;
+            if ($term->taxonomy === 'public_agent_genre') {
+              $terms_genre .= $terms_genre ? ', ' . $category : $category;
             }
-            if ($term->taxonomy == "public_agent_party") {
-              $terms_party .= $terms_party ? ", " . $category : $category;
+            if ($term->taxonomy === 'public_agent_party') {
+              $terms_party .= $terms_party ? ', ' . $category : $category;
             }
-            if ($term->taxonomy == "public_agent_commission") {
-              $terms_commission .= $terms_commission ? ", " . $category : $category;
+            if ($term->taxonomy === 'public_agent_commission') {
+              $terms_commission .= $terms_commission ? ', ' . $category : $category;
             }
           }
 
         }        
 
-		$settings_states = "";
-		$settings_category = "";
-		$settings_job = "";
-		$settings_genre = "";
-		$settings_party = "";
-		$settings_commission = "";
+		$settings_states = '';
+		$settings_category = '';
+		$settings_job = '';
+		$settings_genre = '';
+		$settings_party = '';
+		$settings_commission = '';
 
 		if ($terms_category){
 			$settings_category = array(
@@ -377,7 +376,7 @@ class ET_Builder_Module_Make_Pressure extends ET_Builder_Module {
 				$classtext = 'on' === $fullwidth ? 'et_pb_post_main_image' : '';
 				$titletext = get_the_title();
 				$thumbnail = get_thumbnail( $width, $height, $classtext, $titletext, $titletext, false, 'Blogimage' );
-				$thumb = $thumbnail["thumb"];
+				$thumb = $thumbnail['thumb'];
 
 				if ( '' !== $thumb ) : ?>
 					<a href="<?php esc_url( the_permalink() ); ?>">
@@ -420,8 +419,8 @@ class ET_Builder_Module_Make_Pressure extends ET_Builder_Module {
 				  <br>
 				<?php endif; ?>
 
-				<?php if (isset($party[0->slug])): ?>
-				    <?php echo "/"; ?>
+				<?php if (isset($party[0]->slug)): ?>
+				    <?php echo ' / '; ?>
 				    <?php echo $party[0]->slug; ?>
 				<?php else: ?>
 				  <br>
@@ -451,17 +450,17 @@ class ET_Builder_Module_Make_Pressure extends ET_Builder_Module {
 				  }
 
 					if ( get_post_meta(  get_the_ID(), 'public_agent_email', true) ) : ?>
-				  	  <a id="<?php echo get_the_ID(); ?>" class="fa fa-3x fa-envelope makepressure_email" href="mailto:<?php print_r(get_post_meta(  get_the_ID(), 'public_agent_email', true)); ?>?subject=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true)?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):""; ?>%20<?php echo get_the_title(); ?>&body=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true) ?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):""; ?>%20<?php echo get_the_title(); ?>,  %0A%0A<?php echo $email_body; ?>" ></a>
+				  	  <a id="<?php echo get_the_ID(); ?>" class="fa fa-3x fa-envelope makepressure_email" href="mailto:<?php print_r(get_post_meta(  get_the_ID(), 'public_agent_email', true)); ?>?subject=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true)?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):''; ?>%20<?php echo get_the_title(); ?>&body=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true) ?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):''; ?>%20<?php echo get_the_title(); ?>,  %0A%0A<?php echo $email_body; ?>" ></a>
 					<?php endif; ?>
 		            <?php if ( get_post_meta(  get_the_ID(), 'public_agent_email', true) ) : ?>
-		              <a id="<?php echo get_the_ID(); ?>" target="_blank" class="fa fa-3x fa-google makepressure_gmail" href="https://mail.google.com/mail?view=cm&tf=0&to=<?php print_r(get_post_meta(  get_the_ID(), 'public_agent_email', true)); ?>&su=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true)?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):""; ?>%20<?php echo get_the_title(); ?>&body=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true) ?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):""; ?>%20<?php echo get_the_title(); ?>,  %0A%0A<?php echo $email_body; ?>" ></a>
+		              <a id="<?php echo get_the_ID(); ?>" target="_blank" class="fa fa-3x fa-google makepressure_gmail" href="https://mail.google.com/mail?view=cm&tf=0&to=<?php print_r(get_post_meta(  get_the_ID(), 'public_agent_email', true)); ?>&su=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true)?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):''; ?>%20<?php echo get_the_title(); ?>&body=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true) ?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):''; ?>%20<?php echo get_the_title(); ?>,  %0A%0A<?php echo $email_body; ?>" ></a>
 		            <?php endif; ?>
 					<?php if ( get_post_meta(  get_the_ID(), 'public_agent_twitter', true) ) : ?>
 					  <a id="<?php echo get_the_ID(); ?>" class="fa fa-twitter fa-3x makepressure_twitter" href="https://twitter.com/intent/tweet?text=@<?php echo get_post_meta(  get_the_ID(), 'public_agent_twitter', true ); ?><?php echo $twitter_text; ?>&url=<?php echo $twitter_url; ?>&hashtags=<?php echo $twitter_hashtag; ?>" data-show-count="false"></a>
 					<?php endif; ?>
 					
 					<?php if ( get_post_meta(  get_the_ID(), 'public_agent_facebook', true) ) : ?>
-					  <a id="<?php echo get_the_ID(); ?>" class="fa fa-facebook-official fa-3x makepressure_facebook" target="_brank" href="<?php echo get_post_meta(  get_the_ID(), 'public_agent_facebook', true); ?>""></a>
+					  <a id="<?php echo get_the_ID(); ?>" class="fa fa-facebook-official fa-3x makepressure_facebook" target="_brank" href="<?php echo get_post_meta(  get_the_ID(), 'public_agent_facebook', true); ?>"></a>
 					<?php endif; ?>
 				</div>
 				</div> <!-- .et_pb_portfolio_item -->
@@ -469,7 +468,7 @@ class ET_Builder_Module_Make_Pressure extends ET_Builder_Module {
 	<?php	}
 
 			if ( 'on' === $show_pagination && ! is_search() ) {
-				echo '</div> <!-- .et_pb_portfolio -->';
+				echo '</div><!-- .et_pb_portfolio -->';
 
 				$container_is_closed = true;
 
@@ -788,44 +787,44 @@ class ET_Builder_Module_Filterable_Make_Pressure extends ET_Builder_Module {
 		}
 
 
-        $terms_category = "";
-        $terms_states = "";
-        $terms_party = "";
-        $terms_job = "";
-        $terms_genre = "";
-        $terms_commission = "";
+        $terms_category = '';
+        $terms_states = '';
+        $terms_party = '';
+        $terms_job = '';
+        $terms_genre = '';
+        $terms_commission = '';
         $categories = explode( ',', $include_categories );
         foreach ($categories as $category) {
         	$term = get_term($category);
           if (!is_wp_error($term)) {
-            if($term->taxonomy == "category"){
-              $terms_category .= $terms_category ? ", " . $category : $category;
+            if($term->taxonomy == 'category'){
+              $terms_category .= $terms_category ? ', ' . $category : $category;
             }
-            if ($term->taxonomy == "public_agent_state") {
-              $terms_states .= $terms_states ? ", " . $category : $category;
+            if ($term->taxonomy == 'public_agent_state') {
+              $terms_states .= $terms_states ? ', ' . $category : $category;
             }
-            if ($term->taxonomy == "public_agent_job") {
-              $terms_job .= $terms_job ? ", " . $category : $category;
+            if ($term->taxonomy == 'public_agent_job') {
+              $terms_job .= $terms_job ? ', ' . $category : $category;
             }
-            if ($term->taxonomy == "public_agent_genre") {
-              $terms_genre .= $terms_genre ? ", " . $category : $category;
+            if ($term->taxonomy == 'public_agent_genre') {
+              $terms_genre .= $terms_genre ? ', ' . $category : $category;
             }
-            if ($term->taxonomy == "public_agent_party") {
-              $terms_party .= $terms_party ? ", " . $category : $category;
+            if ($term->taxonomy == 'public_agent_party') {
+              $terms_party .= $terms_party ? ', ' . $category : $category;
             }
-            if ($term->taxonomy == "public_agent_commission") {
-              $terms_commission .= $terms_commission ? ", " . $category : $category;
+            if ($term->taxonomy == 'public_agent_commission') {
+              $terms_commission .= $terms_commission ? ', ' . $category : $category;
             }
           }
 
         }        
 
-		$settings_states = "";
-		$settings_category = "";
-		$settings_job = "";
-		$settings_genre = "";
-		$settings_party = "";
-		$settings_commission = "";
+		$settings_states = '';
+		$settings_category = '';
+		$settings_job = '';
+		$settings_genre = '';
+		$settings_party = '';
+		$settings_commission = '';
 
 		if ($terms_category){
 			$settings_category = array(
@@ -910,7 +909,7 @@ class ET_Builder_Module_Filterable_Make_Pressure extends ET_Builder_Module {
 				);
 
 				?>
-				<div id="post-<?php the_ID(); ?>" <?php post_class( " makepressure_grid makepressure_grid_item" ); ?>>
+				<div id="post-<?php the_ID(); ?>" <?php post_class( ' makepressure_grid makepressure_grid_item' ); ?>>
 				<?php
 					$thumb = '';
 
@@ -922,7 +921,7 @@ class ET_Builder_Module_Filterable_Make_Pressure extends ET_Builder_Module {
 					$classtext = 'on' === $fullwidth ? 'et_pb_post_main_image' : '';
 					$titletext = get_the_title();
 					$thumbnail = get_thumbnail( $width, $height, $classtext, $titletext, $titletext, false, 'Blogimage' );
-					$thumb = $thumbnail["thumb"];
+					$thumb = $thumbnail['thumb'];
 
 					if ( '' !== $thumb ) : ?>
 						<a href="<?php esc_url( the_permalink() ); ?>">
@@ -998,11 +997,11 @@ class ET_Builder_Module_Filterable_Make_Pressure extends ET_Builder_Module {
 				      $genre_slug = $genre->slug;
 				    }
 					if ( get_post_meta(  get_the_ID(), 'public_agent_email', true) ) : ?>
-				  	  <a id="<?php echo get_the_ID(); ?>" class="fa fa-3x fa-envelope makepressure_email" href="mailto:<?php print_r(get_post_meta(  get_the_ID(), 'public_agent_email', true)); ?>?subject=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true)?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):""; ?>%20<?php echo get_the_title(); ?>&body=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true) ?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):""; ?>%20<?php echo get_the_title(); ?>,  %0A%0A<?php echo $email_body; ?>" ></a>
+				  	  <a id="<?php echo get_the_ID(); ?>" class="fa fa-3x fa-envelope makepressure_email" href="mailto:<?php print_r(get_post_meta(  get_the_ID(), 'public_agent_email', true)); ?>?subject=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true)?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):''; ?>%20<?php echo get_the_title(); ?>&body=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true) ?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):''; ?>%20<?php echo get_the_title(); ?>,  %0A%0A<?php echo $email_body; ?>" ></a>
 					<?php endif; ?>
 
           <?php if ( get_post_meta(  get_the_ID(), 'public_agent_email', true) ) : ?>
-              <a id="<?php echo get_the_ID(); ?>" target="_blank" class="fa fa-3x fa-google makepressure_gmail" href="https://mail.google.com/mail?view=cm&tf=0&to=<?php print_r(get_post_meta(  get_the_ID(), 'public_agent_email', true)); ?>&su=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true)?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):""; ?>%20<?php echo get_the_title(); ?>&body=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true) ?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):""; ?>%20<?php echo get_the_title(); ?>,  %0A%0A<?php echo $email_body; ?>" ></a>
+              <a id="<?php echo get_the_ID(); ?>" target="_blank" class="fa fa-3x fa-google makepressure_gmail" href="https://mail.google.com/mail?view=cm&tf=0&to=<?php print_r(get_post_meta(  get_the_ID(), 'public_agent_email', true)); ?>&su=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true)?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):''; ?>%20<?php echo get_the_title(); ?>&body=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true) ?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):''; ?>%20<?php echo get_the_title(); ?>,  %0A%0A<?php echo $email_body; ?>" ></a>
           <?php endif; ?>
 
 					<?php if ( get_post_meta(  get_the_ID(), 'public_agent_twitter', true) ) : ?>
@@ -1010,7 +1009,7 @@ class ET_Builder_Module_Filterable_Make_Pressure extends ET_Builder_Module {
 					<?php endif; ?>
 					
 					<?php if ( get_post_meta(  get_the_ID(), 'public_agent_facebook', true) ) : ?>
-					  <a  id="<?php echo get_the_ID(); ?>" class="fa fa-facebook-official fa-3x makepressure_facebook" target="_brank" href="<?php echo get_post_meta(  get_the_ID(), 'public_agent_facebook', true); ?>""></a>
+					  <a  id="<?php echo get_the_ID(); ?>" class="fa fa-facebook-official fa-3x makepressure_facebook" target="_brank" href="<?php echo get_post_meta(  get_the_ID(), 'public_agent_facebook', true); ?>''></a>
 					<?php endif; ?>
 				</div>
 				</div> <!-- .et_pb_portfolio_item -->
@@ -1351,42 +1350,42 @@ class ET_Builder_Module_Fullwidth_Make_Pressure extends ET_Builder_Module {
 		}
 
 
-        $terms_category = "";
-        $terms_states = "";
-        $terms_party = "";
-        $terms_job = "";
-        $terms_genre = "";
-        $terms_commission = "";
+        $terms_category = '';
+        $terms_states = '';
+        $terms_party = '';
+        $terms_job = '';
+        $terms_genre = '';
+        $terms_commission = '';
         $categories = explode( ',', $include_categories );
         foreach ($categories as $category) {
         	$term = get_term($category);
         	if($term->taxonomy == "category"){
-        		$terms_category .= $terms_category ? ", " . $category : $category;
+        		$terms_category .= $terms_category ? ', ' . $category : $category;
         	}
         	elseif ($term->taxonomy == "public_agent_state") {
-        		$terms_states .= $terms_states ? ", " . $category : $category;
+        		$terms_states .= $terms_states ? ', ' . $category : $category;
         	}
         	elseif ($term->taxonomy == "public_agent_job") {
-        		$terms_job .= $terms_job ? ", " . $category : $category;
+        		$terms_job .= $terms_job ? ', ' . $category : $category;
         	}
         	elseif ($term->taxonomy == "public_agent_genre") {
-        		$terms_genre .= $terms_genre ? ", " . $category : $category;
+        		$terms_genre .= $terms_genre ? ', ' . $category : $category;
         	}
         	elseif ($term->taxonomy == "public_agent_party") {
-        		$terms_party .= $terms_party ? ", " . $category : $category;
+        		$terms_party .= $terms_party ? ', ' . $category : $category;
         	}
         	elseif ($term->taxonomy == "public_agent_commission") {
-        		$terms_commission .= $terms_commission ? ", " . $category : $category;
+        		$terms_commission .= $terms_commission ? ', ' . $category : $category;
         	}
 
         }        
 
-		$settings_states = "";
-		$settings_category = "";
-		$settings_job = "";
-		$settings_genre = "";
-		$settings_party = "";
-		$settings_commission = "";
+		$settings_states = '';
+		$settings_category = '';
+		$settings_job = '';
+		$settings_genre = '';
+		$settings_party = '';
+		$settings_commission = '';
 
 		if ($terms_category){
 			$settings_category = array(
@@ -1513,7 +1512,7 @@ class ET_Builder_Module_Fullwidth_Make_Pressure extends ET_Builder_Module {
 				<div class="et_pb_portfolio_items clearfix" data-portfolio-columns="">
 					%2$s
 				</div><!-- .et_pb_portfolio_items -->
-			</div> <!-- .et_pb_fullwidth_portfolio -->',
+			</div><!-- .et_pb_fullwidth_portfolio -->',
 			( 'on' === $fullwidth ? 'et_pb_fullwidth_portfolio_carousel' : 'et_pb_fullwidth_portfolio_grid clearfix' ),
 			$posts,
 			esc_attr( $class ),
@@ -1663,12 +1662,12 @@ class ET_Builder_Module_Make_Pressure_Button extends ET_Builder_Module {
 		);
 		
 
-        $terms_category = "";
-        $terms_states = "";
-        $terms_party = "";
-        $terms_job = "";
-        $terms_genre = "";
-        $terms_commission = "";
+        $terms_category = '';
+        $terms_states = '';
+        $terms_party = '';
+        $terms_job = '';
+        $terms_genre = '';
+        $terms_commission = '';
         $categories = explode( ',', $include_categories );
 
         foreach ($categories as $category) {
@@ -1676,33 +1675,33 @@ class ET_Builder_Module_Make_Pressure_Button extends ET_Builder_Module {
 
         	if (!is_wp_error($term)) {
         	    if($term->taxonomy == "category"){
-        		    $terms_category .= $terms_category ? ", " . $category : $category;
+        		    $terms_category .= $terms_category ? ', ' . $category : $category;
 	        	}
 	        	elseif ($term->taxonomy == "public_agent_state") {
-	        		$terms_states .= $terms_states ? ", " . $category : $category;
+	        		$terms_states .= $terms_states ? ', ' . $category : $category;
 	        	}
 	        	elseif ($term->taxonomy == "public_agent_job") {
-	        		$terms_job .= $terms_job ? ", " . $category : $category;
+	        		$terms_job .= $terms_job ? ', ' . $category : $category;
 	        	}
 	        	elseif ($term->taxonomy == "public_agent_genre") {
-	        		$terms_genre .= $terms_genre ? ", " . $category : $category;
+	        		$terms_genre .= $terms_genre ? ', ' . $category : $category;
 	        	}
 	        	elseif ($term->taxonomy == "public_agent_party") {
-	        		$terms_party .= $terms_party ? ", " . $category : $category;
+	        		$terms_party .= $terms_party ? ', ' . $category : $category;
 	        	}
 	        	elseif ($term->taxonomy == "public_agent_commission") {
-	        		$terms_commission .= $terms_commission ? ", " . $category : $category;
+	        		$terms_commission .= $terms_commission ? ', ' . $category : $category;
 	        	}
         	}
 
         }        
 
-		$settings_states = "";
-		$settings_category = "";
-		$settings_job = "";
-		$settings_genre = "";
-		$settings_party = "";
-		$settings_commission = "";
+		$settings_states = '';
+		$settings_category = '';
+		$settings_job = '';
+		$settings_genre = '';
+		$settings_party = '';
+		$settings_commission = '';
 
 		if ($terms_category){
 			$settings_category = array(
@@ -1763,17 +1762,17 @@ class ET_Builder_Module_Make_Pressure_Button extends ET_Builder_Module {
 		$the_query = new WP_Query( $args );
 
 		// The Loop
-		$emails = "";
-		$aux ="";
-		$button_url = "mailto:" . get_option('makepressure_more_emailsmails');
+		$emails = '';
+		$aux ='';
+		$button_url = 'mailto:' . get_option('makepressure_more_emailsmails');
 		if ( $the_query->have_posts() ) {
 			while ( $the_query->have_posts() ) {
 				$the_query->the_post();
-				$emails = get_post_meta(  get_the_ID(), 'public_agent_email', true) ? get_post_meta(  get_the_ID(), 'public_agent_email', true):"";
-				if ($emails) $aux .= $aux ? "," . $emails: $emails;
+				$emails = get_post_meta(  get_the_ID(), 'public_agent_email', true) ? get_post_meta(  get_the_ID(), 'public_agent_email', true):'';
+				if ($emails) $aux .= $aux ? ',' . $emails: $emails;
 			}
 
-			$button_url .= $aux . "?subject=" . get_option('makepressure_email_title') . "&body=" . get_option('makepressure_email_body') ;
+			$button_url .= $aux . '?subject=' . get_option('makepressure_email_title') . '&body=' . get_option('makepressure_email_body') ;
 			/* Restore original Post Data */
 			wp_reset_postdata();
 		} else {
@@ -1945,45 +1944,45 @@ class ET_Builder_Module_Make_Pressure_Gmail_Button extends ET_Builder_Module {
 		);
 		
 
-         $terms_category = "";
-        $terms_states = "";
-        $terms_party = "";
-        $terms_job = "";
-        $terms_genre = "";
-        $terms_commission = "";
+         $terms_category = '';
+        $terms_states = '';
+        $terms_party = '';
+        $terms_job = '';
+        $terms_genre = '';
+        $terms_commission = '';
         $categories = explode( ',', $include_categories );
         foreach ($categories as $category) {
         	$term = get_term($category);
 
         	if (!is_wp_error($term)) {
-        	    if($term->taxonomy == "category"){
-        		    $terms_category .= $terms_category ? ", " . $category : $category;
+        	    if($term->taxonomy === 'category'){
+        		    $terms_category .= $terms_category ? ', ' . $category : $category;
 	        	}
-	        	elseif ($term->taxonomy == "public_agent_state") {
-	        		$terms_states .= $terms_states ? ", " . $category : $category;
+	        	elseif ($term->taxonomy === 'public_agent_state') {
+	        		$terms_states .= $terms_states ? ', ' . $category : $category;
 	        	}
-	        	elseif ($term->taxonomy == "public_agent_job") {
-	        		$terms_job .= $terms_job ? ", " . $category : $category;
+	        	elseif ($term->taxonomy === 'public_agent_job') {
+	        		$terms_job .= $terms_job ? ', ' . $category : $category;
 	        	}
-	        	elseif ($term->taxonomy == "public_agent_genre") {
-	        		$terms_genre .= $terms_genre ? ", " . $category : $category;
+	        	elseif ($term->taxonomy === 'public_agent_genre') {
+	        		$terms_genre .= $terms_genre ? ', ' . $category : $category;
 	        	}
-	        	elseif ($term->taxonomy == "public_agent_party") {
-	        		$terms_party .= $terms_party ? ", " . $category : $category;
+	        	elseif ($term->taxonomy === 'public_agent_party') {
+	        		$terms_party .= $terms_party ? ', ' . $category : $category;
 	        	}
-	        	elseif ($term->taxonomy == "public_agent_commission") {
-	        		$terms_commission .= $terms_commission ? ", " . $category : $category;
+	        	elseif ($term->taxonomy === 'public_agent_commission') {
+	        		$terms_commission .= $terms_commission ? ', ' . $category : $category;
 	        	}
         	}
 
         }        
 
-		$settings_states = "";
-		$settings_category = "";
-		$settings_job = "";
-		$settings_genre = "";
-		$settings_party = "";
-		$settings_commission = "";
+		$settings_states = '';
+		$settings_category = '';
+		$settings_job = '';
+		$settings_genre = '';
+		$settings_party = '';
+		$settings_commission = '';
 
 		if ($terms_category){
 			$settings_category = array(
@@ -2044,17 +2043,17 @@ class ET_Builder_Module_Make_Pressure_Gmail_Button extends ET_Builder_Module {
 		$the_query = new WP_Query( $args );
 
 		// The Loop
-		$aux = "";
-		$aux2 ="";
+		$aux = '';
+		$aux2 ='';
 		$button_url = "https://mail.google.com/mail?view=cm&tf=0&to=" . get_option('makepressure_more_emailsmails');
 		if ( $the_query->have_posts() ) {
 			while ( $the_query->have_posts() ) {
 				$the_query->the_post();
-				$aux = get_post_meta(  get_the_ID(), 'public_agent_email', true) ? get_post_meta(  get_the_ID(), 'public_agent_email', true):"";
+				$aux = get_post_meta(  get_the_ID(), 'public_agent_email', true) ? get_post_meta(  get_the_ID(), 'public_agent_email', true):'';
 				if ($aux) $aux2 .= $aux2 ? "," . $aux: $aux;
 			}
 
-			$button_url .= $aux2 . "&su=" . get_option('makepressure_email_title') . "&body=" . get_option('makepressure_email_body') ;
+			$button_url .= $aux2 . '&su=' . get_option('makepressure_email_title') . '&body=' . get_option('makepressure_email_body') ;
 			/* Restore original Post Data */
 			wp_reset_postdata();
 		} else {
@@ -2574,33 +2573,33 @@ class ET_Builder_Module_Brazil_Party_map extends ET_Builder_Module {
 
 		//add pages
 		$states = array(
-			"Acre" => "ac",
-			"Alagoas" => "al",
-			"Amapá" => "ap",
-			"Amazonas" => "am",
-			"Bahia" => "ba",
-			"Ceará" => "ce",
-			"Distrito Federal" => "df",
-			"Espírito Santo" => "es",
-			"Goiás" => "go",
-			"Maranhão" => "ma",
-			"Mato Grosso" => "mt",
-			"Mato Grosso do Sul" => "ms",
-			"Minas Gerais" => "mg",
-			"Pará" => "pa",
-			"Paraíba" => "pb",
-			"Paraná" => "pr",
-			"Pernambuco" => "pe",
-			"Piauí" => "pi",
-			"Rio de Janeiro" => "rj",
-			"Rio Grande do Norte" => "rn",
-			"Rio Grande do Sul" => "rs",
-			"Rondônia" => "ro",
-			"Roraima" => "rr",
-			"Santa Catarina" => "sc",
-			"São Paulo" => "sp",
-			"Sergipe" => "se",
-			"Tocantins" => "to"
+			'Acre' => 'ac',
+			'Alagoas' => 'al',
+			'Amapá' => 'ap',
+			'Amazonas' => 'am',
+			'Bahia' => 'ba',
+			'Ceará' => 'ce',
+			'Distrito Federal' => 'df',
+			'Espírito Santo' => 'es',
+			'Goiás' => 'go',
+			'Maranhão' => 'ma',
+			'Mato Grosso' => 'mt',
+			'Mato Grosso do Sul' => 'ms',
+			'Minas Gerais' => 'mg',
+			'Pará' => 'pa',
+			'Paraíba' => 'pb',
+			'Paraná' => 'pr',
+			'Pernambuco' => 'pe',
+			'Piauí' => 'pi',
+			'Rio de Janeiro' => 'rj',
+			'Rio Grande do Norte' => 'rn',
+			'Rio Grande do Sul' => 'rs',
+			'Rondônia' => 'ro',
+			'Roraima' => 'rr',
+			'Santa Catarina' => 'sc',
+			'São Paulo' => 'sp',
+			'Sergipe' => 'se',
+			'Tocantins' => 'to'
 		);
 		foreach ($states as $state => $state_abbreviation) {
 
@@ -2958,7 +2957,7 @@ class ET_Builder_Module_Statistics extends ET_Builder_Module {
 		return $output;
 	}
 }
-new ET_Builder_Module_Statistics;
+//new ET_Builder_Module_Statistics;
 
 class ET_Builder_Module_Make_Pressure_Search extends ET_Builder_Module {
 	function init() {
@@ -3444,44 +3443,44 @@ class ET_Builder_Module_Make_Pressure_ClipBoard extends ET_Builder_Module {
       'post_type'      => 'public_agent',
     );
 
-    $terms_category = "";
-    $terms_states = "";
-    $terms_party = "";
-    $terms_job = "";
-    $terms_genre = "";
-    $terms_commission = "";
+    $terms_category = '';
+    $terms_states = '';
+    $terms_party = '';
+    $terms_job = '';
+    $terms_genre = '';
+    $terms_commission = '';
     $categories = explode( ',', $include_categories );
     foreach ($categories as $category) {
 
       $term = get_term($category);
       if (!is_wp_error($term)) {
-        if($term->taxonomy == "category"){
-          $terms_category .= $terms_category ? ", " . $category : $category;
+        if($term->taxonomy === 'category'){
+          $terms_category .= $terms_category ? ', ' . $category : $category;
         }
-        if ($term->taxonomy == "public_agent_state") {
-          $terms_states .= $terms_states ? ", " . $category : $category;
+        if ($term->taxonomy === 'public_agent_state') {
+          $terms_states .= $terms_states ? ', ' . $category : $category;
         }
-        if ($term->taxonomy == "public_agent_job") {
-          $terms_job .= $terms_job ? ", " . $category : $category;
+        if ($term->taxonomy == 'public_agent_job') {
+          $terms_job .= $terms_job ? ', ' . $category : $category;
         }
-        if ($term->taxonomy == "public_agent_genre") {
-          $terms_genre .= $terms_genre ? ", " . $category : $category;
+        if ($term->taxonomy == 'public_agent_genre') {
+          $terms_genre .= $terms_genre ? ', ' . $category : $category;
         }
-        if ($term->taxonomy == "public_agent_party") {
-          $terms_party .= $terms_party ? ", " . $category : $category;
+        if ($term->taxonomy == 'public_agent_party') {
+          $terms_party .= $terms_party ? ', ' . $category : $category;
         }
-        if ($term->taxonomy == "public_agent_commission") {
-          $terms_commission .= $terms_commission ? ", " . $category : $category;
+        if ($term->taxonomy == 'public_agent_commission') {
+          $terms_commission .= $terms_commission ? ', ' . $category : $category;
         }
       }
     }        
 
-    $settings_states = "";
-    $settings_category = "";
-    $settings_job = "";
-    $settings_genre = "";
-    $settings_party = "";
-    $settings_commission = "";
+    $settings_states = '';
+    $settings_category = '';
+    $settings_job = '';
+    $settings_genre = '';
+    $settings_party = '';
+    $settings_commission = '';
 
     if ($terms_category){
       $settings_category = array(
@@ -3542,14 +3541,14 @@ class ET_Builder_Module_Make_Pressure_ClipBoard extends ET_Builder_Module {
     
     query_posts( $args );
 
-    $emails = "";
-    $aux = "";
-    $output = "";
+    $emails = '';
+    $aux = '';
+    $output = '';
     if ( have_posts() ) {
       $output .= '<textarea class="makepressure_clipboard">';
       while ( have_posts() ) {
           the_post();
-          $emails = get_post_meta(  get_the_ID(), 'public_agent_email', true) ? get_post_meta(  get_the_ID(), 'public_agent_email', true):"";
+          $emails = get_post_meta(  get_the_ID(), 'public_agent_email', true) ? get_post_meta(  get_the_ID(), 'public_agent_email', true):'';
           if ($emails) $aux .= $aux ? "," . $emails: $emails;
         }
         $output .= $aux;
