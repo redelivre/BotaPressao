@@ -470,7 +470,7 @@ function public_agents_menu()
 {
   add_menu_page( __('Bota Pressão','makepressure'), __('Bota Pressão','makepressure'), 'manage_options', 'makepressure_menu', 'makepressure_settings', 'dashicons-megaphone', 100);
   add_submenu_page( 'makepressure_menu', __('Adicionar Deputados Federais', 'makepressure'), __('Adicionar Deputados Federais', 'makepressure'), 'manage_options', 'makepressure-adicionar-deputados', 'makepressure_adicionar_deputados');
-  //add_submenu_page( 'makepressure_menu', __('Adicionar Senadores', 'makepressure'), __('Adicionar Senadores', 'makepressure'), 'manage_options', 'makepressure-adicionar-senadores', 'makepressure_adicionar_senadores');
+  add_submenu_page( 'makepressure_menu', __('Adicionar Senadores', 'makepressure'), __('Adicionar Senadores', 'makepressure'), 'manage_options', 'makepressure-adicionar-senadores', 'makepressure_adicionar_senadores');
   add_submenu_page( 'makepressure_menu', __('Adicionar Redes Sociais', 'makepressure'), __('Adicionar Redes Sociais', 'makepressure'), 'manage_options', 'makepressure-adicionar-redes', 'makepressure_adicionar_redes');
   add_submenu_page( 'makepressure_menu', __('Adicionar Comissões', 'makepressure'), __('Adicionar Comissões', 'makepressure'), 'manage_options', 'makepressure-adicionar-comissoes', 'makepressure_adicionar_comissoes');
 }
