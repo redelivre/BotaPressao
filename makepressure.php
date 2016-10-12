@@ -4,7 +4,7 @@
    Plugin URI: https://github.com/redelivre/botapressao
    Description: Plugin for manager and pressure Public Agent's
    Author: Maurilio Atila
-   Version: 0.2
+   Version: 0.3
    Author URI: https://github.com/cabelotaina/
  */
 
@@ -470,13 +470,14 @@ function public_agents_menu()
 {
   add_menu_page( __('Bota Pressão','makepressure'), __('Bota Pressão','makepressure'), 'manage_options', 'makepressure_menu', 'makepressure_settings', 'dashicons-megaphone', 100);
   add_submenu_page( 'makepressure_menu', __('Adicionar Deputados Federais', 'makepressure'), __('Adicionar Deputados Federais', 'makepressure'), 'manage_options', 'makepressure-adicionar-deputados', 'makepressure_adicionar_deputados');
-  add_submenu_page( 'makepressure_menu', __('Adicionar Senadores', 'makepressure'), __('Adicionar Senadores', 'makepressure'), 'manage_options', 'makepressure-adicionar-senadores', 'makepressure_adicionar_senadores');
-  add_submenu_page( 'makepressure_menu', __('Adicionar Redes Sociais', 'makepressure'), __('Adicionar Redes Sociais', 'makepressure'), 'manage_options', 'makepressure-adicionar-redes', 'makepressure_adicionar_redes');
+  add_submenu_page( 'makepressure_menu', __('Adicionar Redes Sociais Deputados', 'makepressure'), __('Adicionar Redes Sociais Deputados', 'makepressure'), 'manage_options', 'makepressure-adicionar-redes-deputados', 'makepressure_adicionar_redes_deputados');
   add_submenu_page( 'makepressure_menu', __('Adicionar Comissões', 'makepressure'), __('Adicionar Comissões', 'makepressure'), 'manage_options', 'makepressure-adicionar-comissoes', 'makepressure_adicionar_comissoes');
+  add_submenu_page( 'makepressure_menu', __('Adicionar Senadores', 'makepressure'), __('Adicionar Senadores', 'makepressure'), 'manage_options', 'makepressure-adicionar-senadores', 'makepressure_adicionar_senadores');
+  add_submenu_page( 'makepressure_menu', __('Adicionar Redes Sociais Senadores', 'makepressure'), __('Adicionar Redes Sociais Senadores', 'makepressure'), 'manage_options', 'makepressure-adicionar-redes-senadores', 'makepressure_adicionar_redes_senadores');
 }
 
-function makepressure_adicionar_redes(){
-    echo '<form method="post">';
+function makepressure_adicionar_redes_deputados(){
+  echo '<form method="post">';
   submit_button(__("Adicionar Redes", "makepressure" ));
   echo '</form>';
 
@@ -1020,6 +1021,540 @@ function makepressure_adicionar_redes(){
             echo '"' . get_the_title() . '", "' . $deputado['facebook'] . '", "'  .  $deputado['twitter'] . '"<br>';
             update_post_meta(get_the_ID(), 'public_agent_facebook', $deputado['facebook']);
             update_post_meta(get_the_ID(), 'public_agent_twitter', $deputado['twitter']);
+
+          }
+          /* Restore original Post Data */
+          wp_reset_postdata();
+        } else {
+          // no posts found
+        }
+      }
+    }
+}
+
+function makepressure_adicionar_redes_senadores(){
+  echo '<form method="post">';
+  submit_button(__("Adicionar Redes", "makepressure" ));
+  echo '</form>';
+
+  if($_POST)
+    if ($_POST['submit'] == "Adicionar Redes") {
+      set_time_limit(0);
+      $aux = array(
+                  array(
+                      "facebook" => "https =>//www.facebook.com/magnomalta", 
+                      "telefone" => "(61) 3303-4161 / 5867", 
+                      "email" => "magno.malta@senador.leg.br", 
+                      "twitter" => "MagnoMaltaOfc"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/marcelocrivella", 
+                      "telefone" => "(61) 3303-5730 / 5225", 
+                      "email" => "marcelo.crivella@senador.leg.br", 
+                      "twitter" => "MCrivella"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/marta.suplic", 
+                      "telefone" => "(61) 3303-6510 / 6514", 
+                      "email" => "marta.suplicy@senadora.leg.br", 
+                      "twitter" => ""
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/OmarAzizPSD", 
+                      "telefone" => "(61) 3303-6579", 
+                      "email" => "omar.aziz@senador.leg.br", 
+                      "twitter" => "OmarAzizPSD"
+                  ), 
+                  array(
+                      "facebook" => "", 
+                      "telefone" => "(61) 3303-1464 / 1467", 
+                      "email" => "otto.alencar@senador.leg.br", 
+                      "twitter" => "ottoalencar"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/paulobauer", 
+                      "telefone" => "(61) 3303-6529 / 6530", 
+                      "email" => "paulo.bauer@senador.leg.br", 
+                      "twitter" => "paulobauer45"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/paulopaim", 
+                      "telefone" => "(61) 3303-5232 / 5231 / 5230", 
+                      "email" => "paulopaim@senador.leg.br", 
+                      "twitter" => "paulopaim"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/profile.php?id=100009496378193&amp;fref=ts", 
+                      "telefone" => "(61) 3303-3800", 
+                      "email" => "paulo.rocha@senador.leg.br", 
+                      "twitter" => "Sen_PauloRocha"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/SenadorRaimundoLira", 
+                      "telefone" => "(61) 3303-6747 / 6754", 
+                      "email" => "raimundo.lira@senador.leg.br", 
+                      "twitter" => "RaimundoLiraPB"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/randolferodrigues", 
+                      "telefone" => "(61) 3303-6568 / 6567 / 6574", 
+                      "email" => "randolfe.rodrigues@senador.leg.br", 
+                      "twitter" => "randolfeap"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/regina.sousa.37", 
+                      "telefone" => "(61) 3303-9049", 
+                      "email" => "reginasousa@senadora.leg.br", 
+                      "twitter" => ""
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/reguffeoficial", 
+                      "telefone" => "(61) 3303-6355", 
+                      "email" => "reguffe@senador.leg.br", 
+                      "twitter" => "Reguffe"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/renancalheirosoficial", 
+                      "telefone" => "(61) 3303-2261", 
+                      "email" => "renan.calheiros@senador.leg.br", 
+                      "twitter" => "renancalheiros"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/RicardoFerraco/",
+                      "telefone" => "(61) 3303-6590 / 6593", 
+                      "email" => "ricardo.ferraco@senador.leg.br", 
+                      "twitter" => "RicardoFerraco"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/Senador-Ricardo-Franco-1630724127180145",
+                      "telefone" => "(61) 3303-1306 / 4055", 
+                      "email" => "ricardo.franco@senador.leg.br", 
+                      "twitter" => ""
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/robertorequiao", 
+                      "telefone" => "(61) 3303-6623 / 6624 / 6621 / 6625", 
+                      "email" => "roberto.requiao@senador.leg.br", 
+                      "twitter" => "requiaopmdb"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/robertorocha400", 
+                      "telefone" => "(61) 3303-1437 / 1506", 
+                      "email" => "robertorocha@senador.leg.br", 
+                      "twitter" => ""
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/romariodesouzafaria", 
+                      "telefone" => "(61) 3303-6519 / 6517", 
+                      "email" => "romario@senador.leg.br", 
+                      "twitter" => "RomarioOnze"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/senromerojuca", 
+                      "telefone" => "(61) 3303-2115 / 2111 / 2119", 
+                      "email" => "romero.juca@senador.leg.br", 
+                      "twitter" => "romerojuca"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/ronaldocaiado25", 
+                      "telefone" => "(61) 3303-6439 / 6440 / 6445", 
+                      "email" => "ronaldo.caiado@senador.leg.br", 
+                      "twitter" => "SenadorCaiado"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/senadorarosedefreitas", 
+                      "telefone" => "(61) 3303-1156", 
+                      "email" => "rose.freitas@senadora.leg.br", 
+                      "twitter" => "senadorarose"
+                  ), 
+                  array(
+                      "facebook" => "", 
+                      "telefone" => "(61) 3303-6230 / 6227", 
+                      "email" => "sandrabraga@senadora.leg.br", 
+                      "twitter" => ""
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/sergiopetecao", 
+                      "telefone" => "(61) 3303-6708 / 6709", 
+                      "email" => "sergio.petecao@senador.leg.br", 
+                      "twitter" => "senadorpetecao"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/simonetebet", 
+                      "telefone" => "(61) 3303-1128", 
+                      "email" => "simone.tebet@senadora.leg.br", 
+                      "twitter" => ""
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/tassocomvoce", 
+                      "telefone" => "(61) 3303-4502 / 4503", 
+                      "email" => "tasso.jereissati@senador.leg.br", 
+                      "twitter" => "tassocomvoce"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/telmariomotarr", 
+                      "telefone" => "(61) 3303-6315", 
+                      "email" => "telmariomota@senador.leg.br", 
+                      "twitter" => "TelmarioMotaRR"
+                  ), 
+                  array(
+                      "facebook" => "", 
+                      "telefone" => "(61) 3303-2252 / 2253", 
+                      "email" => "valdir.raupp@senador.leg.br", 
+                      "twitter" => "SENADORRAUPP"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/VanessaGrazziotin", 
+                      "telefone" => "(61) 3303-6726 / 6733", 
+                      "email" => "vanessa.grazziotin@senadora.leg.br", 
+                      "twitter" => "SouVanessa65"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/vicentinhoalves", 
+                      "telefone" => "(61) 3303-6469 / 6467", 
+                      "email" => "vicentinho.alves@senador.leg.br", 
+                      "twitter" => "SenVicentinho"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/SenadorWaldemirMOKA", 
+                      "telefone" => "(61) 3303-6767 / 6768", 
+                      "email" => "waldemir.moka@senador.leg.br", 
+                      "twitter" => ""
+                  ), 
+                  array(
+                      "facebook" => "", 
+                      "telefone" => "(61) 3303-6788 / 6790", 
+                      "email" => "pinheiro@senador.leg.br", 
+                      "twitter" => "pinheirosenador"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/wellington.fagundes.mt", 
+                      "telefone" => "(61) 3303-6219 / 6213 / 6221", 
+                      "email" => "wellington.fagundes@senador.leg.br", 
+                      "twitter" => "sen_wellington"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/wildermorais", 
+                      "telefone" => "(61) 3303-2092 / 2093 / 1809 / 2099 / 2964", 
+                      "email" => "wilder.morais@senador.leg.br", 
+                      "twitter" => "wildermorais"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/zezeperrella", 
+                      "telefone" => "(61) 3303-2191 / 2192", 
+                      "email" => "zeze.perrella@senador.leg.br", 
+                      "twitter" => "zezeperrella"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/AcirGurgacz", 
+                      "telefone" => "(61) 3303-3132 / 3131", 
+                      "email" => "acir@senador.leg.br", 
+                      "twitter" => "acirgurgacz"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/AecioNevesOficial", 
+              "https =>//www.instagram.com/aecionevesoficial/", 
+                      "telefone" => "(61) 3303-6049 / 6050", 
+                      "email" => "aecio.neves@senador.leg.br", 
+                      "twitter" => "AecioNeves"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/aloysionunes/", 
+                      "telefone" => "(61) 3303-6063 / 6064", 
+                      "email" => "aloysionunes.ferreira@senador.leg.br", 
+                      "twitter" => ""
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/ad.alvarodias", 
+                      "telefone" => "(61) 3303-4059 / 4060", 
+                      "email" => "alvarodias@senador.leg.br", 
+                      "twitter" => "alvarodias_"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/anaamelia.lemo", 
+                      "telefone" => "(61) 3303-6083", 
+                      "email" => "ana.amelia@senadora.leg.br", 
+                      "twitter" => "anaamelialemos"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/angelaportela13", 
+                      "telefone" => "(61) 3303-6103 / 6104 / 6105", 
+                      "email" => "angela.portela@senadora.leg.br", 
+                      "twitter" => "AngelaPortelaRR"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/AntonioAnastasiaOficial", 
+                      "telefone" => "(61) 3303-5717", 
+                      "email" => "antonio.anastasia@senador.leg.br", 
+                      "twitter" => "Anastasia"
+                  ), 
+                  array(
+                      "facebook" => "", 
+                      "telefone" => "(61) 3303-2201 / 2203 / 2204 / 1786", 
+                      "email" => "antoniocarlosvaladares@senador.leg.br", 
+                      "twitter" => ""
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/SenadorAtaidesOliveira", 
+                      "telefone" => "(61) 3303-2163 / 2164 / 2165", 
+                      "email" => "ataides.oliveira@senador.leg.br", 
+                      "twitter" => "Senador_Ataides"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/BeneditodeLira", 
+                      "telefone" => "(61) 3303-6148 / 6149 / 6151", 
+                      "email" => "benedito.lira@senador.leg.br", 
+                      "twitter" => "BiudeLira"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/senadorblairomaggi", 
+                      "telefone" => "(61) 3303-6167 / 6161 / 6168", 
+                      "email" => "blairomaggi@senador.leg.br", 
+                      "twitter" => "blairomaggi"
+
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/cassiocunhalima", 
+                      "telefone" => "(61) 3303-9808 / 9809 / 9810", 
+                      "email" => "cassio.cunha.lima@senador.leg.br", 
+                      "twitter" => "cassiocl"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/cironogueira", 
+                      "telefone" => "(61) 3303-6187 / 6189", 
+                      "email" => "ciro.nogueira@senador.leg.br", 
+                      "twitter" => "ciro_nogueira"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/Cristovam.Buarque", 
+                      "telefone" => "(61) 3303-2281", 
+                      "email" => "cristovam.buarque@senador.leg.br", 
+                      "twitter" => "Sen_Cristovam"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/senadordaliriobeber", 
+                      "telefone" => "(61) 3303-6446 / 6447", 
+                      "email" => "dalirio.beber@senador.leg.br", 
+                      "twitter" => "daliriobeber"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/DarioEliasBerger", 
+                      "telefone" => "(61) 3303-5947 / 5951", 
+                      "email" => "dario.berger@senador.leg.br", 
+                      "twitter" => "darioberger"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/davialcolumbre2", 
+                      "telefone" => "(61) 3303-6717 / 6720 / 6722", 
+                      "email" => "davi.alcolumbre@senador.leg.br", 
+                      "twitter" => "davialcolumbre"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/Delcidio.Amaral", 
+                      "telefone" => "(61) 3303-2453 / 2454 / 2455 / 2456 / 2457", 
+                      "email" => "delcidio.amaral@senador.leg.br", 
+                      "twitter" => "delcidiox9"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/donizetidopt", 
+                      "telefone" => "(61) 3303-2464 / 2708 / 5771 / 2466", 
+                      "email" => "donizeti.nogueira@senador.leg.br", 
+                      "twitter" => "DonizetiPT"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/profile.php?id=100006192737710&amp;fref=ts", 
+                      "telefone" => "(61) 3303-6130 / 6127", 
+                      "email" => "douglas.cintra@senador.leg.br", 
+                      "twitter" => "DouglasCintra14"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/senadoredisonlobao1", 
+                      "telefone" => "(61) 3303-2311 / 2312 / 1989", 
+                      "email" => "edison.lobao@senador.leg.br", 
+                      "twitter" => "senadorlobao"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/eduardoamorim20", 
+                      "telefone" => "(61) 3303-6205 / 6206 / 6207 / 6208 / 6209 / 6210 / 6211", 
+                      "email" => "eduardo.amorim@senador.leg.br", 
+                      "twitter" => "eduardoamorimse"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/elmanoferreroficial", 
+              "https =>//www.instagram.com/p/BEWlkx3CKCW/", 
+                      "telefone" => "(61) 3303-2415 / 3055 / 1015", 
+                      "email" => "elmano.ferrer@senador.leg.br", 
+                      "twitter" => "elmanoferrer"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/Eun%C3%ADcio-Oliveira-147474322001734",
+                      "telefone" => "(61) 3303-6245 / 6246", 
+                      "email" => "eunicio.oliveira@senador.leg.br", 
+                      "twitter" => "Eunicio"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/FatimaBezerra13", 
+                      "telefone" => "(61) 3303-1777 / 1682 / 1602", 
+                      "email" => "fatima.bezerra@senadora.leg.br", 
+                      "twitter" => "Fatima_Bezerra"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/fernando.bezerracoelho", 
+              "https =>//www.instagram.com/fbezerracoelho/", 
+                      "telefone" => "(61) 3303-2182", 
+                      "email" => "fernandobezerracoelho@senador.leg.br", 
+                      "twitter" => ""
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/colloralagoas", 
+                      "telefone" => "(61) 3303-5783", 
+                      "email" => "fernando.collor@senador.leg.br", 
+                      "twitter" => "Collor"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/senadorflexaribeiro", 
+                      "telefone" => "(61) 3303-2342", 
+                      "email" => "flexa.ribeiro@senador.leg.br", 
+                      "twitter" => "senadorflexa"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/OficialFilho/", 
+                      "telefone" => "(61) 3303-2371 / 2372", 
+                      "email" => "garibaldi.alves@senador.leg.br", 
+                      "twitter" => ""
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/GladsonCameli", 
+                      "telefone" => "(61) 3303-1357 / 1367", 
+                      "email" => "gladson.cameli@senador.leg.br", 
+                      "twitter" => "senadorCameli"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/gleisi.hoffmann", 
+                      "telefone" => "(61) 3303-6265", 
+                      "email" => "gleisi@senadora.leg.br", 
+                      "twitter" => "gleisi"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/profile.php?id=100008684373153&amp;fref=ts", 
+                      "telefone" => "(61) 3303-6640 / 6645 / 6646", 
+                      "email" => "heliojose@senador.leg.br", 
+                      "twitter" => "senador_helio"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/humbertocostapt", 
+                      "telefone" => "(61) 3303-6285 / 6286", 
+                      "email" => "humberto.costa@senador.leg.br", 
+                      "twitter" => "humbertocostapt"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/ivo.cassol.9", 
+                      "telefone" => "(61) 3303-6328 / 6329", 
+                      "email" => "ivo.cassol@senador.leg.br", 
+                      "twitter" => "senadorcassol"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/JaderpeloPara", 
+                      "telefone" => "(61) 3303-9826 / 9831 / 9827 / 9832", 
+                      "email" => "jader.barbalho@senador.leg.br", 
+                      "twitter" => "jader_barbalho"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/joaoalbertosenado", 
+                      "telefone" => "(61) 3303-6349 / 6352", 
+                      "email" => "joao.alberto.souza@senador.leg.br", 
+                      "twitter" => ""
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/senadorcap", 
+                      "telefone" => "(61) 3303-9011 / 9013", 
+                      "email" => "joao.capiberibe@senador.leg.br", 
+                      "twitter" => "joaocapi"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/senadorjorgeviana", 
+                      "telefone" => "(61) 3303-6366 / 6369", 
+                      "email" => "jorge.viana@senador.leg.br", 
+                      "twitter" => "JorgeVianaAcre"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/joseagripinomaia", 
+                      "telefone" => "(61) 3303-2366 / 2361 / 2362", 
+                      "email" => "jose.agripino@senador.leg.br", 
+                      "twitter" => "joseagripino"
+                  ), 
+                  array(
+                      "facebook" => "", 
+                      "telefone" => "(61) 3303-6490 / 6485", 
+                      "email" => "jose.maranhao@senador.leg.br", 
+                      "twitter" => "josemaranhaopb"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/senadorjosemedeiros", 
+                      "telefone" => "(61) 3303-1146 / 1148", 
+                      "email" => "josemedeiros@senador.leg.br", 
+                      "twitter" => "JoseMedeirosMT"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/JosePimentelPT", 
+                      "telefone" => "(61) 3303-6390 / 6391", 
+                      "email" => "jose.pimentel@senador.leg.br", 
+                      "twitter" => "jose_pimentel"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/JoseSerraOficial", 
+                      "telefone" => "(61) 3303-6651 / 6655", 
+                      "email" => "jose.serra@senador.leg.br", 
+                      "twitter" => "joseserra_"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/LasierMartinsOficial", 
+                      "telefone" => "(61) 3303-2323", 
+                      "email" => "lasier.martins@senador.leg.br", 
+                      "twitter" => "lasierm"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/LidicedaMata/?ref=ts&amp;fref=ts", 
+                      "telefone" => "(61) 3303-6408 / 6410", 
+                      "email" => "lidice.mata@senadora.leg.br", 
+                      "twitter" => "lidicedamata"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/lindbergh.farias", 
+                      "telefone" => "(61) 3303-6426 / 6427", 
+                      "email" => "lindbergh.farias@senador.leg.br", 
+                      "twitter" => "LindbergFarias"
+                  ), 
+                  array(
+                      "facebook" => "https =>//www.facebook.com/Senadora-L%C3%BAcia-V%C3%A2nia-127980693947760",
+                      "telefone" => "(61) 3303-2844 / 2035", 
+                      "email" => "lucia.vania@senadora.leg.br", 
+                      "twitter" => "Lucia_Vania"
+                  )
+                );
+
+      foreach ($aux as $senador) {
+        $args = array(
+          'post_type' => 'public_agent',
+          'post_status' => 'publish',
+           'meta_query' => array(
+               array(
+                   'key' => 'public_agent_email',
+                   'value' => $senador['email'],
+                   'compare' => 'LIKE',
+               )
+           )
+        );
+        $the_query = new WP_Query( $args );
+
+        // The Loop
+        if ( $the_query->have_posts() ) {
+          while ( $the_query->have_posts() ) {
+            $the_query->the_post();
+            echo '"' . get_the_title() . '", "' . $senador['facebook'] . '", "'  .  $senador['twitter'] . '", "' . $senador['telefone'] . '"<br>';
+            update_post_meta(get_the_ID(), 'public_agent_facebook', $senador['facebook']);
+            update_post_meta(get_the_ID(), 'public_agent_twitter', $senador['twitter']);
+            update_post_meta(get_the_ID(), 'public_agent_phone', $senador['telefone']);
 
           }
           /* Restore original Post Data */
