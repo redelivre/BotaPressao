@@ -1253,7 +1253,6 @@ function makepressure_adicionar_redes_senadores(){
                   ), 
                   array(
                       "facebook" => "https =>//www.facebook.com/AecioNevesOficial", 
-              "https =>//www.instagram.com/aecionevesoficial/", 
                       "telefone" => "(61) 3303-6049 / 6050", 
                       "email" => "aecio.neves@senador.leg.br", 
                       "twitter" => "AecioNeves"
@@ -1380,8 +1379,7 @@ function makepressure_adicionar_redes_senadores(){
                       "twitter" => "eduardoamorimse"
                   ), 
                   array(
-                      "facebook" => "https =>//www.facebook.com/elmanoferreroficial", 
-              "https =>//www.instagram.com/p/BEWlkx3CKCW/", 
+                      "facebook" => "https =>//www.facebook.com/elmanoferreroficial",
                       "telefone" => "(61) 3303-2415 / 3055 / 1015", 
                       "email" => "elmano.ferrer@senador.leg.br", 
                       "twitter" => "elmanoferrer"
@@ -1400,7 +1398,6 @@ function makepressure_adicionar_redes_senadores(){
                   ), 
                   array(
                       "facebook" => "https =>//www.facebook.com/fernando.bezerracoelho", 
-              "https =>//www.instagram.com/fbezerracoelho/", 
                       "telefone" => "(61) 3303-2182", 
                       "email" => "fernandobezerracoelho@senador.leg.br", 
                       "twitter" => ""
