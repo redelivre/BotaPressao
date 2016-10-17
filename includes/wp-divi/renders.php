@@ -284,6 +284,9 @@ function wp_divi_get_congresscards( $args, $fullwidth, $hover_icon, $show_title,
 }
 
 function wp_divi_get_share_buttons(){
+
+
+
 	$email_subject = get_option( 'makepressure_email_title' );
 	$email_body = get_option( 'makepressure_email_body' );
 	$more_emails = get_option( 'makepressure_more_emails' );
@@ -293,26 +296,72 @@ function wp_divi_get_share_buttons(){
 	$twitter_hashtag = get_option( 'makepressure_twitter_hashtag' );
 	?>
 	<div class="makepressure_action" >
-		<?php
-		$genre = wp_get_post_terms( get_the_ID() , 'public_agent_genre');
-	  if (is_array($genre)) {
-	    $genre = $genre[0];
-	    $genre_slug = $genre->slug;
-	  }
+
+			<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1129486127138725',
+      xfbml      : true,
+      version    : 'v2.8',
+      status     : true
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/pt_BR/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+  /* make the API call */
+  function myFacebookLogin(to) {
+    FB.login(function(){
+      FB.api(
+          '/joarizadtna/feed',
+          "POST",
+          {
+              "message": "Vote contra a PEC do fim do Mundo!!!"
+          },
+          function (response) {
+            if (response && !response.error) {
+              console.log("Mensagem Encaminhada ;)");
+            }
+            else{
+              console.log("Mensagem não chegou ao destinatário :(");
+              console.log(response.error);
+            }
+          }
+      );
+    }, {scope: 'publish_actions, publish_pages'});
+  }
+</script>
+      <?php
+	    $genre = wp_get_post_terms( get_the_ID() , 'public_agent_genre');
+	    $size = "fa-3x";
+	    if (is_array($genre)) {
+	      $genre = $genre[0];
+	      $genre_slug = $genre->slug;
+	    }
 
 		if ( get_post_meta(  get_the_ID(), 'public_agent_email', true) ) : ?>
-	  	  <a id="<?php echo get_the_ID(); ?>" class="fa fa-3x fa-envelope makepressure_email" href="mailto:<?php print_r(get_post_meta(  get_the_ID(), 'public_agent_email', true)); ?>?subject=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true)?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):''; ?>%20<?php echo get_the_title(); ?>&body=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true) ?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):''; ?>%20<?php echo get_the_title(); ?>,  %0A%0A<?php echo $email_body; ?>" ></a>
+	  	  <a id="<?php echo get_the_ID(); ?>" class="fa <?= $size ?> fa-envelope makepressure_email" href="mailto:<?php print_r(get_post_meta(  get_the_ID(), 'public_agent_email', true)); ?>?subject=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true)?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):''; ?>%20<?php echo get_the_title(); ?>&body=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true) ?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):''; ?>%20<?php echo get_the_title(); ?>,  %0A%0A<?php echo $email_body; ?>" ></a>
 		<?php endif; ?>
         <?php if ( get_post_meta(  get_the_ID(), 'public_agent_email', true) ) : ?>
-          <a id="<?php echo get_the_ID(); ?>" target="_blank" class="fa fa-3x fa-google makepressure_gmail" href="https://mail.google.com/mail?view=cm&tf=0&to=<?php print_r(get_post_meta(  get_the_ID(), 'public_agent_email', true)); ?>&su=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true)?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):''; ?>%20<?php echo get_the_title(); ?>&body=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true) ?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):''; ?>%20<?php echo get_the_title(); ?>,  %0A%0A<?php echo $email_body; ?>" ></a>
+          <a id="<?php echo get_the_ID(); ?>" target="_blank" class="fa <?= $size ?> fa-google makepressure_gmail" href="https://mail.google.com/mail?view=cm&tf=0&to=<?php print_r(get_post_meta(  get_the_ID(), 'public_agent_email', true)); ?>&su=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true)?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):''; ?>%20<?php echo get_the_title(); ?>&body=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true) ?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):''; ?>%20<?php echo get_the_title(); ?>,  %0A%0A<?php echo $email_body; ?>" ></a>
         <?php endif; ?>
 		<?php if ( get_post_meta(  get_the_ID(), 'public_agent_twitter', true) ) : ?>
-		  <a id="<?php echo get_the_ID(); ?>" class="fa fa-twitter fa-3x makepressure_twitter" href="https://twitter.com/intent/tweet?text=@<?php echo get_post_meta(  get_the_ID(), 'public_agent_twitter', true ); ?><?php echo $twitter_text; ?>&url=<?php echo $twitter_url; ?>&hashtags=<?php echo $twitter_hashtag; ?>" data-show-count="false"></a>
+		  <a id="<?php echo get_the_ID(); ?>" class="fa fa-twitter <?= $size ?> makepressure_twitter" href="https://twitter.com/intent/tweet?text=@<?php echo get_post_meta(  get_the_ID(), 'public_agent_twitter', true ); ?><?php echo $twitter_text; ?>&url=<?php echo $twitter_url; ?>&hashtags=<?php echo $twitter_hashtag; ?>" data-show-count="false"></a>
 		<?php endif; ?>
-		
+		<?php $facebook_url = get_post_meta(  get_the_ID(), 'public_agent_facebook', true); ?>
 		<?php if ( get_post_meta(  get_the_ID(), 'public_agent_facebook', true) ) : ?>
-		  <a id="<?php echo get_the_ID(); ?>" class="fa fa-facebook-official fa-3x makepressure_facebook" target="_brank" href="<?php echo get_post_meta(  get_the_ID(), 'public_agent_facebook', true); ?>"></a>
+		  <a id="<?php echo get_the_ID(); ?>" class="fa fa-facebook-official <?= $size ?> makepressure_facebook" target="_brank" href="<?= $facebook_url ?>"></a>
+		  <a id="<?php echo get_the_ID(); ?>" class="fa fa-comment <?= $size ?> makepressure_facebook" onclick="myFacebookLogin('<?= str_replace('https://www.facebook.com/', '', $facebook_url); ?>')"></a>
 		<?php endif; ?>
+
+
+
 	</div>
 	<?php
 }
