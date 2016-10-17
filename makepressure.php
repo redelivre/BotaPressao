@@ -125,7 +125,7 @@ function create_public_agent()
     )
   );
 
-    $labels = array(
+  $labels = array(
           'name'              => esc_html__( 'Gêneros', 'et_builder' ),
           'singular_name'     => esc_html__( 'Gênero', 'et_builder' ),
           'search_items'      => esc_html__( 'Buscar Gêneros', 'et_builder' ),
