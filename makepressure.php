@@ -482,7 +482,8 @@ function makepressure_remove_all_public_agents(){
   <p>Esta ação não podera ser desfeita, faça apenas se vc tem centeza do que esta fazendo</p><?php
   submit_button(__("Sim", "makepressure" ));
   if(isset($_POST)){
-    if ($_POST['submit'] == "Tem Certeza?") {
+    $submit = isset($_POST['submit'])?$_POST['submit']:'';
+    if ($submit == "Tem Certeza?") {
       $the_query = new WP_Query(array( 'post_type' => 'public_agent', 'posts_per_page' => -1 , 'field' => 'ids'));
       while ( $the_query->have_posts() ) {
         $the_query->the_post();
