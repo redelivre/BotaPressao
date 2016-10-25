@@ -481,7 +481,7 @@ function makepressure_remove_all_public_agents(){
   ?><h1>Remover todos os posts</h1>
   <p>Esta ação não podera ser desfeita, faça apenas se vc tem centeza do que esta fazendo</p><?php
   submit_button(__("Sim", "makepressure" ));
-  if(isset($_POST) && $_POST['submit'] !== null){
+  if(isset($_POST){
     if ($_POST['submit'] == "Tem Certeza?") {
       $the_query = new WP_Query(array( 'post_type' => 'public_agent', 'posts_per_page' => -1 , 'field' => 'ids'));
       while ( $the_query->have_posts() ) {
@@ -498,7 +498,7 @@ function makepressure_adicionar_redes_deputados(){
   submit_button(__("Adicionar Redes", "makepressure" ));
   echo '</form>';
 
-  if($_POST)
+  if(isset($_POST)
     if ($_POST['submit'] == "Adicionar Redes") {
       set_time_limit(0);
       $aux = array(
@@ -3035,6 +3035,10 @@ function makepressure_adicionar_comissoes(){
 }
 
 function makepressure_adicionar_deputados(){
+?>
+<h1><?php _e('Lista de Deputados para importação' , 'makepressure') ?></h1>
+<?php
+
   $Url="http://www.camara.leg.br/SitCamaraWS/Deputados.asmx/ObterDeputados";  
   if (!function_exists('curl_init')){
       die('Sorry cURL is not installed!');
@@ -3133,10 +3137,13 @@ function makepressure_adicionar_deputados(){
 }
 
 function makepressure_adicionar_senadores(){
+  ?>
+<h1><?php _e('Lista de Senadores para importação' , 'makepressure') ?></h1>
+<?php
   $url="http://legis.senado.leg.br/dadosabertos/senador/lista/atual";
   $response_xml_data = file_get_contents($url);
   if($response_xml_data){
-    echo "Parlamentares lidos com sucesso!";
+    echo '<br>' . __("Parlamentares lidos com sucesso!", 'makepressure') . '</br>';
   }
 
   $data = simplexml_load_string($response_xml_data);
