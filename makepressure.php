@@ -485,7 +485,7 @@ function makepressure_remove_all_public_agents(){
   echo '</form>';
   if(isset($_POST)){
     $submit = isset($_POST['submit'])?$_POST['submit']:'';
-    if ($submit == "Tem Certeza?") {
+    if ($submit == "Sim") {
       $the_query = new WP_Query(array( 'post_type' => 'public_agent', 'posts_per_page' => -1 , 'field' => 'ids'));
       while ( $the_query->have_posts() ) {
         $the_query->the_post();
