@@ -489,7 +489,7 @@ function makepressure_remove_all_public_agents(){
       $the_query = new WP_Query(array( 'post_type' => 'public_agent', 'posts_per_page' => -1 , 'field' => 'ids'));
       while ( $the_query->have_posts() ) {
         $the_query->the_post();
-        wp_delete_post( get_the_ID );
+        wp_delete_post( get_the_ID() );
       }
     }
   }
