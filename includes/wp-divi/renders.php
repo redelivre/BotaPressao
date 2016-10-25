@@ -357,7 +357,7 @@ function wp_divi_get_share_buttons(){
 		<?php $facebook_url = get_post_meta(  get_the_ID(), 'public_agent_facebook', true); ?>
 		<?php if ( get_post_meta(  get_the_ID(), 'public_agent_facebook', true) ) : ?>
 		  <a id="<?php echo get_the_ID(); ?>" class="fa fa-facebook-official <?= $size ?> makepressure_facebook" target="_brank" href="<?= $facebook_url ?>"></a>
-		  <a id="<?php echo get_the_ID(); ?>" class="fa fa-comment <?= $size ?> makepressure_facebook" onclick="myFacebookLogin('<?= str_replace('https://www.facebook.com/', '', $facebook_url); ?>')"></a>
+		  <!--a id="<?= get_the_ID(); ?>" class="fa fa-comment <?= $size ?> makepressure_facebook" onclick="myFacebookLogin('<?= str_replace('https://www.facebook.com/', '', $facebook_url); ?>')"></a-->
 		<?php endif; ?>
 
 

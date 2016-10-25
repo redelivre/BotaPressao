@@ -474,7 +474,24 @@ function public_agents_menu()
   add_submenu_page( 'makepressure_menu', __('Adicionar Comissões', 'makepressure'), __('Adicionar Comissões', 'makepressure'), 'manage_options', 'makepressure-adicionar-comissoes', 'makepressure_adicionar_comissoes');
   add_submenu_page( 'makepressure_menu', __('Adicionar Senadores', 'makepressure'), __('Adicionar Senadores', 'makepressure'), 'manage_options', 'makepressure-adicionar-senadores', 'makepressure_adicionar_senadores');
   add_submenu_page( 'makepressure_menu', __('Adicionar Redes Sociais Senadores', 'makepressure'), __('Adicionar Redes Sociais Senadores', 'makepressure'), 'manage_options', 'makepressure-adicionar-redes-senadores', 'makepressure_adicionar_redes_senadores');
+  add_submenu_page( 'makepressure_menu', __('Remover todos os Agentes', 'makepressure'), __('Remover todos os Agentes', 'makepressure'), 'manage_options', 'makepressure-remover-agentes', 'makepressure_remove_all_public_agents');
 }
+
+function makepressure_remove_all_public_agents(){
+  ?><h1>Remover todos os posts</h1>
+  <p>Esta ação não podera ser desfeita, faça apenas se vc tem centeza do que esta fazendo</p><?php
+  submit_button(__("Sim", "makepressure" ));
+  if(isset($_POST) && $_POST['submit'] !== null){
+    if ($_POST['submit'] == "Tem Certeza?") {
+      $the_query = new WP_Query(array( 'post_type' => 'public_agent', 'posts_per_page' => -1 , 'field' => 'ids'));
+      while ( $the_query->have_posts() ) {
+        $the_query->the_post();
+        wp_delete_post( get_the_ID );
+      }
+    }
+  }
+}
+
 
 function makepressure_adicionar_redes_deputados(){
   echo '<form method="post">';
@@ -3317,13 +3334,28 @@ function public_agent_show_hide_fields()
     exit;
 }
 
+function makepressure_activate() {
 
-register_activation_hook( __FILE__, 'makepressure_activation' );
+  add_option( 'Activated_MakePressure', 'makepressure' );
+
+  /* activation code here */
+}
+register_activation_hook( __FILE__, 'makepressure_activate' );
+
+function load_plugin() {
+
+    if ( is_admin() && get_option( 'Activated_MakePressure' ) == 'makepressure' ) {
+
+        delete_option( 'Activated_MakePressure' );
+        makepressure_activation();
+      }
+}
+add_action( 'admin_init', 'load_plugin' );
+
+
 function makepressure_activation()
 {
 
-  update_option('public_agent_partidos' , $public_agent_partidos );
-  update_option('public_agent_partidos_array' , $public_agent_partidos_array );
   update_option( "makepressure_email_show", '1' );
   update_option( "makepressure_facebook_show", '1' );
   update_option( "makepressure_twitter_show", '1' );
@@ -3365,7 +3397,6 @@ function makepressure_activation()
 }
 
 function wp_divi_delibera_enqueue_style() {
-
   wp_register_style( 'fontawesome',  plugin_dir_url( __FILE__ ).'css/font-awesome.min.css' );
   wp_enqueue_style( 'fontawesome' );
 }
@@ -3377,6 +3408,7 @@ if(is_admin()){
   //add_action( 'wp_ajax_makepressure_email', 'makepressure_email_callback' );
   //add_action( 'wp_ajax_nopriv_makepressure_email', 'makepressure_email_callback' );  
 }
+
 function makepressure_email_callback() {
 
     if ( isset( $_POST['nonce'] ) &&  isset( $_POST['post_id'] ) && wp_verify_nonce( $_POST['nonce'], 'makepressure_email') ) {
@@ -3389,6 +3421,7 @@ function makepressure_email_callback() {
 
 
 //add_action( 'wp_head', 'makepressure_email_click_head' );
+
 function makepressure_email_click_head() {
     global $post;
 
@@ -3422,6 +3455,7 @@ if(is_admin()){
   //add_action( 'wp_ajax_makepressure_facebook', 'makepressure_facebook_callback' );
   //add_action( 'wp_ajax_nopriv_makepressure_facebook', 'makepressure_facebook_callback' );  
 }
+
 function makepressure_facebook_callback() {
 
     if ( isset( $_POST['nonce'] ) &&  isset( $_POST['post_id'] ) && wp_verify_nonce( $_POST['nonce'], 'makepressure_facebook') ) {
@@ -3431,7 +3465,6 @@ function makepressure_facebook_callback() {
     }
     wp_die();
 }
-
 
 //add_action( 'wp_head', 'makepressure_facebook_click_head' );
 function makepressure_facebook_click_head() {
@@ -3477,7 +3510,6 @@ function makepressure_twitter_callback() {
     wp_die();
 }
 
-
 //add_action( 'wp_head', 'makepressure_twitter_click_head' );
 function makepressure_twitter_click_head() {
     global $post;
@@ -3512,6 +3544,7 @@ if(is_admin()){
   //add_action( 'wp_ajax_makepressure_superpressure', 'makepressure_superpressure_callback' );
   //add_action( 'wp_ajax_nopriv_makepressure_superpressure', 'makepressure_superpressure_callback' );  
 }
+
 function makepressure_superpressure_callback() {
 
     if ( isset( $_POST['nonce'] ) &&  isset( $_POST['css_id'] ) && wp_verify_nonce( $_POST['nonce'], 'makepressure_superpressure') ) {
@@ -3521,7 +3554,6 @@ function makepressure_superpressure_callback() {
     }
     wp_die();
 }
-
 
 //add_action( 'wp_head', 'makepressure_superpressure_click_head' );
 function makepressure_superpressure_click_head() {
@@ -3551,7 +3583,6 @@ function makepressure_superpressure_click_head() {
 <?php
     }
 }
-
 
 function makepressure_addscripts(){
   wp_enqueue_script( "chartjs", plugin_dir_url(__FILE__)."/node_modules/chart.js/dist/Chart.min.js");
