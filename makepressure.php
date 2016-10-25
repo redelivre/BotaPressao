@@ -481,7 +481,7 @@ function makepressure_remove_all_public_agents(){
   ?><h1>Remover todos os posts</h1>
   <p>Esta ação não podera ser desfeita, faça apenas se vc tem centeza do que esta fazendo</p><?php
   submit_button(__("Sim", "makepressure" ));
-  if(isset($_POST){
+  if(isset($_POST)){
     if ($_POST['submit'] == "Tem Certeza?") {
       $the_query = new WP_Query(array( 'post_type' => 'public_agent', 'posts_per_page' => -1 , 'field' => 'ids'));
       while ( $the_query->have_posts() ) {
@@ -498,7 +498,7 @@ function makepressure_adicionar_redes_deputados(){
   submit_button(__("Adicionar Redes", "makepressure" ));
   echo '</form>';
 
-  if(isset($_POST)
+  if(isset($_POST))
     if ($_POST['submit'] == "Adicionar Redes") {
       set_time_limit(0);
       $aux = array(
