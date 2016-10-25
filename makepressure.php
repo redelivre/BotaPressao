@@ -480,7 +480,9 @@ function public_agents_menu()
 function makepressure_remove_all_public_agents(){
   ?><h1>Remover todos os posts</h1>
   <p>Esta ação não podera ser desfeita, faça apenas se vc tem centeza do que esta fazendo</p><?php
+  echo '<form method="post">';
   submit_button(__("Sim", "makepressure" ));
+  echo '</form>';
   if(isset($_POST)){
     $submit = isset($_POST['submit'])?$_POST['submit']:'';
     if ($submit == "Tem Certeza?") {
