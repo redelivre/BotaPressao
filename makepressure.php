@@ -504,7 +504,7 @@ function makepressure_adicionar_redes_deputados(){
   submit_button(__("Adicionar Redes", "makepressure" ));
   echo '</form>';
 
-  if($_POST)
+  if($_POST){
     $submit = isset($_POST['submit'])?$_POST['submit']:'';
     if ($submit === "Adicionar Redes") {
       set_time_limit(0);
@@ -1054,6 +1054,7 @@ function makepressure_adicionar_redes_deputados(){
         }
       }
     }
+  }
 }
 
 function makepressure_adicionar_redes_senadores(){
