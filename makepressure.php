@@ -483,7 +483,7 @@ function makepressure_remove_all_public_agents(){
   echo '<form method="post">';
   submit_button(__("Sim", "makepressure" ));
   echo '</form>';
-  if(isset($_POST)){
+  if($_POST){
     $submit = isset($_POST['submit'])?$_POST['submit']:'';
     if ($submit == "Sim") {
       $the_query = new WP_Query(array( 'post_type' => 'public_agent', 'posts_per_page' => -1 , 'field' => 'ids'));
@@ -504,7 +504,7 @@ function makepressure_adicionar_redes_deputados(){
   submit_button(__("Adicionar Redes", "makepressure" ));
   echo '</form>';
 
-  if(isset($_POST))
+  if($_POST)
     $submit = isset($_POST['submit'])?$_POST['submit']:'';
     if ($submit === "Adicionar Redes") {
       set_time_limit(0);
@@ -1057,6 +1057,9 @@ function makepressure_adicionar_redes_deputados(){
 }
 
 function makepressure_adicionar_redes_senadores(){
+  ?>
+  <h1><?php _e( 'Adicionar Redes', 'makepressure'); ?></h1>
+  <?php
   echo '<form method="post">';
   submit_button(__("Adicionar Redes", "makepressure" ));
   echo '</form>';
