@@ -497,6 +497,9 @@ function makepressure_remove_all_public_agents(){
 
 
 function makepressure_adicionar_redes_deputados(){
+?>
+<h1><?php _e( 'Adicionar Redes', 'makepressure'); ?></h1>
+<?php
   echo '<form method="post">';
   submit_button(__("Adicionar Redes", "makepressure" ));
   echo '</form>';
