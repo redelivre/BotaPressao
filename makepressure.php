@@ -502,7 +502,8 @@ function makepressure_adicionar_redes_deputados(){
   echo '</form>';
 
   if(isset($_POST))
-    if ($_POST['submit'] == "Adicionar Redes") {
+    $submit = isset($_POST['submit'])?$_POST['submit']:'';
+    if ($submit === "Adicionar Redes") {
       set_time_limit(0);
       $aux = array(
         array( "facebook" => "https://www.facebook.com/cesarmessiaspsb/","twitter" => "","instagram" => "","e-mail" => "dep.cesarmessias","formacao" => "Pecuarista" ),
