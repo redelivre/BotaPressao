@@ -173,7 +173,7 @@ function wp_divi_separete_categories($include_categories, $args){
 
 function wp_divi_get_congresscards( $args, $fullwidth, $hover_icon, $show_title, $show_categories){
 	ob_start();
-
+	$emails = "";
 	query_posts( $args );
 	if ( have_posts() ) {
 		while ( have_posts() ) {
@@ -181,6 +181,12 @@ function wp_divi_get_congresscards( $args, $fullwidth, $hover_icon, $show_title,
 
 			<?php
 			$voto = get_post_meta(get_the_ID(),mk_get_option("result"),true);
+			$email = get_post_meta(get_the_ID(), 'public_agent_email', true);
+			if (!empty($emails))
+			{
+				$emails .= ',';
+			}
+			$emails .= $email;
 			if ($voto > 0)
 				$votaux = 'positive';
 			else if ($voto < 0)
@@ -286,6 +292,9 @@ function wp_divi_get_congresscards( $args, $fullwidth, $hover_icon, $show_title,
 			get_template_part( 'includes/no-results', 'index' );
 		}
 	}
+	?>
+	<input id="makepressure_hidden_emails" type="hidden" value="<?php echo $emails; ?>">
+	<?php
 
 	$posts = ob_get_contents();
 	ob_end_clean();
@@ -361,7 +370,7 @@ function wp_divi_get_share_buttons(){
           <a id="<?php echo get_the_ID(); ?>" target="_blank" class="fa <?= $size ?> fa-google makepressure_gmail" href="https://mail.google.com/mail?view=cm&tf=0&to=<?php print_r(get_post_meta(  get_the_ID(), 'public_agent_email', true)); ?>&su=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true)?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):''; ?>%20<?php echo get_the_title(); ?>&body=Excelentissim<?php echo $genre_slug=='feminino'?'a':'o'; ?>%20<?php echo get_post_meta(  get_the_ID(), 'public_agent_cargo', true) ?get_post_meta(  get_the_ID(), 'public_agent_cargo', true):''; ?>%20<?php echo get_the_title(); ?>,  %0A%0A<?php echo $email_body; ?>" ></a>
         <?php endif; ?>
 		<?php if ( get_post_meta(  get_the_ID(), 'public_agent_twitter', true) ) : ?>
-		  <a id="<?php echo get_the_ID(); ?>" class="fa fa-twitter <?= $size ?> makepressure_twitter" href="https://twitter.com/intent/tweet?text=@<?php echo get_post_meta(  get_the_ID(), 'public_agent_twitter', true ); ?><?php echo $twitter_text; ?>&url=<?php echo $twitter_url; ?>&hashtags=<?php echo $twitter_hashtag; ?>" data-show-count="false"></a>
+		  <a id="<?php echo get_the_ID(); ?>" class="fa fa-twitter <?= $size ?> makepressure_twitter"  target="_brank" href="https://twitter.com/intent/tweet?text=@<?php echo get_post_meta(  get_the_ID(), 'public_agent_twitter', true ); ?><?php echo $twitter_text; ?>&url=<?php echo $twitter_url; ?>&hashtags=<?php echo $twitter_hashtag; ?>" data-show-count="false"></a>
 		<?php endif; ?>
 		<?php $facebook_url = get_post_meta(  get_the_ID(), 'public_agent_facebook', true); ?>
 		<?php if ( get_post_meta(  get_the_ID(), 'public_agent_facebook', true) ) : ?>
