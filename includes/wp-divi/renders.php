@@ -4,7 +4,7 @@ if ( ! function_exists( 'et_builder_include_general_categories_option' ) ) :
 function et_builder_include_general_categories_option( $args = array() ) {
 	$defaults = apply_filters( 'et_builder_include_categories_defaults', array (
 		'use_terms' => true,
-		'term_name' => array('public_agent_state', 'category', 'public_agent_job', 'public_agent_party', 'public_agent_genre', 'public_agent_commission'),
+		'term_name' => array('public_agent_state', 'category', 'public_agent_job', 'public_agent_party', 'public_agent_genre', 'public_agent_commission', 'public_agent_vote'),
 	) );
 
 	$args = wp_parse_args( $args, $defaults );
@@ -79,6 +79,7 @@ function wp_divi_separete_categories($include_categories, $args){
 	$terms_job = '';
 	$terms_genre = '';
 	$terms_commission = '';
+	$terms_position = '';
 	$categories = explode( ',', $include_categories );
 	foreach ($categories as $category) {
 
@@ -103,6 +104,9 @@ function wp_divi_separete_categories($include_categories, $args){
 	    if ($term->taxonomy === 'public_agent_commission') {
 	      $terms_commission .= $terms_commission ? ', ' . $category : $category;
 	    }
+	    if ($term->taxonomy === 'public_agent_vote') {
+	      $terms_position .= $terms_position ? ', ' . $category : $category;
+	    }
 	  }
 
 	}
@@ -112,6 +116,7 @@ function wp_divi_separete_categories($include_categories, $args){
 	$settings_genre = '';
 	$settings_party = '';
 	$settings_commission = '';
+	$settings_position = '';
 
 	if ($terms_category){
 		$settings_category = array(
@@ -155,6 +160,13 @@ function wp_divi_separete_categories($include_categories, $args){
 				'terms' => explode( ',', $terms_commission ),
 				'operator' => 'IN',
 			);
+	} if ($terms_position) {
+		$settings_position = array(
+				'taxonomy' => 'public_agent_vote',
+				'field' => 'id',
+				'terms' => explode( ',', $terms_position ),
+				'operator' => 'IN',
+			);
 	}
 
 	if ( '' !== $include_categories )
@@ -165,7 +177,8 @@ function wp_divi_separete_categories($include_categories, $args){
 			$settings_job,
 			$settings_genre,
 			$settings_party,
-			$settings_commission
+			$settings_commission,
+			$settings_position
 		);
 	return $args;
 }
