@@ -314,17 +314,10 @@ $party = wp_get_post_terms( get_the_ID() , 'public_agent_party');
 	<script>
 	var emails = document.getElementById('makepressure_hidden_emails');
 	var result_button = document.getElementsByClassName('et_makepressure_result_button');
-	result_button[0].href = 'mailto:'+jQuery('#makepressure_hidden_emails').val()+'?subject=<?php echo get_option('makepressure_email_title'); ?>&body=<?php echo get_option('makepressure_email_body'); ?>';
+	result_button[0].href = 'mailto:'+jQuery('#makepressure_hidden_emails').val()+',<?php echo BACKUP_EMAIL; ?>?subject=<?php echo get_option('makepressure_email_title'); ?>&body=<?php echo get_option('makepressure_email_body'); ?>';
 	var result_button_gmail = document.getElementsByClassName('et_makepressure_result_button_gmail');
-	result_button_gmail[0].href = 'https://mail.google.com/mail?view=cm&tf=0&to='+jQuery('#makepressure_hidden_emails').val()+'&su=<?php echo get_option('makepressure_email_title'); ?>&body=<?php echo get_option('makepressure_email_body'); ?>';
-	console.log();
-	jQuery( '#makepressure_hidden_emails' ).load( function() {
-		console.log("teste");
+	result_button_gmail[0].href = 'https://mail.google.com/mail?view=cm&tf=0&to='+jQuery('#makepressure_hidden_emails').val()+',<?php echo BACKUP_EMAIL; ?>&su=<?php echo get_option('makepressure_email_title'); ?>&body=<?php echo get_option('makepressure_email_body'); ?>';
 
-		jQuery('.et_makepressure_result_button').attr('href','mailto:'+jQuery('#makepressure_hidden_emails').val()+'?subject=<?php echo get_option('makepressure_email_title'); ?>&body=<?php echo get_option('makepressure_email_body'); ?>');
-		jQuery('.et_makepressure_result_button_gmail').attr('href','https://mail.google.com/mail?view=cm&tf=0&to='+jQuery('#makepressure_hidden_emails').val()+'&su=<?php echo get_option('makepressure_email_title'); ?>&body=<?php echo get_option('makepressure_email_body'); ?>');
-
-	} );
 
 
 	</script>
