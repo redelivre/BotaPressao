@@ -185,101 +185,101 @@ function wp_divi_separete_categories($include_categories, $args){
 
 
 function wp_divi_get_congresscards( $args, $fullwidth, $hover_icon, $show_title, $show_categories){
-	ob_start();
-	$emails = "";
-	query_posts( $args );
-	if ( have_posts() ) {
-		while ( have_posts() ) {
-			the_post(); ?>
+ob_start();
+$emails = "";
+query_posts( $args );
+if ( have_posts() ) {
+while ( have_posts() ) {
+the_post(); ?>
 
-			<?php
-			$voto = get_post_meta(get_the_ID(),mk_get_option("result"),true);
-			$email = get_post_meta(get_the_ID(), 'public_agent_email', true);
-			if (!empty($emails))
-			{
-				$emails .= ',';
-			}
-			$emails .= $email;
-			if ($voto > 0)
-				$votaux = 'positive';
-			else if ($voto < 0)
-				$votaux = 'negative';
-			else
-				$votaux = 'neutral';
-			?>
-			<div id="post-<?php the_ID(); ?>" <?php post_class( " makepressure_grid makepressure_grid_item ".$votaux ); ?>>
+<?php
+$voto = get_post_meta(get_the_ID(),mk_get_option("result"),true);
+$email = get_post_meta(get_the_ID(), 'public_agent_email', true);
+if (!empty($emails))
+{
+	$emails .= ',';
+}
+$emails .= $email;
+if ($voto > 0)
+	$votaux = 'positive';
+else if ($voto < 0)
+	$votaux = 'negative';
+else
+	$votaux = 'neutral';
+?>
+<div id="post-<?php the_ID(); ?>" <?php post_class( " makepressure_grid makepressure_grid_item ".$votaux ); ?>>
 
-		    <?php
+	<?php
 
-			$thumb = '';
+	$thumb = '';
 
-			$width = 'on' === $fullwidth ?  150 : 400;
-			$width = (int) apply_filters( 'et_pb_portfolio_image_width', $width );
+	$width = 'on' === $fullwidth ?  150 : 400;
+	$width = (int) apply_filters( 'et_pb_portfolio_image_width', $width );
 
-			$height = 'on' === $fullwidth ?  200 : 284;
-			$height = (int) apply_filters( 'et_pb_portfolio_image_height', $height );
-			$classtext = 'on' === $fullwidth ? 'et_pb_post_main_image' : '';
-			$titletext = get_the_title();
+	$height = 'on' === $fullwidth ?  200 : 284;
+	$height = (int) apply_filters( 'et_pb_portfolio_image_height', $height );
+	$classtext = 'on' === $fullwidth ? 'et_pb_post_main_image' : '';
+	$titletext = get_the_title();
 
-	        $cargo = wp_get_post_terms( get_the_ID() , 'public_agent_job' ) ? wp_get_post_terms(  get_the_ID(), 'public_agent_job', true) : '';
-	        $cargo = isset($cargo[0]) ? $cargo[0] : '';
-	        if($cargo):
-	        ?>
-	          <a href="<?php esc_url( the_permalink() ); ?>">
-	            <?php if(has_post_thumbnail()) : ?>
-	              <?php the_post_thumbnail(array(175,175), array('class' => 'makepressure_' . $cargo->slug . ' makepressure_post_main_image')); ?>
-	            <?php endif; ?>
-	          </a>
-	        <?php
-	        endif;
-	        if ( 'on' !== $fullwidth ) :
+	$cargo = wp_get_post_terms( get_the_ID() , 'public_agent_job' ) ? wp_get_post_terms(  get_the_ID(), 'public_agent_job', true) : '';
+	$cargo = isset($cargo[0]) ? $cargo[0] : '';
+	if($cargo):
+		?>
+	<a href="<?php esc_url( the_permalink() ); ?>">
+		<?php if(has_post_thumbnail()) : ?>
+		<?php the_post_thumbnail(array(175,175), array('class' => 'makepressure_' . $cargo->slug . ' makepressure_post_main_image')); ?>
+	<?php endif; ?>
+</a>
+<?php
+endif;
+if ( 'on' !== $fullwidth ) :
 
-						$data_icon = '' !== $hover_icon
-							? sprintf(
-								' data-icon="%1$s"',
-								esc_attr( et_pb_process_font_icon( $hover_icon ) )
-							)
-							: '';
-				?>
-					</span>
-				<?php endif; ?>
-				</a>
-			<div class="makepressure_label">
-			<?php if ( 'on' === $show_title ) : ?>
-				<h2 class="makepressure_title"><a href="<?php esc_url( the_permalink() ); ?>"><?php the_title(); ?></a></h2>
-			<?php endif; ?>
+	$data_icon = '' !== $hover_icon
+? sprintf(
+	' data-icon="%1$s"',
+	esc_attr( et_pb_process_font_icon( $hover_icon ) )
+	)
+: '';
+?>
+</span>
+<?php endif; ?>
+</a>
+<div class="makepressure_label">
+	<?php if ( 'on' === $show_title ) : ?>
+	<h2 class="makepressure_title"><a href="<?php esc_url( the_permalink() ); ?>"><?php the_title(); ?></a></h2>
+<?php endif; ?>
 
-			<?php
+<?php
 			  //pre get categories
-			  $state = wp_get_post_terms( get_the_ID() , 'public_agent_state');
-			  $party = wp_get_post_terms( get_the_ID() , 'public_agent_party');
+$state = wp_get_post_terms( get_the_ID() , 'public_agent_state');
+$party = wp_get_post_terms( get_the_ID() , 'public_agent_party');
 			  //$category = wp_get_post_terms( get_the_ID() , 'category')[0];
-			?>
-			<strong class="makepressure_upper">
-			<?php if ($state[0]->slug): ?>
-			    <?php echo $state[0]->slug; ?>
-			<?php else: ?>
-			  <br>
-			<?php endif; ?>
+?>
+<strong class="makepressure_upper">
+	<?php if ($state[0]->slug): ?>
+	<?php echo $state[0]->slug; ?>
+<?php else: ?>
+	<br>
+<?php endif; ?>
 
-			<?php if (isset($party[0]->slug)): ?>
-			    <?php echo ' / '; ?>
-			    <?php echo $party[0]->slug; ?>
-			<?php else: ?>
-			  <br>
-			<?php endif; ?>
-			</strong>
-			</div>
+<?php if (isset($party[0]->slug)): ?>
+	<?php echo ' / '; ?>
+	<?php echo $party[0]->slug; ?>
+<?php else: ?>
+	<br>
+<?php endif; ?>
+</strong>
+</div>
 
-			<?php if ( 'on' === $show_categories ) : ?>
-				<p class="post-meta"><?php //echo get_the_term_list( get_the_ID(), 'category', '', ', ' ); ?></p>
-			<?php endif; ?>
+<?php if ( 'on' === $show_categories ) : ?>
+	<p class="post-meta"><?php //echo get_the_term_list( get_the_ID(), 'category', '', ', ' ); ?></p>
+<?php endif; ?>
 
-			<?php wp_divi_get_share_buttons(); ?>
+<?php wp_divi_get_share_buttons(); ?>
 
-			</div> <!-- .et_pb_portfolio_item -->
+</div> <!-- .et_pb_portfolio_item -->
 
-	<?php	}
+<?php	}
 
 		/*if ( 'on' === $show_pagination && ! is_search() ) {
 			echo '</div><!-- .et_pb_portfolio -->';
@@ -305,13 +305,34 @@ function wp_divi_get_congresscards( $args, $fullwidth, $hover_icon, $show_title,
 			get_template_part( 'includes/no-results', 'index' );
 		}
 	}
-	?>
-	<input id="makepressure_hidden_emails" type="hidden" value="<?php echo $emails; ?>">
-	<?php
-
 	$posts = ob_get_contents();
 	ob_end_clean();
-	return $posts;
+	ob_start();
+	?>
+
+	<input id="makepressure_hidden_emails" type="hidden" value="<?php echo $emails; ?>">
+	<script>
+	var emails = document.getElementById('makepressure_hidden_emails');
+	var result_button = document.getElementsByClassName('et_makepressure_result_button');
+	result_button[0].href = 'mailto:'+jQuery('#makepressure_hidden_emails').val()+'?subject=<?php echo get_option('makepressure_email_title'); ?>&body=<?php echo get_option('makepressure_email_body'); ?>';
+	var result_button_gmail = document.getElementsByClassName('et_makepressure_result_button_gmail');
+	result_button_gmail[0].href = 'https://mail.google.com/mail?view=cm&tf=0&to='+jQuery('#makepressure_hidden_emails').val()+'&su=<?php echo get_option('makepressure_email_title'); ?>&body=<?php echo get_option('makepressure_email_body'); ?>';
+	console.log();
+	jQuery( '#makepressure_hidden_emails' ).load( function() {
+		console.log("teste");
+
+		jQuery('.et_makepressure_result_button').attr('href','mailto:'+jQuery('#makepressure_hidden_emails').val()+'?subject=<?php echo get_option('makepressure_email_title'); ?>&body=<?php echo get_option('makepressure_email_body'); ?>');
+		jQuery('.et_makepressure_result_button_gmail').attr('href','https://mail.google.com/mail?view=cm&tf=0&to='+jQuery('#makepressure_hidden_emails').val()+'&su=<?php echo get_option('makepressure_email_title'); ?>&body=<?php echo get_option('makepressure_email_body'); ?>');
+
+	} );
+
+
+	</script>
+	<?php
+	$emails = ob_get_contents();
+	ob_end_clean();
+
+	return $emails.$posts;
 }
 
 function wp_divi_get_share_buttons(){
