@@ -46,7 +46,7 @@ function et_builder_include_general_categories_option( $args = array() ) {
       "\n\t\t\t\t\t"
     );
   }
-		
+
 	}
 
 	$output = '<div id="et_pb_include_categories">' . $output . '</div>';
@@ -83,7 +83,7 @@ function wp_divi_separete_categories($include_categories, $args){
 	foreach ($categories as $category) {
 
 	  $term = get_term($category);
-		
+
 	  if (!is_wp_error($term)) {
 	    if($term->taxonomy === 'category'){
 	      $terms_category .= $terms_category ? ', ' . $category : $category;
@@ -178,8 +178,17 @@ function wp_divi_get_congresscards( $args, $fullwidth, $hover_icon, $show_title,
 	if ( have_posts() ) {
 		while ( have_posts() ) {
 			the_post(); ?>
-			
-			<div id="post-<?php the_ID(); ?>" <?php post_class( " makepressure_grid makepressure_grid_item" ); ?>>
+
+			<?php
+			$voto = get_post_meta(get_the_ID(),mk_get_option("result"),true);
+			if ($voto > 0)
+				$votaux = 'positive';
+			else if ($voto < 0)
+				$votaux = 'negative';
+			else
+				$votaux = 'neutral';
+			?>
+			<div id="post-<?php the_ID(); ?>" <?php post_class( " makepressure_grid makepressure_grid_item ".$votaux ); ?>>
 
 		    <?php
 
@@ -203,7 +212,7 @@ function wp_divi_get_congresscards( $args, $fullwidth, $hover_icon, $show_title,
 	            <?php endif; ?>
 	          </a>
 	        <?php
-	        endif; 
+	        endif;
 	        if ( 'on' !== $fullwidth ) :
 
 						$data_icon = '' !== $hover_icon
@@ -228,7 +237,7 @@ function wp_divi_get_congresscards( $args, $fullwidth, $hover_icon, $show_title,
 			  //$category = wp_get_post_terms( get_the_ID() , 'category')[0];
 			?>
 			<strong class="makepressure_upper">
-			<?php if ($state[0]->slug): ?>  
+			<?php if ($state[0]->slug): ?>
 			    <?php echo $state[0]->slug; ?>
 			<?php else: ?>
 			  <br>
