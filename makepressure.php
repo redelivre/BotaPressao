@@ -3370,6 +3370,27 @@ function load_plugin() {
 }
 add_action( 'admin_init', 'load_plugin' );
 
+add_action('init', 'makepressure_check_rewrite', 90);
+function makepressure_check_rewrite()
+{
+	$rules = get_option('rewrite_rules');
+	$found = false;
+	if(is_array($rules))
+	{
+		foreach($rules as $rule)
+		{
+			if(strpos($rule, 'public_agent') !== false)
+			{
+				$found = true;
+				break;
+			}
+		}
+		if(! $found)
+		{
+			flush_rewrite_rules();
+		}
+	}
+}
 
 function makepressure_activation()
 {
