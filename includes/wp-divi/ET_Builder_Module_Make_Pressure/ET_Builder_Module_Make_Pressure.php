@@ -570,6 +570,8 @@ class ET_Builder_Module_Fullwidth_Make_Pressure extends ET_Builder_Module {
         $terms_job = '';
         $terms_genre = '';
         $terms_commission = '';
+        $terms_position = '';
+
         $categories = explode( ',', $include_categories );
         foreach ($categories as $category) {
         	$term = get_term($category);
@@ -591,6 +593,9 @@ class ET_Builder_Module_Fullwidth_Make_Pressure extends ET_Builder_Module {
         	elseif ($term->taxonomy == "public_agent_commission") {
         		$terms_commission .= $terms_commission ? ', ' . $category : $category;
         	}
+        	elseif ($term->taxonomy == "public_agent_vote") {
+        		$terms_position .= $terms_position ? ', ' . $category : $category;
+        	}
 
         }
 
@@ -600,6 +605,7 @@ class ET_Builder_Module_Fullwidth_Make_Pressure extends ET_Builder_Module {
 		$settings_genre = '';
 		$settings_party = '';
 		$settings_commission = '';
+		$settings_position = '';
 
 		if ($terms_category){
 			$settings_category = array(
@@ -643,6 +649,13 @@ class ET_Builder_Module_Fullwidth_Make_Pressure extends ET_Builder_Module {
 					'terms' => explode( ',', $terms_commission ),
 					'operator' => 'IN',
 				);
+		} elseif ($terms_position) {
+			$settings_position = array(
+					'taxonomy' => 'public_agent_vote',
+					'field' => 'id',
+					'terms' => explode( ',', $terms_position ),
+					'operator' => 'IN',
+				);
 		}
 
 
@@ -654,7 +667,8 @@ class ET_Builder_Module_Fullwidth_Make_Pressure extends ET_Builder_Module {
 				$settings_job,
 				$settings_genre,
 				$settings_party,
-				$settings_commission
+				$settings_commission,
+				$settings_position
 			);
 
 
@@ -883,6 +897,7 @@ class ET_Builder_Module_Make_Pressure_Button extends ET_Builder_Module {
         $terms_job = '';
         $terms_genre = '';
         $terms_commission = '';
+        $terms_position = '';
         $categories = explode( ',', $include_categories );
 
         foreach ($categories as $category) {
@@ -907,6 +922,9 @@ class ET_Builder_Module_Make_Pressure_Button extends ET_Builder_Module {
 	        	elseif ($term->taxonomy == "public_agent_commission") {
 	        		$terms_commission .= $terms_commission ? ', ' . $category : $category;
 	        	}
+	        	elseif ($term->taxonomy == "public_agent_vote") {
+	        		$terms_position .= $terms_position ? ', ' . $category : $category;
+	        	}
         	}
 
         }
@@ -917,6 +935,7 @@ class ET_Builder_Module_Make_Pressure_Button extends ET_Builder_Module {
 		$settings_genre = '';
 		$settings_party = '';
 		$settings_commission = '';
+		$settings_position = '';
 
 		if ($terms_category){
 			$settings_category = array(
@@ -960,6 +979,13 @@ class ET_Builder_Module_Make_Pressure_Button extends ET_Builder_Module {
 					'terms' => explode( ',', $terms_commission ),
 					'operator' => 'IN',
 				);
+		} elseif ($terms_position) {
+			$settings_position = array(
+					'taxonomy' => 'public_agent_vote',
+					'field' => 'id',
+					'terms' => explode( ',', $terms_position ),
+					'operator' => 'IN',
+				);
 		}
 
 
@@ -971,7 +997,8 @@ class ET_Builder_Module_Make_Pressure_Button extends ET_Builder_Module {
 				$settings_job,
 				$settings_genre,
 				$settings_party,
-				$settings_commission
+				$settings_commission,
+				$settings_position
 			);
 
 		$the_query = new WP_Query( $args );
@@ -1166,6 +1193,7 @@ class ET_Builder_Module_Make_Pressure_Gmail_Button extends ET_Builder_Module {
         $terms_job = '';
         $terms_genre = '';
         $terms_commission = '';
+        $terms_position = '';
         $categories = explode( ',', $include_categories );
         foreach ($categories as $category) {
         	$term = get_term($category);
@@ -1189,6 +1217,9 @@ class ET_Builder_Module_Make_Pressure_Gmail_Button extends ET_Builder_Module {
 	        	elseif ($term->taxonomy === 'public_agent_commission') {
 	        		$terms_commission .= $terms_commission ? ', ' . $category : $category;
 	        	}
+	        	elseif ($term->taxonomy === 'public_agent_vote') {
+	        		$terms_position .= $terms_position ? ', ' . $category : $category;
+	        	}
         	}
 
         }
@@ -1199,6 +1230,7 @@ class ET_Builder_Module_Make_Pressure_Gmail_Button extends ET_Builder_Module {
 		$settings_genre = '';
 		$settings_party = '';
 		$settings_commission = '';
+		$settings_position = '';
 
 		if ($terms_category){
 			$settings_category = array(
@@ -1242,6 +1274,13 @@ class ET_Builder_Module_Make_Pressure_Gmail_Button extends ET_Builder_Module {
 					'terms' => explode( ',', $terms_commission ),
 					'operator' => 'IN',
 				);
+		} elseif ($terms_position) {
+			$settings_position = array(
+					'taxonomy' => 'public_agent_vote',
+					'field' => 'id',
+					'terms' => explode( ',', $terms_position ),
+					'operator' => 'IN',
+				);
 		}
 
 
@@ -1253,7 +1292,8 @@ class ET_Builder_Module_Make_Pressure_Gmail_Button extends ET_Builder_Module {
 				$settings_job,
 				$settings_genre,
 				$settings_party,
-				$settings_commission
+				$settings_commission,
+				$settings_position
 			);
 
 		$the_query = new WP_Query( $args );
@@ -2671,6 +2711,7 @@ class ET_Builder_Module_Make_Pressure_ClipBoard extends ET_Builder_Module {
     $terms_job = '';
     $terms_genre = '';
     $terms_commission = '';
+    $terms_position = '';
     $categories = explode( ',', $include_categories );
     foreach ($categories as $category) {
 
@@ -2694,6 +2735,9 @@ class ET_Builder_Module_Make_Pressure_ClipBoard extends ET_Builder_Module {
         if ($term->taxonomy == 'public_agent_commission') {
           $terms_commission .= $terms_commission ? ', ' . $category : $category;
         }
+        if ($term->taxonomy == 'public_agent_vote') {
+          $terms_position .= $terms_position ? ', ' . $category : $category;
+        }
       }
     }
 
@@ -2703,6 +2747,7 @@ class ET_Builder_Module_Make_Pressure_ClipBoard extends ET_Builder_Module {
     $settings_genre = '';
     $settings_party = '';
     $settings_commission = '';
+    $settings_position = '';
 
     if ($terms_category){
       $settings_category = array(
@@ -2746,6 +2791,13 @@ class ET_Builder_Module_Make_Pressure_ClipBoard extends ET_Builder_Module {
           'terms' => explode( ',', $terms_commission ),
           'operator' => 'IN',
         );
+    } if ($terms_position) {
+      $settings_position = array(
+          'taxonomy' => 'public_agent_vote',
+          'field' => 'id',
+          'terms' => explode( ',', $terms_position ),
+          'operator' => 'IN',
+        );
     }
 
     if ( '' !== $include_categories )
@@ -2756,7 +2808,8 @@ class ET_Builder_Module_Make_Pressure_ClipBoard extends ET_Builder_Module {
         $settings_job,
         $settings_genre,
         $settings_party,
-        $settings_commission
+        $settings_commission,
+        $settings_position
       );
 
     ob_start();
