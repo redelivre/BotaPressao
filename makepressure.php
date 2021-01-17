@@ -3050,7 +3050,7 @@ function makepressure_adicionar_deputados(){
 <h1><?php _e('Lista de Deputados para importação' , 'makepressure') ?></h1>
 <?php
 
-  $Url="http://www.camara.leg.br/SitCamaraWS/Deputados.asmx/ObterDeputados";  
+  $Url="https://www.camara.leg.br/SitCamaraWS/Deputados.asmx/ObterDeputados";  
   if (!function_exists('curl_init')){
       die('Sorry cURL is not installed!');
   } 
