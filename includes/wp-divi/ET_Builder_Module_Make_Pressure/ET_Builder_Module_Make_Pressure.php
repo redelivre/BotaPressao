@@ -1,5 +1,6 @@
 <?php
 class ET_Builder_Module_Make_Pressure extends ET_Builder_Module {
+	public $vb_support = 'partial';
 	function init() {
 		$this->name = esc_html__( 'Agente Público Grid', 'et_builder' );
 		$this->slug = 'et_pb_public_agent';
@@ -282,6 +283,7 @@ class ET_Builder_Module_Make_Pressure extends ET_Builder_Module {
 new ET_Builder_Module_Make_Pressure;
 
 class ET_Builder_Module_Fullwidth_Make_Pressure extends ET_Builder_Module {
+	public $vb_support = 'partial';
 	function init() {
 		$this->name       = esc_html__( 'Fullwidth Portfolio', 'et_builder' );
 		$this->slug       = 'et_pb_fullwidth_public_agent';
@@ -741,6 +743,7 @@ class ET_Builder_Module_Fullwidth_Make_Pressure extends ET_Builder_Module {
 new ET_Builder_Module_Fullwidth_Make_Pressure;
 
 class ET_Builder_Module_Make_Pressure_Button extends ET_Builder_Module {
+	public $vb_support = 'partial';
 	function init() {
 		$this->name = esc_html__( 'Super Pressão', 'et_builder' );
 		$this->slug = 'et_pb_makepressure_button';
@@ -1023,6 +1026,7 @@ class ET_Builder_Module_Make_Pressure_Button extends ET_Builder_Module {
 new ET_Builder_Module_Make_Pressure_Button;
 
 class ET_Builder_Module_Make_Pressure_Gmail_Button extends ET_Builder_Module {
+	public $vb_support = 'partial';
 	function init() {
 		$this->name = esc_html__( 'Super Pressão Gmail', 'et_builder' );
 		$this->slug = 'et_pb_makepressure_gmail_button';
@@ -1304,6 +1308,7 @@ class ET_Builder_Module_Make_Pressure_Gmail_Button extends ET_Builder_Module {
 new ET_Builder_Module_Make_Pressure_Gmail_Button;
 
 class ET_Builder_Module_Brazil_States_map extends ET_Builder_Module {
+	public $vb_support = 'partial';
 	function init() {
 		$this->name = esc_html__( 'Mapa dos Estados (BP)', 'et_builder' );
 		$this->slug = 'et_pb_map_bp';
@@ -1627,6 +1632,7 @@ class ET_Builder_Module_Brazil_States_map extends ET_Builder_Module {
 new ET_Builder_Module_Brazil_States_map;
 
 class ET_Builder_Module_Brazil_Party_map extends ET_Builder_Module {
+	public $vb_support = 'partial';
 	function init() {
 		$this->name = esc_html__( 'Mapa dos Estados (BP)', 'et_builder' );
 		$this->slug = 'et_pb_party_bp';
@@ -1935,6 +1941,7 @@ class ET_Builder_Module_Brazil_Party_map extends ET_Builder_Module {
 new ET_Builder_Module_Brazil_Party_map;
 
 class ET_Builder_Module_Statistics extends ET_Builder_Module {
+	public $vb_support = 'partial';
 	function init() {
 		$this->name = esc_html__( 'Estatisticas - BP', 'et_builder' );
 		$this->slug = 'et_pb_statistics_bp';
@@ -2173,6 +2180,7 @@ class ET_Builder_Module_Statistics extends ET_Builder_Module {
 //new ET_Builder_Module_Statistics;
 
 class ET_Builder_Module_Make_Pressure_Search extends ET_Builder_Module {
+	public $vb_support = 'partial';
 	function init() {
 		$this->name = esc_html__( 'Busca - BP', 'et_builder' );
 		$this->slug = 'et_pb_search_bp';
@@ -2405,6 +2413,7 @@ class ET_Builder_Module_Make_Pressure_Search extends ET_Builder_Module {
 new ET_Builder_Module_Make_Pressure_Search;
 
 class ET_Builder_Module_Make_Pressure_ClipBoard extends ET_Builder_Module {
+	public $vb_support = 'partial';
   function init() {
     $this->name = esc_html__( 'ClipBoard - Lista de emails dos Agentes Públicos para copiar', 'et_builder' );
     $this->slug = 'et_pb_clipboard';
